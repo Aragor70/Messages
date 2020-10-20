@@ -1,0 +1,23 @@
+{
+  "name": "messages",
+  "version": "1.0.0",
+  "description": "messanger application",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "message"
+  ],
+  "author": "nicolai",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
