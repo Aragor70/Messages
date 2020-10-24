@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
+        minlength: 2,
         maxlength: 22
     },
     avatar: {
@@ -19,5 +20,4 @@ const UserSchema = new mongoose.Schema({
         minlength: 6
     }
 })
-
 module.exports = User = mongoose.model('user', UserSchema)

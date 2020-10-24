@@ -16,5 +16,4 @@ module.exports = async () => {
         console.error(err.message)
         process.exit(1)
     }
-    
 }
