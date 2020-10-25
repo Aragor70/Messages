@@ -18,6 +18,19 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         minlength: 6
+    },
+    reset_password_token: String,
+    reset_password_expire: String,
+    two_factor: {
+        type: Boolean,
+        default: false
+    },
+    two_factor_key: {
+        type: Number
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 })
 module.exports = User = mongoose.model('user', UserSchema)
