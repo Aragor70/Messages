@@ -43,19 +43,14 @@ router.post('/', [
     if ( !isMatch ) {
         return ErrorResponse('Invalid credentials', 422)
     }
-    const payload = {
-        user: {
-            id: user.id
-        }
+    
+    const token = user.getSignedToken()
+    
+    if ( !token ) {
+        return ErrorResponse('Authorization error.', 422)
     }
-    jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 360000 }, 
-    (err, token) => {
-        if (err) {
-            return next(new ErrorResponse(err.message, 422))
-        }
-        
-        res.json({ token })
-    })
+
+    res.json({ success: true, token })
 
 }))
 module.exports = router;

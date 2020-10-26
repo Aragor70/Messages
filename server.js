@@ -1,4 +1,5 @@
 require ('dotenv').config({ path: 'config/config.env' })
+const cookieParser = require('cookie-parser');
 const express = require('express');
 const connect = require('./config/connect');
 const errorHandler = require('./middleware/error');
@@ -7,6 +8,7 @@ const app = express()
 connect()
 
 app.use(express.json({ extended: false }))
+app.use(cookieParser())
 
 app.use('/api/auth/', require('./routes/api/auth'))
 app.use('/api/users/', require('./routes/api/users'))

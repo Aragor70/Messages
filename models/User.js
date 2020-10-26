@@ -1,4 +1,7 @@
+
 const mongoose = require('mongoose');
+const ErrorResponse = require('../tools/errorResponse');
+const jwt = require('jsonwebtoken');
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -33,4 +36,9 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     }
 })
+
+
+UserSchema.methods.getSignedToken = function() {
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE })
+}
 module.exports = User = mongoose.model('user', UserSchema)
