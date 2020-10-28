@@ -17,8 +17,6 @@ const auth = async (req, res, next) => {
         return next(new ErrorResponse(`No access permission.`, 401))
     }
         
-    
-
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
         req.user = await User.findById(decoded.id)

@@ -7,6 +7,9 @@ const auth = require('../../middleware/auth');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const Profile = require('../../models/Profile');
+const Notification = require('../../models/Notification');
+const About = require('../../models/About');
 
 //route POST   api/users
 //description  register new user
@@ -37,18 +40,34 @@ router.post('/', [
     if( user ) {
         return next(new ErrorResponse(`E-mail already exists.`, 422) )
     }
-
+    const avatar = gravatar.url(email, {s: '200', r: 'pg', d: 'mm'})
+    
     user = new User({
         name: name,
         email: email,
-        avatar: gravatar.url(email, {s: '200', r: 'pg', d: 'mm'}),
-        password: password
+        avatar: avatar,
+        password: password,
+        
     })
-
-    const salt = bcrypt.genSalt(10)
-    user.password = bcrypt.hash(password, salt)
+    // initial  profile
+    new Profile({
+        user: user._id
+    }).save()
+    // initial the section about
+    new About({
+        user: user._id
+    }).save()
+    // initial notification
+    new Notification({
+        user: user._id
+    }).save()
+    
+    const salt = await bcrypt.genSalt(10)
+    user.password = await bcrypt.hash(password, salt)
 
     await user.save()
+    
+    
     res.json(user)
 
 }))
