@@ -18,7 +18,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     if (!user) {
         return next(new ErrorResponse(`User not authorized`, 401))
     }
-    const recipient = await Notification.findOne({ user: req.params.id }).select('-password');
+    const recipient = await Notification.findOne({ user: req.params.id });
     if (!recipient) {
         return next(new ErrorResponse('Recipient not found', 404))
     }
@@ -26,14 +26,14 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     
     const invite = new Invite({
         user: user._id,
-        recipient: recipient._id,
+        recipient: req.params.id,
         text: text ? textUpperCase : 'Hi, there :)'
     })
     await invite.save()
     await recipient.invite.messages.unshift(invite._id)
     await recipient.save()
 
-    res.json(recipient)
+    res.json({ success: true, message:'Invitation sent.' })
 
 }))
 
@@ -51,6 +51,24 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     console.log(invitesList)
 
     res.json(invitesList)
+
+}))
+//route GET    api/invites/:id
+//description  get single invitation
+//access       private
+router.put('/:id', auth, asyncHandler( async(req, res, next) => {
+    
+    let invite = await Invite.findById(req.params.id).populate('User = Recipient', ['name', 'avatar'])
+    if (!invite) {
+        return next(new ErrorResponse('Invitation not found.', 404))
+    }
+    if (invite.recipient._id.toString() !== req.user.id) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+    
+    console.log(invite)
+
+    res.json(invite)
 
 }))
 
@@ -76,7 +94,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     notification.invite.messages = notification.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
     
 
-    let recipient = await Notification.findById(invite.recipient);
+    let recipient = await Notification.findOne({user: invite.recipient});
     
     if (!recipient) {
         return next(new ErrorResponse('Recipient not found', 404))

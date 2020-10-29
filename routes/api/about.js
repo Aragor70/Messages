@@ -20,7 +20,9 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
     if (gender) about.gender = gender;
     if (status) about.status = status;
     
-    
+    await about.save()
+
+    res.json({ success: true, about })
 }))
 
 router.put('/social', auth, asyncHandler( async(req, res, next) => {
@@ -40,7 +42,7 @@ router.put('/social', auth, asyncHandler( async(req, res, next) => {
     if (instagram) about.social.instagram = instagram
     
     await about.save()
-    res.json(about)
+    res.json({ success: true, about })
 
 }))
 module.exports = router;

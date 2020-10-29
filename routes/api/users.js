@@ -46,10 +46,9 @@ router.post('/', [
         name: name,
         email: email,
         avatar: avatar,
-        password: password,
-        
+        password: password
     })
-    // initial  profile
+    // initial profile
     new Profile({
         user: user._id
     }).save()
@@ -68,7 +67,7 @@ router.post('/', [
     await user.save()
     
     
-    res.json(user)
+    res.json({ success: true, user })
 
 }))
 module.exports = router;
