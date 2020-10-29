@@ -23,7 +23,7 @@ const NotificationSchema = new mongoose.Schema({
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Service'
             }
-        }]  
+        }]
     },
     messenger: {
         user: {
@@ -53,7 +53,7 @@ const NotificationSchema = new mongoose.Schema({
         messages: [{
             invite: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Invite'
+                ref: 'Invite' 
             }
         }]
     }

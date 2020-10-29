@@ -4,7 +4,7 @@ const InviteSchema = new mongoose.Schema({
     
     text: {
         type: String,
-        required: true
+        maxlength: 50
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
