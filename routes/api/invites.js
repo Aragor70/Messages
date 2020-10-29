@@ -53,48 +53,92 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     res.json(invitesList)
 
 }))
+
 //route GET    api/invites/:id
 //description  get single invitation
 //access       private
-router.put('/:id', auth, asyncHandler( async(req, res, next) => {
+router.get('/:id', auth, asyncHandler( async(req, res, next) => {
     
-    let invite = await Invite.findById(req.params.id).populate('User = Recipient', ['name', 'avatar'])
+    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
+    
+    if (!invite) {
+        return next(new ErrorResponse('Invitation not found.', 404))
+    }
+    if (invite.user._id !== req.user.id && invite.recipient._id !== req.user.id) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+
+    
+    console.log(invitesList)
+
+    res.json(invitesList)
+
+}))
+//route PUT    api/invites/:id
+//description  edit single invitation
+//access       private
+router.put('/:id', auth, asyncHandler( async(req, res, next) => {
+    const { seen, opened, accepted } = req.body;
+    let message = '';
+
+    let invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
     if (!invite) {
         return next(new ErrorResponse('Invitation not found.', 404))
     }
     if (invite.recipient._id.toString() !== req.user.id) {
         return next(new ErrorResponse('User not authorized.', 401))
     }
+    if (!seen && !opened && !accepted) {
+        return next(new ErrorResponse('No option choosed.', 404))
+    }
+    if (seen) {
+        invite.seen = true;
+        message = `${invite.recipient.name} has seen your message.`
+    }
+    else if (opened) {
+        invite.opened = true;
+        message = `${invite.recipient.name} has opened your message.`
+    }
+    else if (accepted) {
+        invite.accepted = true;
+        message = `${invite.recipient.name} has accepted your message.`
+    }
+    await invite.save()
     
-    console.log(invite)
-
-    res.json(invite)
+    res.json({ success: true, invite, message })
 
 }))
 
 //route DELETE api/invites/:id
-//description  get user invitation list
+//description  remove user invitation
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
-    const invite = await Invite.findById(req.params.id)
-    
+    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
+    let message = '';
     
     if (!invite) {
         return next(new ErrorResponse('Invitation not found.', 404))
     }
-    if (invite.user.toString() !== req.user.id.toString() && invite.recipient.toString() !== req.user.id.toString() ) {
+    if (invite.user._id.toString() !== req.user.id.toString() && invite.recipient._id.toString() !== req.user.id.toString() ) {
         return next(new ErrorResponse('User not authorized', 401))
     }
 
-    let notification = await Notification.findOne({ user: req.user.id });
+    if (invite.user._id.toString() === req.user.id.toString()) {
+        message = `Invitation with ${invite.recipient.name} removed.`
+    } else if (invite.recipient._id.toString() === req.user.id.toString()) {
+        message = `Invitation with ${invite.user.name} removed.`
+    }
+
+    let notification = await Notification.findOne({ user: invite.user.id });
     if (!notification) {
-        return next(new ErrorResponse('User not authorized', 401))
+        return next(new ErrorResponse('User not found.', 404))
     }
     notification.invite.messages = notification.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
     
 
-    let recipient = await Notification.findOne({user: invite.recipient});
+    let recipient = await Notification.findOne({user: invite.recipient._id});
     
     if (!recipient) {
         return next(new ErrorResponse('Recipient not found', 404))
@@ -108,7 +152,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
     await invite.remove()
     
-    res.json({ success: true, message: 'Invitation removed.' })
+    res.json({ success: true, message })
 
 }))
 
