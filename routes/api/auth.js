@@ -22,7 +22,7 @@ router.get('/', auth, asyncHandler( async(req, res) => {
 //description  login user
 //access       public
 router.post('/', [
-    check('email', 'E-mail is not valid.')
+    check('email', 'E-mail address is not valid.')
     .isEmail(),
     check('password', 'Password is required.')
     .not()
@@ -36,7 +36,7 @@ router.post('/', [
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if ( !user ) {
-        return next(new ErrorResponse(`Invalid credentials`, 422))
+        return next(new ErrorResponse('Invalid credentials', 422))
     }
     
     const isMatch = bcrypt.compare(password, user.password);

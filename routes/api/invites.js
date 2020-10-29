@@ -68,11 +68,7 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized.', 401))
     }
 
-
-    
-    console.log(invitesList)
-
-    res.json(invitesList)
+    res.json(invite)
 
 }))
 //route PUT    api/invites/:id
@@ -155,5 +151,4 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     res.json({ success: true, message })
 
 }))
-
 module.exports = router;
