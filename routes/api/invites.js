@@ -54,8 +54,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized.', 401))
     }
     const invitesList = notification.invite.messages
-    console.log(invitesList)
-
+    
     res.json(invitesList)
 
 }))
@@ -65,7 +64,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
     
-    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
+    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar']);
     
     if (!invite) {
         return next(new ErrorResponse('Invitation not found.', 404))
@@ -147,20 +146,19 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     }
     // notification to send feedback
     let notification = await Notification.findOne({ user: invite.user.id });
-    if (!notification) {
-        return next(new ErrorResponse('User not found.', 404))
+    
+    
+    if (notification && notification.turn_on && notification.feedback.turn_on) {
+        notification.feedback.messages = notification.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
     }
-    notification.invite.messages = notification.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
-    notification.feedback.messages = notification.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
     
 
     let recipient = await Notification.findOne({user: invite.recipient._id});
     
-    if (!recipient) {
-        return next(new ErrorResponse('Recipient not found', 404))
+    if (recipient) {
+        
+        recipient.invite.messages = recipient.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
     }
-    recipient.invite.messages = recipient.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
-    
 
     await notification.save()
     await recipient.save()

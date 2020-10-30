@@ -14,7 +14,7 @@ const NotificationSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User'
         },
-        turnOn: {
+        turn_on: {
             type: Boolean,
             default: true
         },
@@ -69,6 +69,10 @@ const NotificationSchema = new mongoose.Schema({
         messages: [{
             message : {
                 type: String
+            },
+            date: {
+                type: Date,
+                default: Date.now
             }
         }]
     }

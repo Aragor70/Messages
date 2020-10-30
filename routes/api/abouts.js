@@ -6,6 +6,10 @@ const About = require('../../models/About');
 const ErrorResponse = require('../../tools/errorResponse');
 const router = express.Router();
 
+
+//route PUT    api/abouts
+//description  set up about age, gender, status
+//access       private
 router.put('/', auth, asyncHandler( async(req, res, next) => {
     
     const { age, gender, status } = req.body;
@@ -25,6 +29,9 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
     res.json({ success: true, about })
 }))
 
+//route PUT    api/abouts/social
+//description  set up about social media
+//access       private
 router.put('/social', auth, asyncHandler( async(req, res, next) => {
     
     const { youtube, twitter, linkedin, facebook, instagram } = req.body;

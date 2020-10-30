@@ -146,7 +146,6 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
         message = `Service message removed.`
     }
 
-
     let notification = await Notification.findOne({ user: process.env.SERVICE_ID });
     
 

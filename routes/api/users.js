@@ -124,7 +124,36 @@ router.put('/', [auth, [
         return next(new ErrorResponse('Enter valid name (2-22 characters).', 422))
     }
 
-    return res.json({ success: false, message: 'Please try again' })
+    return res.json({ success: false, message: 'Please try again', user })
+}))
+
+//route DELETE api/users
+//description  delete user account + profile + notification + about
+//access       private
+router.delete('/', [auth, [
+    check('password', 'Enter user password.')
+    .not()
+    .isEmpty()
+]], asyncHandler( async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new ErrorResponse(errors.array()[0].msg, 422))
+    }
+    const { password } = req.body;
+
+    const user = await User.findById(req.user.id)
+
+    const isMatch = bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return next(new ErrorResponse('Invalid credentials.', 422))
+    }
+    await user.remove()
+    await Profile.findOne({ user: user._id }).deleteOne()
+    await Notification.findOne({ user: user._id }).deleteOne()
+    await About.findOne({ user: user._id }).deleteOne()
+    
+    res.json({ success: true, message: 'User account deleted.', user })
+    
 }))
 
 
