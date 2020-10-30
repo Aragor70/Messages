@@ -56,7 +56,21 @@ const NotificationSchema = new mongoose.Schema({
                 ref: 'Invite' 
             }
         }]
+    },
+    feedback:{
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        },
+        turn_on: {
+            type: Boolean,
+            default: true
+        },
+        messages: [{
+            message : {
+                type: String
+            }
+        }]
     }
-    
 })
 module.exports = Notification = mongoose.model('Notification', NotificationSchema);

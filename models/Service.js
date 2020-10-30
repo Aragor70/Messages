@@ -2,8 +2,8 @@ const mongoose = require('mongoose');
 
 const ServiceSchema = new mongoose.Schema({
     user: {
-        type: String,
-        default: 'Service'
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
     text: {
         type: String,

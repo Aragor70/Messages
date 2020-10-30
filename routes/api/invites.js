@@ -16,12 +16,18 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 
     const user = await User.findById(req.user.id).select('-password');
     if (!user) {
-        return next(new ErrorResponse(`User not authorized`, 401))
+        return next(new ErrorResponse('User not authorized.', 401))
     }
+
     const recipient = await Notification.findOne({ user: req.params.id });
     if (!recipient) {
-        return next(new ErrorResponse('Recipient not found', 404))
+        return next(new ErrorResponse('Recipient not found.', 404))
     }
+
+    if (!recipient.turn_on || !recipient.invite.turn_on) {
+        return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
+    }
+
     const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
     
     const invite = new Invite({
@@ -45,7 +51,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     const notification = await Notification.findOne({ user: req.user.id });
     
     if (!notification) {
-        return next(new ErrorResponse('User not authorized', 401))
+        return next(new ErrorResponse('User not authorized.', 401))
     }
     const invitesList = notification.invite.messages
     console.log(invitesList)
@@ -71,6 +77,8 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
     res.json(invite)
 
 }))
+
+
 //route PUT    api/invites/:id
 //description  edit single invitation
 //access       private
@@ -82,6 +90,11 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (!invite) {
         return next(new ErrorResponse('Invitation not found.', 404))
     }
+
+    // notification to send feedback message
+    const notification = await Notification.findOne({ user: invite.user._id });
+    
+
     if (invite.recipient._id.toString() !== req.user.id) {
         return next(new ErrorResponse('User not authorized.', 401))
     }
@@ -90,19 +103,25 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     }
     if (seen) {
         invite.seen = true;
-        message = `${invite.recipient.name} has seen your message.`
+        // message = `${invite.recipient.name} has seen your invitation.`
     }
     else if (opened) {
         invite.opened = true;
-        message = `${invite.recipient.name} has opened your message.`
+        // message = `${invite.recipient.name} has opened your invitation.`
     }
     else if (accepted) {
         invite.accepted = true;
-        message = `${invite.recipient.name} has accepted your message.`
+        message = `${invite.recipient.name} accepted your invitation.`
+
     }
     await invite.save()
+
+    if (notification && notification.turn_on && notification.feedback.turn_on && message) {
+        notification.feedback.messages = notification.feedback.messages.unshift({ message })
+        await notification.save()
+    }
     
-    res.json({ success: true, invite, message })
+    res.json({ success: true, invite })
 
 }))
 
@@ -126,12 +145,13 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     } else if (invite.recipient._id.toString() === req.user.id.toString()) {
         message = `Invitation with ${invite.user.name} removed.`
     }
-
+    // notification to send feedback
     let notification = await Notification.findOne({ user: invite.user.id });
     if (!notification) {
         return next(new ErrorResponse('User not found.', 404))
     }
     notification.invite.messages = notification.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
+    notification.feedback.messages = notification.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
     
 
     let recipient = await Notification.findOne({user: invite.recipient._id});

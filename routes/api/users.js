@@ -84,13 +84,16 @@ router.put('/', [auth, [
     .isLength({ min: 6 }),
     check('email', 'E-mail address is not valid.')
     .optional()
-    .isEmail()
+    .isEmail(),
+    check('two_factor')
+    .optional()
+    .exists()
 ]], asyncHandler( async(req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return next(new ErrorResponse(errors.array()[0].msg, 422))
     }
-    const { name, email, password } = req.body;
+    const { two_factor, name, email, password } = req.body;
     let user = await User.findById(req.user.id);
     if (!user) {
         return next(new ErrorResponse('Invalid credentials.', 422))
@@ -98,6 +101,12 @@ router.put('/', [auth, [
     const isMatch = bcrypt.compare(password, user.password)
     if (!isMatch) {
         return next(new ErrorResponse('Invalid credentials.', 422))
+    }
+
+    if (two_factor) {
+        user.two_factor = !user.two_factor
+        await user.save()
+        return res.json({ success: true, message: 'Authentication method changed.', user })
     }
 
     if (email) {
