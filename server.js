@@ -13,8 +13,13 @@ app.use(express.json({ extended: false }))
 app.use('/api/auth/', require('./routes/api/auth'))
 app.use('/api/users/', require('./routes/api/users'))
 app.use('/api/abouts/', require('./routes/api/abouts'))
-app.use('/api/invites/', require('./routes/api/invites'))
-app.use('/api/notifications/', require('./routes/api/notifications'))
+app.use('/api/messages/', require('./routes/api/messages'))
+app.use('/api/services/', require('./routes/api/services'))
+
+app.use('/api/notifications/', require('./routes/api/notifications/notifications'))
+app.use('/api/notifications/invites/', require('./routes/api/notifications/invites'))
+app.use('/api/notifications/messages/', require('./routes/api/notifications/messages'))
+app.use('/api/notifications/services/', require('./routes/api/notifications/services'))
 
 
 app.use(errorHandler)

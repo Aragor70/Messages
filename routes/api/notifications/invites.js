@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const auth = require('../../middleware/auth');
-const asyncHandler = require('../../middleware/async');
-const User = require('../../models/User');
-const Notification = require('../../models/Notification');
-const Invite = require('../../models/Invite');
-const ErrorResponse = require('../../tools/errorResponse');
+const auth = require('../../../middleware/auth');
+const asyncHandler = require('../../../middleware/async');
+const User = require('../../../models/User');
+const Notification = require('../../../models/Notification');
+const Invite = require('../../../models/Invite');
+const ErrorResponse = require('../../../tools/errorResponse');
+const Profile = require('../../../models/Profile');
 
-//route POST   api/invites/:id
+//route POST   api/notifications/invites/:id
 //description  send friend invitation
 //access       private
 router.post('/:id', auth, asyncHandler( async(req, res, next) => {
@@ -43,7 +44,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 
 }))
 
-//route GET    api/invites
+//route GET    api/notifications/invites
 //description  get user invitation list
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
@@ -59,7 +60,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 
 }))
 
-//route GET    api/invites/:id
+//route GET    api/notifications/invites/:id
 //description  get single invitation
 //access       private
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
@@ -78,7 +79,7 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 }))
 
 
-//route PUT    api/invites/:id
+//route PUT    api/notifications/invites/:id
 //description  edit single invitation
 //access       private
 router.put('/:id', auth, asyncHandler( async(req, res, next) => {
@@ -89,7 +90,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (!invite) {
         return next(new ErrorResponse('Invitation not found.', 404))
     }
-
+    
     // notification to send feedback message
     const notification = await Notification.findOne({ user: invite.user._id });
     
@@ -97,6 +98,12 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (invite.recipient._id.toString() !== req.user.id) {
         return next(new ErrorResponse('User not authorized.', 401))
     }
+
+    // profile to insert friend
+    
+    const profileU = await Profile.findOne({ user: invite.user._id });
+    const profileR = await Profile.findOne({ user: invite.recipient._id});
+    
     if (!seen && !opened && !accepted) {
         return next(new ErrorResponse('No option choosed.', 404))
     }
@@ -111,7 +118,11 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     else if (accepted) {
         invite.accepted = true;
         message = `${invite.recipient.name} accepted your invitation.`
-
+        await profileU.friends.unshift({ user: invite.recipient._id })
+        await profileR.friends.unshift({ user: invite.user._id })
+        await profileU.save()
+        await profileR.save()
+        await invite.remove()
     }
     await invite.save()
 
@@ -124,8 +135,8 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 
 }))
 
-//route DELETE api/invites/:id
-//description  remove user invitation
+//route DELETE api/notifications/invites/:id
+//description  remove user invitation notification
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
@@ -139,20 +150,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized', 401))
     }
 
-    if (invite.user._id.toString() === req.user.id.toString()) {
-        message = `Invitation with ${invite.recipient.name} removed.`
-    } else if (invite.recipient._id.toString() === req.user.id.toString()) {
-        message = `Invitation with ${invite.user.name} removed.`
-    }
-    // notification to send feedback
-    let notification = await Notification.findOne({ user: invite.user.id });
     
-    
-    if (notification && notification.turn_on && notification.feedback.turn_on) {
-        notification.feedback.messages = notification.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
-    }
-    
-
     let recipient = await Notification.findOne({user: invite.recipient._id});
     
     if (recipient) {
@@ -162,9 +160,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
 
     await notification.save()
     await recipient.save()
-
     
-    await invite.remove()
     
     res.json({ success: true, message })
 

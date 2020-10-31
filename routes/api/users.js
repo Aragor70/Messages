@@ -10,6 +10,7 @@ const bcrypt = require('bcryptjs');
 const Profile = require('../../models/Profile');
 const Notification = require('../../models/Notification');
 const About = require('../../models/About');
+const Messenger = require('../../models/Messenger');
 
 //route POST   api/users
 //description  register new user
@@ -59,6 +60,9 @@ router.post('/', [
     }).save()
     // initial notification
     new Notification({
+        user: user._id
+    }).save()
+    new Messenger({
         user: user._id
     }).save()
     
@@ -148,9 +152,12 @@ router.delete('/', [auth, [
         return next(new ErrorResponse('Invalid credentials.', 422))
     }
     await user.remove()
+    
     await Profile.findOne({ user: user._id }).deleteOne()
     await Notification.findOne({ user: user._id }).deleteOne()
     await About.findOne({ user: user._id }).deleteOne()
+    await Messenger.findOne({ user: user._id }).deleteOne()
+
     
     res.json({ success: true, message: 'User account deleted.', user })
     

@@ -1,18 +1,23 @@
 const express = require('express');
+const { check } = require('express-validator');
 const asyncHandler = require('../../middleware/async');
 const auth = require('../../middleware/auth');
 const Notification = require('../../models/Notification');
 const Service = require('../../models/Service');
 const User = require('../../models/User');
+const ErrorResponse = require('../../tools/errorResponse');
 const router = express.Router();
-
 
 
 //route POST   api/services/:id
 //description  send service communication to the user
 //access       private - service router
-router.post('/:id', auth, asyncHandler( async(req, res, next) => {
-
+router.post('/:id', [auth, [
+    check('text', 'Please enter the message.')
+    .not()
+    .isEmpty()
+]], asyncHandler( async(req, res, next) => {
+    
     const { text } = req.body;
     const user = await User.findById(req.user.id).select('-password');
     
@@ -24,8 +29,8 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
     }
     
-    const service = await Notification.findOne(process.env.SERVICE_ID);
-    if (!service) {
+    const notification = await Notification.findOne(process.env.SERVICE_ID);
+    if (!notification) {
         return next(new ErrorResponse('Service not found.', 401))
     }
 
@@ -38,7 +43,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 
     const service = new Service({
         user: user._id,
-        recipient: req.params.id,
+        recipient: recipient.user,
         text: text ? textUpperCase : 'Hi, there :)'
     })
 
@@ -46,24 +51,6 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     await recipient.service.messages.unshift(service._id)
 
     await recipient.save()
-}))
-
-
-//route GET    api/services
-//description  get user all service communications
-//access       private
-router.get('/', auth, asyncHandler( async(req, res, next) => {
-    
-    const notification = await Notification.findOne({ user: req.user.id });
-    
-    if (!notification) {
-        return next(new ErrorResponse('User not authorized.', 401))
-    }
-    const services = notification.service.messages
-    
-
-    res.json(services)
-
 }))
 
 //route GET    api/services/:id
@@ -84,49 +71,9 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
 }))
 
-//route PUT    api/services/:id
-//description  edit single communication
-//access       private
-router.put('/:id', auth, asyncHandler( async(req, res, next) => {
-    const { seen, opened } = req.body;
-    let message = '';
-
-    let service = await Service.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
-    if (!service) {
-        return next(new ErrorResponse('Message not found.', 404))
-    }
-
-    // notification to send feedback message
-    const notification = await Notification.findOne({ user: process.env.SERVICE_ID });
-
-    if (service.recipient._id.toString() !== req.user.id) {
-        return next(new ErrorResponse('User not authorized.', 401))
-    }
-    if (!seen && !opened) {
-        return next(new ErrorResponse('No option choosed.', 404))
-    }
-    if (seen) {
-        service.seen = true;
-        message = `${service.recipient.name} has seen service message.`
-    }
-    else if (opened) {
-        service.opened = true;
-        message = `${service.recipient.name} has opened service message.`
-    }
-
-    if (notification && notification.turn_on && notification.feedback.turn_on && message) {
-        notification.feedback.messages = notification.feedback.messages.unshift({ message })
-        await notification.save()
-    }
-
-    await service.save()
-    
-    res.json({ success: true, service })
-
-}))
 
 //route DELETE api/services/:id
-//description  remove service communication
+//description  remove service message
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
@@ -169,3 +116,4 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     res.json({ success: true, message })
 
 }))
+module.exports = router;

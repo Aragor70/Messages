@@ -1,12 +1,12 @@
 const express = require('express');
-const asyncHandler = require('../../middleware/async');
-const auth = require('../../middleware/auth');
-const Notification = require('../../models/Notification');
-const ErrorResponse = require('../../tools/errorResponse');
+const asyncHandler = require('../../../middleware/async');
+const auth = require('../../../middleware/auth');
+const Notification = require('../../../models/Notification');
+const ErrorResponse = require('../../../tools/errorResponse');
 const router = express.Router();
 
 //route GET    api/notification
-//description  get own notification - test route
+//description  get own notification
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
     const notification = await Notification.findOne({ user: req.user.id });
@@ -21,17 +21,42 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 //description  switch on/off notification
 //access       private
 router.put('/', auth, asyncHandler( async(req, res, next) => {
+    const { turn_on, invites, messages, services } = req.body;
+
     let message = ''
     const notification = await Notification.findOne(req.user.id);
     if (!notification) {
         return next(new ErrorResponse('Notification not found.', 404));
     }
 
-    notification.turn_on = !notification.turn_on;
-    message = `Notifications switched ${notification.turn_on ? 'On' : 'Off'}.`
-    await notification.save()
+    if (turn_on) {
+        notification.turn_on = !notification.turn_on;
+        message = `Notifications switched ${notification.turn_on ? 'On' : 'Off'}.`
+        await notification.save()
+        res.json({ success: true, message, notification })
+    }
+    else if (invites) {
+        notification.invite.turn_on = !notification.invite.turn_on;
+        message = `Notifications of invites switched ${notification.invite.turn_on ? 'On' : 'Off'}.`
+        await notification.save()
+        return res.json({ success: true, message, notification })
+    }
+    else if (messages) {
+        notification.messenger.turn_on = !notification.messenger.turn_on;
+        message = `Notifications of messages switched ${notification.messenger.turn_on ? 'On' : 'Off'}.`
+        await notification.save()
+        return res.json({ success: true, message, notification })
+    }
+    else if (services) {
+        notification.service.turn_on = !notification.service.turn_on;
+        message = `Notifications of services switched ${notification.messenger.service.turn_on ? 'On' : 'Off'}.`
+        await notification.save()
+        return res.json({ success: true, message, notification })
+    }
+    
+    message = 'Please choose the option.'
 
-    res.json({ success: true, message, notification })
+    res.json({ success: false, message, notification })
     
 }));
 
