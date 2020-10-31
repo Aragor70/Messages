@@ -15,6 +15,7 @@ app.use('/api/users/', require('./routes/api/users'))
 app.use('/api/abouts/', require('./routes/api/abouts'))
 app.use('/api/messages/', require('./routes/api/messages'))
 app.use('/api/services/', require('./routes/api/services'))
+app.use('/api/invites/', require('./routes/api/invites'))
 app.use('/api/messengers/', require('./routes/api/messengers'))
 
 app.use('/api/notifications/', require('./routes/api/notifications/notifications'))

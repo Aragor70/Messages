@@ -37,6 +37,17 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
+UserSchema.pre('remove', async function(next) {
+    
+    console.log('Remove ')
+    
+    await this.model('Profile').deleteMany({ user: this._id})
+    await this.model('Notifiaction').deleteMany({ user: this._id})
+    await this.model('About').deleteMany({ user: this._id})
+    await this.model('Messenger').deleteMany({ user: this._id})
+    await this.model('Invite').deleteMany({ user: this._id})
+    next();
+});
 
 UserSchema.methods.getSignedToken = function() {
     return jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRE })

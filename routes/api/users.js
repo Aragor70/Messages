@@ -153,10 +153,10 @@ router.delete('/', [auth, [
     }
     await user.remove()
     
-    await Profile.findOne({ user: user._id }).deleteOne()
-    await Notification.findOne({ user: user._id }).deleteOne()
-    await About.findOne({ user: user._id }).deleteOne()
-    await Messenger.findOne({ user: user._id }).deleteOne()
+    // await Profile.findOne({ user: user._id }).deleteOne()
+    // await Notification.findOne({ user: user._id }).deleteOne()
+    // await About.findOne({ user: user._id }).deleteOne()
+    // await Messenger.findOne({ user: user._id }).deleteOne()
 
     
     res.json({ success: true, message: 'User account deleted.', user })

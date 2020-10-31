@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Notification = require('./Notification');
 
 const InviteSchema = new mongoose.Schema({
     
@@ -31,4 +32,19 @@ const InviteSchema = new mongoose.Schema({
         default: Date.now
     }
 })
+
+/* InviteSchema.pre('remove', async function(next) {
+     console.log('Invite is being removed from user schema')
+    
+    const notification = Notification.findOne({ user: this.recipient._id });
+    if (!notification) {
+        return next(new ErrorResponse('Notification not found', 404));
+    }
+    console.log(notification.schema.tree.invite.messages)
+    notification.schema.tree.invite.messages = notification.schema.tree.invite.messages.filter(element => element._id.toString() !== this._id)
+    await notification.save()
+    console.log('Invite removed from schema.')
+    next();
+}) */
+
 module.exports = Invite = mongoose.model('Invite', InviteSchema);
