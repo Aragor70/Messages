@@ -23,14 +23,14 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     }
 
     
-    /* let recipient = await Notification.findOne({user: invite.recipient._id});
+    let recipient = await Notification.findOne({user: invite.recipient._id});
     
     if (recipient) {
         
         recipient.invite.messages = recipient.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
-    } */
+    }
     
-    /* await recipient.save() */
+    await recipient.save()
     
     await invite.remove()
 
