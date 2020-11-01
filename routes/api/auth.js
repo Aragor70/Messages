@@ -50,9 +50,32 @@ router.post('/', [
         return ErrorResponse('Authorization error.', 422)
     }
 
-    res.json({ success: true, token })
+    const options = {
+        expires: new Date(Date.now() + process.env.JWT_COOKIE * 24 * 60 * 60 * 1000), // 30 * 1 day
+        httpOnly: true
+    }
+    if (process.env.NODE_ENV === 'production') {
+        options.secure = true;
+    }
 
+    res.cookie('token', token, options).json({ success: true, token })
+
+}));
+
+//route GET    api/auth
+//description  logout user
+//access       private
+router.get('/logout', auth, asyncHandler( async(req, res, next) => {
+    const user = await User.findById(req.user.id);
+    
+    const options = {
+        expires: new Date(Date.now() + 5 * 1000),
+        httpOnly: true
+    }
+    res.cookie('token', 'none', options);
+
+
+    res.json({ success: true, message: `${user.name} User logged out.` })
 }))
-
 
 module.exports = router;

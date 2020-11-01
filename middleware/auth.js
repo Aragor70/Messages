@@ -10,7 +10,7 @@ const auth = async (req, res, next) => {
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
         token = req.headers.authorization.split(' ')[1];
     }
-    else if (req.cookies && req.cookies.token) {
+    if (req.cookies && req.cookies.token) {
         token = req.cookies.token
     }
     if(!token) {
@@ -24,7 +24,5 @@ const auth = async (req, res, next) => {
     } catch (err) {
         next(new ErrorResponse(`User not authorized.`, 401))
     }
-    
-    
 }
 module.exports = auth;

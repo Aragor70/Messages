@@ -39,7 +39,7 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre('remove', async function(next) {
     
-    console.log('Remove ')
+    console.log('Remove')
     
     await this.model('Profile').deleteMany({ user: this._id})
     await this.model('Notifiaction').deleteMany({ user: this._id})
