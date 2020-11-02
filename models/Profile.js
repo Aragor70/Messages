@@ -6,10 +6,8 @@ const ProfileSchema = new mongoose.Schema({
         ref: 'User'
     },
     friends: [{
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }]
     
 })

@@ -10,8 +10,11 @@ const MessengerSchema = new mongoose.Schema({
         default: true
     },
     messages: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Message'
+        message: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Message'
+        }
+        
     }]
     
     

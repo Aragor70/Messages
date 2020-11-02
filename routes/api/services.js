@@ -104,7 +104,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     recipient.service.messages = recipient.service.messages.filter(message => message._id.toString() !== service._id.toString())
     
     if (notification && notification.turn_on && notification.feedback.turn_on && message) {
-        notification.feedback.messages = notification.feedback.messages.unshift({ message })
+        notification.feedback.messages.unshift({ message })
         await notification.save()
     }
 

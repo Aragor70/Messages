@@ -3,7 +3,6 @@ const asyncHandler = require('../../../middleware/async');
 const auth = require('../../../middleware/auth');
 const Notification = require('../../../models/Notification');
 const Service = require('../../../models/Service');
-const User = require('../../../models/User');
 const router = express.Router();
 
 
@@ -22,7 +21,6 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     
 
     res.json(services)
-
 }))
 
 //route PUT    api/notifications/services/:id

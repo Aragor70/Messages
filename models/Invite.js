@@ -40,9 +40,9 @@ const InviteSchema = new mongoose.Schema({
     if (!notification) {
         return next(new ErrorResponse('Notification not found', 404));
     }
-    console.log(notification.schema.tree.invite.messages)
+    console.log(notification)
     notification.schema.tree.invite.messages = notification.schema.tree.invite.messages.filter(element => element._id.toString() !== this._id)
-    await notification.save()
+    //await notification.save()
     console.log('Invite removed from schema.')
     next();
 }) */

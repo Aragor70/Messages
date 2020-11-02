@@ -22,6 +22,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         minlength: 6
     },
+    role: {
+        type: String,
+        default: 'User'
+    },
     reset_password_token: String,
     reset_password_expire: String,
     two_factor: {
@@ -42,7 +46,7 @@ UserSchema.pre('remove', async function(next) {
     console.log('Remove')
     
     await this.model('Profile').deleteMany({ user: this._id})
-    await this.model('Notifiaction').deleteMany({ user: this._id})
+    await this.model('Notification').deleteMany({ user: this._id})
     await this.model('About').deleteMany({ user: this._id})
     await this.model('Messenger').deleteMany({ user: this._id})
     await this.model('Invite').deleteMany({ user: this._id})

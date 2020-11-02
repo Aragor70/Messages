@@ -19,48 +19,54 @@ router.post('/:id', [auth, [
     .not()
     .isEmpty()
 ]], asyncHandler( async(req, res, next) => {
-    const errors = validationResult(req)
-    if (!errors.isEmpty()) {
-        return next(new ErrorResponse(errors.array()[0].msg, 422))
-    }
-
     const { text } = req.body;
     
-    const user = await Messenger.findById(req.user.id).populate('user', ['name', 'avatar'])
-    const recipient = await Messenger.findById(req.params.id).populate('user', ['name', 'avatar'])
-    const profile = await Profile.findOne(req.user.id)
-    if (!user || !recipient || !profile) {
+    if (req.user.id === req.params.id) {
+        return next(new ErrorResponse('Users are equals.', 422))
+    }
+
+    const messenger = await Messenger.findOne({ user: req.user.id }).populate('user', ['email', 'avatar']);
+    const recipient = await Messenger.findOne({ user: req.params.id }).populate('user', ['email', 'avatar']);
+    const profile = await Profile.findOne({ user: req.user.id });
+    
+    if (!messenger || !recipient || !profile) {
         return next(new ErrorResponse('User not found.', 404))
     }
-    if (!user.turn_on || !recipient.turn_on) {
+    if (!messenger.turn_on || !recipient.turn_on) {
         return next(new ErrorResponse('User does not allow to get this content.', 404))
     }
-    const isFriend = profile.friends.filter(friend => friend._id.toString() === user.user._id)
-    if (!isFriend ) {
+    const isFriend = profile.friends.filter(friend => friend.toString() === messenger.user._id)
+    if (!isFriend[0] ) {
         return next(new ErrorResponse(`Please invite ${recipient.user.name} to your friends list.`, 404))
     }
     const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
 
+    
     const message = new Message({
-        user: user._id,
+        user: messenger.user._id,
         recipient: recipient.user._id,
         text: textUpperCase
     })
     await message.save()
     
-    user.messages.unshift( message._id )
+    messenger.messages.unshift( message._id )
     recipient.messages.unshift( message._id )
-    await user.save()
+    
+    
+    await messenger.save()
     await recipient.save()
+    
 
     const notification = await Notification.findOne({ user: recipient.user._id });
-
+    if (!notification) {
+        return next(new ErrorResponse('User not found.', 404))
+    }
     if (notification && notification.turn_on && notification.messenger.turn_on) {
-        notification.messenger.messages.unshift({ message: message._id})
+        notification.messenger.messages.unshift( message._id )
         await notification.save()
     }
-
-    res.json({ success: true, message })
+    
+    return res.json({ success: true, message })
 
 }))
 
@@ -110,19 +116,16 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
     
     if (notification && notification.turn_on && notification.feedback.turn_on) {
-        notification.feedback.messages = notification.feedback.messages.unshift({ message: `Message with ${message.recipient.name} removed.` })
+        notification.feedback.messages.unshift({ message: `Message with ${message.recipient.name} removed.` })
+        await notification.save()
     }
 
     let recipient = await Notification.findOne({user: message.recipient._id});
     
-    if (!recipient) {
-        return next(new ErrorResponse('Recipient not found', 404))
+    if (recipient && recipient.turn_on && recipient.messenger.turn_on) {
+        recipient.messenger.messages = recipient.messenger.messages.filter(element => element._id.toString() !== message._id.toString())
+        await recipient.save()
     }
-    recipient.messenger.messages = recipient.messenger.messages.filter(element => element._id.toString() !== message._id.toString())
-    
-
-    await notification.save()
-    await recipient.save()
     
     await message.remove()
 

@@ -71,7 +71,6 @@ router.post('/', [
 
     await user.save()
     
-    
     res.json({ success: true, user })
 
 }))
@@ -152,16 +151,9 @@ router.delete('/', [auth, [
         return next(new ErrorResponse('Invalid credentials.', 422))
     }
     await user.remove()
-    
-    // await Profile.findOne({ user: user._id }).deleteOne()
-    // await Notification.findOne({ user: user._id }).deleteOne()
-    // await About.findOne({ user: user._id }).deleteOne()
-    // await Messenger.findOne({ user: user._id }).deleteOne()
 
     
     res.json({ success: true, message: 'User account deleted.', user })
     
-}))
-
-
+}));
 module.exports = router;

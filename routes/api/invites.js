@@ -3,8 +3,158 @@ const asyncHandler = require('../../middleware/async');
 const auth = require('../../middleware/auth');
 const Invite = require('../../models/Invite');
 const Notification = require('../../models/Notification');
+const Profile = require('../../models/Profile');
+const User = require('../../models/User');
 const ErrorResponse = require('../../tools/errorResponse');
 const router = express.Router();
+
+
+//route POST   api/invites/:id
+//description  send friend invitation
+//access       private
+router.post('/:id', auth, asyncHandler( async(req, res, next) => {
+    
+    const { text } = req.body;
+
+    if (req.user.id === req.params.id) {
+        return next(new ErrorResponse('Users are equals.', 422))
+    }
+
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+    const recipient = await Notification.findOne({ user: req.params.id }).populate('user', ['name', 'avatar']);
+    if (!recipient) {
+        return next(new ErrorResponse('Recipient not found.', 404))
+    }
+
+    if (!recipient.turn_on || !recipient.invite.turn_on) {
+        return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
+    }
+
+    const profileR = await Profile.findOne({ user: recipient.user._id });
+
+    const isFriend = profileR.friends.filter(friend => friend.toString() === user._id.toString())
+    
+    if (isFriend[0]) {
+        return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 
+    }
+
+    const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
+    
+    const invite = new Invite({
+        user: user._id,
+        recipient: req.params.id,
+        text: text ? textUpperCase : 'Hi, there :)'
+    })
+    await invite.save()
+    await recipient.invite.messages.unshift( invite._id )
+    await recipient.save()
+
+    res.json({ success: true, message:'Invitation sent.' })
+
+}))
+
+
+//route GET    api/invites
+//description  get all invitations
+//access       private
+router.get('/', auth, asyncHandler( async(req, res, next) => {
+    
+    const invite = await Invite.find({ recipient: req.user.id}).populate('user = recipient', ['name', 'avatar']);
+    
+    if (!invite) {
+        return next(new ErrorResponse('Invitation not found.', 404))
+    }
+    if (invite.user._id !== req.user.id && invite.recipient._id !== req.user.id) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+    res.json(invite)
+
+}));
+
+//route GET    api/invites/:id
+//description  get single invitation
+//access       private
+router.get('/:id', auth, asyncHandler( async(req, res, next) => {
+    
+    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar']);
+    
+    if (!invite) {
+        return next(new ErrorResponse('Invitation not found.', 404))
+    }
+    if (invite.user._id !== req.user.id && invite.recipient._id !== req.user.id) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+    res.json(invite)
+
+}));
+
+
+//route PUT    api/invites/:id
+//description  edit single invitation
+//access       private
+router.put('/:id', auth, asyncHandler( async(req, res, next) => {
+    const { seen, opened, accepted } = req.body;
+    let message = '';
+
+    let invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
+    if (!invite) {
+        return next(new ErrorResponse('Invitation not found.', 404))
+    }
+    
+    // notification to send feedback message
+    const notification = await Notification.findOne({ user: invite.user._id });
+    // notification to remove invitation accepted invitation
+    const recipient = await Notification.findOne({ user: invite.recipient._id });
+
+    if (invite.recipient._id.toString() !== req.user.id) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+    // profile to insert friend
+    
+    const profileU = await Profile.findOne({ user: invite.user._id });
+    const profileR = await Profile.findOne({ user: invite.recipient._id});
+    
+    if (!seen && !opened && !accepted) {
+        return next(new ErrorResponse('No option choosed.', 404))
+    }
+    if (seen) {
+        invite.seen = true;
+        // message = `${invite.recipient.name} has seen your invitation.`
+    }
+    else if (opened) {
+        invite.opened = true;
+        // message = `${invite.recipient.name} has opened your invitation.`
+    }
+    else if (accepted) {
+        invite.accepted = true;
+        message = `${invite.recipient.name} accepted your invitation.`
+        await profileU.friends.unshift( invite.recipient._id )
+        await profileR.friends.unshift( invite.user._id )
+        recipient.invite.messages = recipient.invite.messages.filter(element => element._id !== invite._id)
+        
+        await recipient.save()
+        await profileU.save()
+        await profileR.save()
+        await recipient.save()
+        await invite.remove()
+    }
+    await invite.save()
+
+    if (notification && notification.turn_on && notification.feedback.turn_on && message) {
+        notification.feedback.messages.unshift({ message })
+        await notification.save()
+    }
+    
+    res.json({ success: true, invite })
+
+}))
 
 
 //route DELETE api/invites/:id
@@ -22,8 +172,16 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized', 401))
     }
 
-    
+    let notification = await Notification.findOne({user: invite.recipient._id});
+
     let recipient = await Notification.findOne({user: invite.recipient._id});
+    
+    if (req.user.id.toString() === invite.user._id.toString() && recipient && recipient.turn_on && recipient.feedback.turn_on) {
+        recipient.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
+    }
+    else if(req.user.id.toString() === invite.recipient._id.toString() && notification && notification.turn_on && notification.feedback.turn_on) {
+        notification.feedback.messages.unshift({ message: `Invitation with ${invite.user.name} removed.` })
+    }
     
     if (recipient) {
         

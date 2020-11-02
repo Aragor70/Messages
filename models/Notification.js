@@ -19,10 +19,8 @@ const NotificationSchema = new mongoose.Schema({
             default: true
         },
         messages: [{
-            message:{
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Service'
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service'
         }]
     },
     messenger: {
@@ -35,10 +33,8 @@ const NotificationSchema = new mongoose.Schema({
             default: true
         },
         messages: [{
-            message: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Message'
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Message'
         }]
     },
     invite: {
@@ -51,10 +47,8 @@ const NotificationSchema = new mongoose.Schema({
             default: true
         },
         messages: [{
-            invite: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Invite' 
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Invite' 
         }]
     },
     feedback:{
