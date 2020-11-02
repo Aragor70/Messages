@@ -97,6 +97,51 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
     res.json( message )
 }))
 
+//route PUT    api/messages/:id
+//description  edit single communication
+//access       private
+router.put('/:id', auth, asyncHandler( async(req, res, next) => {
+    const { seen, opened, liked } = req.body;
+    let feedback = '';
+
+    let message = await Message.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
+    if (!message) {
+        return next(new ErrorResponse('Message not found.', 404))
+    }
+
+    // notification to send feedback message
+    const notification = await Notification.findOne({ user: message.user._id });
+
+    if (message.recipient._id.toString() !== req.user.id) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+    if (!seen && !opened) {
+        return next(new ErrorResponse('No option choosed.', 404))
+    }
+    if (seen) {
+        message.seen = true;
+        feedback = `${message.recipient.name} has seen the message.`
+    }
+    else if (opened) {
+        message.opened = true;
+        feedback = `${message.recipient.name} has opened the message.`
+    }
+    else if (liked) {
+        message.liked = !message.liked;
+        feedback = `${message.recipient.name} has liked your message.`
+    }
+
+    if (notification && notification.turn_on && notification.feedback.turn_on && feedback) {
+        notification.feedback.messages = notification.feedback.messages.unshift({ message: feedback })
+        await notification.save()
+    }
+
+    await message.save()
+    
+    res.json({ success: true, message })
+
+}))
+
 //route DELETE api/messages/:id
 //description  delete single message
 //access       private
@@ -131,7 +176,5 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
 
     res.json({ success: true, message: 'Message removed.' })
 
-}))
-
-
+}));
 module.exports = router;

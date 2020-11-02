@@ -10,7 +10,9 @@ connect()
 app.use(express.json({ extended: false }))
 app.use(cookieParser())
 
-app.use('/api/auth/', require('./routes/api/auth'))
+app.use('/api/auth/', require('./routes/api/auth/auth'))
+app.use('/api/auth/two_factor', require('./routes/api/auth/two_factor'))
+
 app.use('/api/users/', require('./routes/api/users'))
 app.use('/api/abouts/', require('./routes/api/abouts'))
 app.use('/api/messages/', require('./routes/api/messages'))

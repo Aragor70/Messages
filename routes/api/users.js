@@ -11,6 +11,7 @@ const Profile = require('../../models/Profile');
 const Notification = require('../../models/Notification');
 const About = require('../../models/About');
 const Messenger = require('../../models/Messenger');
+const sign_in = require('./auth/sing_in');
 
 //route POST   api/users
 //description  register new user
@@ -71,7 +72,7 @@ router.post('/', [
 
     await user.save()
     
-    res.json({ success: true, user })
+    sign_in(user, 200, res)
 
 }))
 
@@ -82,7 +83,7 @@ router.put('/', [auth, [
     check('password', 'Enter user password.')
     .not()
     .isEmpty(),
-    check('newPassword', 'Enter valid password.')
+    check('new_password', 'Enter valid password.')
     .optional()
     .isLength({ min: 6 }),
     check('email', 'E-mail address is not valid.')
@@ -96,7 +97,7 @@ router.put('/', [auth, [
     if (!errors.isEmpty()) {
         return next(new ErrorResponse(errors.array()[0].msg, 422))
     }
-    const { two_factor, name, email, password } = req.body;
+    const { two_factor, name, email, password, new_password } = req.body;
     let user = await User.findById(req.user.id);
     if (!user) {
         return next(new ErrorResponse('Invalid credentials.', 422))
@@ -104,6 +105,12 @@ router.put('/', [auth, [
     const isMatch = bcrypt.compare(password, user.password)
     if (!isMatch) {
         return next(new ErrorResponse('Invalid credentials.', 422))
+    }
+    if (new_password) {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(password, salt)
+        await user.save()
+        return res.json({ success: true, message: 'Password changed.', user })
     }
 
     if (two_factor) {
