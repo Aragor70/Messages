@@ -42,5 +42,5 @@ router.put('/', [auth, [
     }
     
     return res.json({ success: false, message: 'Invalid credentials.', user })
-}))
+}));
 module.exports = router;

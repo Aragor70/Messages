@@ -12,6 +12,7 @@ const Notification = require('../../../models/Notification');
 const About = require('../../../models/About');
 const Messenger = require('../../../models/Messenger');
 const sign_in = require('../auth/sing_in');
+const access = require('../../../middleware/access');
 
 //route POST   api/users
 //description  register new user
@@ -161,6 +162,35 @@ router.delete('/', [auth, [
 
     
     res.json({ success: true, message: 'User account deleted.', user })
+    
+}));
+
+//route DELETE api/users
+//description  delete user account + profile + notification + about
+//access       private
+router.delete('/:id', [auth, [access("Admin", "Service"), [
+    check('password', 'Enter user password.')
+    .not()
+    .isEmpty()
+]]], asyncHandler( async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new ErrorResponse(errors.array()[0].msg, 422))
+    }
+
+    const user = await User.findById(req.user.id).select('-password')
+
+    
+    if (user.role !== "Admin" || user._id !== process.env.SERVICE_ID ) {
+        return next(new ErrorResponse('User not authorized.', 401));
+    }
+
+    const user_to_delete = await User.findById(req.params.id)
+
+    await user_to_delete.remove()
+
+    
+    res.json({ success: true, message: `Deleted user ${user.name} with role - ${user.role}.`, user })
     
 }));
 
