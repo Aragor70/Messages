@@ -1,6 +1,7 @@
 const express = require('express');
 const asyncHandler = require('../../middleware/async');
 const auth = require('../../middleware/auth');
+const Friendship = require('../../models/Friendship');
 const Invite = require('../../models/Invite');
 const Notification = require('../../models/Notification');
 const Profile = require('../../models/Profile');
@@ -135,8 +136,18 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     else if (accepted) {
         invite.accepted = true;
         message = `${invite.recipient.name} accepted your invitation.`
-        await profileU.friends.unshift( invite.recipient._id )
-        await profileR.friends.unshift( invite.user._id )
+
+        const friendship = new Friendship({
+            users: [
+                invite.user._id,
+                invite.recipient._id
+            ],
+            text: `Friendship of ${invite.user.name} and ${invite.recipient.name}`
+        })
+        await friendship.save()
+
+        await profileU.friends.unshift( friendship._id )
+        await profileR.friends.unshift( friendship._id )
         recipient.invite.messages = recipient.invite.messages.filter(element => element._id !== invite._id)
         
         await recipient.save()

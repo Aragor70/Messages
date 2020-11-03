@@ -1,17 +1,17 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-const User = require('../../models/User');
-const asyncHandler = require('../../middleware/async');
-const ErrorResponse = require('../../tools/errorResponse');
-const auth = require('../../middleware/auth');
+const User = require('../../../models/User');
+const asyncHandler = require('../../../middleware/async');
+const ErrorResponse = require('../../../tools/errorResponse');
+const auth = require('../../../middleware/auth');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
-const Profile = require('../../models/Profile');
-const Notification = require('../../models/Notification');
-const About = require('../../models/About');
-const Messenger = require('../../models/Messenger');
-const sign_in = require('./auth/sing_in');
+const Profile = require('../../../models/Profile');
+const Notification = require('../../../models/Notification');
+const About = require('../../../models/About');
+const Messenger = require('../../../models/Messenger');
+const sign_in = require('../auth/sing_in');
 
 //route POST   api/users
 //description  register new user
@@ -163,4 +163,5 @@ router.delete('/', [auth, [
     res.json({ success: true, message: 'User account deleted.', user })
     
 }));
+
 module.exports = router;

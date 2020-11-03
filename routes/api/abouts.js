@@ -6,6 +6,19 @@ const About = require('../../models/About');
 const ErrorResponse = require('../../tools/errorResponse');
 const router = express.Router();
 
+//route GET    api/abouts
+//description  get about
+//access       private
+router.get('/', auth, asyncHandler( async(req, res, next) => {
+
+    const about = await About.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
+
+    if (!about) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+    
+    res.json(about)
+}))
 
 //route PUT    api/abouts
 //description  set up about age, gender, status

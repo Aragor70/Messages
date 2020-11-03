@@ -10,13 +10,8 @@ const MessengerSchema = new mongoose.Schema({
         default: true
     },
     messages: [{
-        message: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Message'
-        }
-        
     }]
-    
-    
 })
 module.exports = Messenger = mongoose.model('Messenger', MessengerSchema);

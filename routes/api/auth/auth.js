@@ -78,9 +78,6 @@ router.post('/', [
         
         return res.json({user: user._id})
 
-
-        ////
-
     } else if (!user.two_factor) {
         return sign_in(user, 200, res)
     }
