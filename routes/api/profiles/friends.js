@@ -21,7 +21,6 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 }));
 
 
-
 //route DELETE api/profiles/friends/:id
 //description  delete friendship
 //access       private
@@ -32,7 +31,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('Profile not found.', 404));
     }
     profile.friends = profile.friends.filter(friend => friend._id.toString() !== req.params.id)
-
+    await friendship.remove()
 
     await profile.save()
     res.json(profile.friends)

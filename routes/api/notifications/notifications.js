@@ -60,6 +60,24 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
     
 }));
 
+//route DELETE api/notifications
+//description  delete all notifications
+//access       private
+router.delete('/', auth, asyncHandler( async(req, res, next) => {
+    const notification = await Notification.findOne({ user: req.user.id });
+    if (!notification) {
+        return next(new ErrorResponse('Notification not found.', 404));
+    }
+    notification.messenger.messages = []
+    notification.invite.messages = []
+    notification.service.messages = []
+    notification.feedback.messages = []
+
+    await notification.save()
+    
+    res.json(message);
+}))
+
 //route GET    api/notifications/feedback
 //description  get own feedback messages
 //access       private
@@ -100,7 +118,7 @@ router.put('/feedback', auth, asyncHandler( async(req, res, next) => {
     await notification.save()
 
     res.json({ success: true, notification, message });
-}))
+}));
 
 //route DELETE api/notifications/feedback/:id
 //description  delete feedback message

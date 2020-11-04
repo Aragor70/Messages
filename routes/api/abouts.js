@@ -18,7 +18,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     }
     
     res.json(about)
-}))
+}));
 
 //route PUT    api/abouts
 //description  set up about age, gender, status
@@ -40,7 +40,7 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
     await about.save()
 
     res.json({ success: true, about })
-}))
+}));
 
 //route PUT    api/abouts/social
 //description  set up about social media
@@ -64,5 +64,26 @@ router.put('/social', auth, asyncHandler( async(req, res, next) => {
     await about.save()
     res.json({ success: true, about })
 
-}))
+}));
+
+//route DELETE api/abouts
+//description  empty about details
+//access       private
+router.delete('/', auth, asyncHandler( async(req, res, next) => {
+    
+    const about = await About.findOne({ user: req.user.id })
+
+    if (!about) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+    about.age = '';
+    about.gender = '';
+    about.status = '';
+    about.social = [];
+
+    await about.save();
+
+    res.json({ success: true, about })
+}));
 module.exports = router;
