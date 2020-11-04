@@ -74,12 +74,20 @@ router.post('/:id', [auth, [
 //description  get messenger messages
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
-
+    const { number } = req.body;
+    
     const messenger = await Messenger.findOne({ user: req.user.id });
     if (!messenger) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }
-    const messages = messenger.messages
+    let messages;
+    if (number) {
+        const howMany = -10 - number;
+        messages = messenger.messages.slice(howMany)
+    } else {
+        messages = messenger.messages.slice(-10)
+    }
+    
 
     res.json( messages )
 }))
@@ -88,11 +96,12 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 //description  get single message
 //access       private
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
-
+    
     const message = await Message.findById( req.params.id ).populate('user = recipient', ['name', 'avatar'])
     if (!message) {
         return next(new ErrorResponse('Message not found.', 404))
     }
+
 
     res.json( message )
 }))
