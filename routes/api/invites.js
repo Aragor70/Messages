@@ -4,7 +4,6 @@ const auth = require('../../middleware/auth');
 const Friendship = require('../../models/Friendship');
 const Invite = require('../../models/Invite');
 const Notification = require('../../models/Notification');
-const Profile = require('../../models/Profile');
 const User = require('../../models/User');
 const ErrorResponse = require('../../tools/errorResponse');
 const router = express.Router();
@@ -35,11 +34,9 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
     }
 
-    const profileR = await Profile.findOne({ user: recipient.user._id });
+    const friendship = await Friendship.findOne({ "users": {_id: recipient.user._id, _id: user.user._id} });
 
-    const isFriend = profileR.friends.filter(friend => friend.toString() === user._id.toString())
-    
-    if (isFriend[0]) {
+    if (friendship) {
         return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 
     }
 
@@ -117,10 +114,6 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized.', 401))
     }
 
-    // profile to insert friend
-    
-    const profileU = await Profile.findOne({ user: invite.user._id });
-    const profileR = await Profile.findOne({ user: invite.recipient._id});
     
     if (!seen && !opened && !accepted) {
         return next(new ErrorResponse('No option choosed.', 404))
@@ -128,10 +121,12 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (seen) {
         invite.seen = true;
         // message = `${invite.recipient.name} has seen your invitation.`
+        await invite.save()
     }
     else if (opened) {
         invite.opened = true;
         // message = `${invite.recipient.name} has opened your invitation.`
+        await invite.save()
     }
     else if (accepted) {
         invite.accepted = true;
@@ -146,17 +141,12 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         })
         await friendship.save()
 
-        await profileU.friends.unshift( friendship._id )
-        await profileR.friends.unshift( friendship._id )
         recipient.invite.messages = recipient.invite.messages.filter(element => element._id !== invite._id)
         
         await recipient.save()
-        await profileU.save()
-        await profileR.save()
-        await recipient.save()
         await invite.remove()
     }
-    await invite.save()
+    
 
     if (notification && notification.turn_on && notification.feedback.turn_on && message) {
         notification.feedback.messages.unshift({ message })

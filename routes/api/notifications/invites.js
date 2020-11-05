@@ -6,7 +6,6 @@ const User = require('../../../models/User');
 const Notification = require('../../../models/Notification');
 const Invite = require('../../../models/Invite');
 const ErrorResponse = require('../../../tools/errorResponse');
-const Profile = require('../../../models/Profile');
 
 
 //route GET    api/notifications/invites

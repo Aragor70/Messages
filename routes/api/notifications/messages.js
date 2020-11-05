@@ -5,7 +5,6 @@ const auth = require('../../../middleware/auth');
 const Message = require('../../../models/Message');
 const Messenger = require('../../../models/Messenger');
 const Notification = require('../../../models/Notification');
-const Profile = require('../../../models/Profile');
 const User = require('../../../models/User');
 const router = express.Router();
 

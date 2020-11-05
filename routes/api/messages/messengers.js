@@ -1,7 +1,7 @@
 const express = require('express');
-const asyncHandler = require('../../middleware/async');
-const auth = require('../../middleware/auth');
-const Messenger = require('../../models/Messenger');
+const asyncHandler = require('../../../middleware/async');
+const auth = require('../../../middleware/auth');
+const Messenger = require('../../../models/Messenger');
 const router = express.Router();
 
 
@@ -17,7 +17,8 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     
 
     res.json( messenger )
-}))
+}));
+
 
 //route PUT    api/messengers
 //description  edit own messenger

@@ -17,13 +17,14 @@ app.use('/api/users/', require('./routes/api/users/users'))
 app.use('/api/users/roles', require('./routes/api/users/roles'))
 
 app.use('/api/abouts/', require('./routes/api/abouts'))
-app.use('/api/messages/', require('./routes/api/messages'))
 app.use('/api/services/', require('./routes/api/services'))
 app.use('/api/invites/', require('./routes/api/invites'))
-app.use('/api/messengers/', require('./routes/api/messengers'))
 
-app.use('/api/profiles/', require('./routes/api/profiles/profiles'))
-app.use('/api/profiles/friends', require('./routes/api/profiles/friends'))
+app.use('/api/messages/', require('./routes/api/messages/messages'))
+app.use('/api/messages/chats/', require('./routes/api/messages/chats'))
+app.use('/api/messages/messengers/', require('./routes/api/messages/messengers'))
+
+app.use('/api/friends', require('./routes/api/friends'))
 
 
 app.use('/api/notifications/', require('./routes/api/notifications/notifications'))

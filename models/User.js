@@ -45,7 +45,6 @@ UserSchema.pre('remove', async function(next) {
     
     console.log('Remove')
     
-    await this.model('Profile').deleteMany({ user: this._id})
     await this.model('Notification').deleteMany({ user: this._id})
     await this.model('About').deleteMany({ user: this._id})
     await this.model('Messenger').deleteMany({ user: this._id})

@@ -1,17 +1,21 @@
 const mongoose = require('mongoose');
 
-const MessengerSchema = new mongoose.Schema({
-    user: {
+const ChatSchema = new mongoose.Schema({
+    users: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
-    },
+    }],
     turn_on: {
         type: Boolean,
         default: true
     },
-    chats: [{
+    messages: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Chat'
-    }]
+    }],
+    date: {
+        type: Date,
+        default: Date.now
+    }
 })
-module.exports = Messenger = mongoose.model('Messenger', MessengerSchema);
+module.exports = Chat = mongoose.model('Chat', ChatSchema);

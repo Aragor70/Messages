@@ -10,10 +10,6 @@ const NotificationSchema = new mongoose.Schema({
         default: true
     },
     service: {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
         turn_on: {
             type: Boolean,
             default: true
@@ -24,10 +20,6 @@ const NotificationSchema = new mongoose.Schema({
         }]
     },
     messenger: {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
         turn_on: {
             type: Boolean,
             default: true
@@ -38,10 +30,6 @@ const NotificationSchema = new mongoose.Schema({
         }]
     },
     invite: {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User'
-        },
         turn_on: {
             type: Boolean,
             default: true

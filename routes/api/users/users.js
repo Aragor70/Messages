@@ -7,7 +7,6 @@ const auth = require('../../../middleware/auth');
 const router = express.Router();
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
-const Profile = require('../../../models/Profile');
 const Notification = require('../../../models/Notification');
 const About = require('../../../models/About');
 const Messenger = require('../../../models/Messenger');
@@ -52,10 +51,6 @@ router.post('/', [
         avatar: avatar,
         password: password
     })
-    // initial profile
-    new Profile({
-        user: user._id
-    }).save()
     // initial the section about
     new About({
         user: user._id

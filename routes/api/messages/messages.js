@@ -1,13 +1,14 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-const asyncHandler = require('../../middleware/async');
-const auth = require('../../middleware/auth');
-const Message = require('../../models/Message');
-const Messenger = require('../../models/Messenger');
-const Notification = require('../../models/Notification');
-const Profile = require('../../models/Profile');
-const User = require('../../models/User');
-const ErrorResponse = require('../../tools/errorResponse');
+const asyncHandler = require('../../../middleware/async');
+const auth = require('../../../middleware/auth');
+const Chat = require('../../../models/Chat');
+const Friendship = require('../../../models/Friendship');
+const Message = require('../../../models/Message');
+const Messenger = require('../../../models/Messenger');
+const Notification = require('../../../models/Notification');
+const User = require('../../../models/User');
+const ErrorResponse = require('../../../tools/errorResponse');
 const router = express.Router();
 
 
@@ -27,21 +28,35 @@ router.post('/:id', [auth, [
 
     const messenger = await Messenger.findOne({ user: req.user.id }).populate('user', ['email', 'avatar']);
     const recipient = await Messenger.findOne({ user: req.params.id }).populate('user', ['email', 'avatar']);
-    const profile = await Profile.findOne({ user: req.user.id });
+    const friendship = await Friendship.findOne({ "users":{ _id: req.user.id, _id: req.params.id } });
     
-    if (!messenger || !recipient || !profile) {
+    if (!messenger || !recipient) {
         return next(new ErrorResponse('User not found.', 404))
     }
     if (!messenger.turn_on || !recipient.turn_on) {
         return next(new ErrorResponse('User does not allow to get this content.', 404))
     }
-    const isFriend = profile.friends.filter(friend => friend.toString() === messenger.user._id)
-    if (!isFriend[0] ) {
+    if (!friendship ) {
         return next(new ErrorResponse(`Please invite ${recipient.user.name} to your friends list.`, 404))
     }
     const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
+    let chat = await Chat.findOne({ "users":{ _id: req.user.id, _id: req.params.id } });
+    if (!chat) {
+        chat = new Chat({
+            users: [
+                req.user.id, 
+                req.params.id
+            ]
+        })
+        
+        await chat.save()
 
-    
+        messenger.chats.unshift(chat._id)
+        recipient.chats.unshift(chat._id)
+        
+    }
+
+
     const message = new Message({
         user: messenger.user._id,
         recipient: recipient.user._id,
@@ -49,8 +64,7 @@ router.post('/:id', [auth, [
     })
     await message.save()
     
-    messenger.messages.unshift( message._id )
-    recipient.messages.unshift( message._id )
+    chat.messages.unshift(message._id)
     
     
     await messenger.save()
@@ -70,29 +84,8 @@ router.post('/:id', [auth, [
 
 }))
 
-//route GET    api/messages
-//description  get messenger messages
-//access       private
-router.get('/', auth, asyncHandler( async(req, res, next) => {
-    const { number } = req.body;
-    
-    const messenger = await Messenger.findOne({ user: req.user.id });
-    if (!messenger) {
-        return next(new ErrorResponse('Messenger not found.', 404))
-    }
-    let messages;
-    if (number) {
-        const howMany = -10 - number;
-        messages = messenger.messages.slice(howMany)
-    } else {
-        messages = messenger.messages.slice(-10)
-    }
-    
 
-    res.json( messages )
-}))
-
-//route GET    api/messages
+//route GET    api/messages/:id
 //description  get single message
 //access       private
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
@@ -149,7 +142,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     
     res.json({ success: true, message })
 
-}))
+}));
 
 //route DELETE api/messages/:id
 //description  delete single message
@@ -168,6 +161,10 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     // notification to send feedback
     let notification = await Notification.findOne({ user: message.user._id });
     
+    const chat = await Chat.findOne({"users": {_id: message.user._id, _id: message.recipient._id}});
+    if (chat) {
+        chat.messages = chat.messages.filter(msg => msg._id.toString() !== message._id.toString())
+    }
     
     if (notification && notification.turn_on && notification.feedback.turn_on) {
         notification.feedback.messages.unshift({ message: `Message with ${message.recipient.name} removed.` })
