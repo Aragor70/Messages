@@ -60,16 +60,16 @@ In this project we would like to use the site of react, redux, typescript.
 ```
 npx create-react-app my-app --template typescript
 ```
-<i>Please be aware in the last part of the document I introduce the alternative packages we can use in this step.</i>
+<i>Please be aware I introduce the alternative packages we can use in this step. Look on the last part of the document.</i>
 
 The next important dependience is a library to handle and organise the state of the components. 
 * Install redux and redux-thunk middleware
 ```
-npm install react-redux redux redux-thunk
+npm install react-redux redux redux-thunk redux-devtools-extension @types/react-redux @types/redux @types/redux-thunk --save
 ```
 Using redux we are allowed to manual dispatch the actions. While the redux store (the box or container of the app global state) get the update, it provides the new state to the components. It doesn not mutate the values.
 
-<i>In the last part of the document I introduce the alternative library for the redux library.</i>
+<i>I introduce the alternative library of the redux library. Look on the last part of the document.</i>
 
 * Implement proxy API
 
@@ -80,7 +80,7 @@ We set it up with the client/package.json.
 ```
 "proxy": "http://localhost:5000"
 ```
-<i>In the last part of the document I introduce the alternative way to organise the proxy using middleware.</i>
+<i>I introduce the alternative way to organise the proxy using middleware. Look on the last part of the document </i>
 
 ## Alternatives in development process
 In this part we look on the alternative ways you can go along with in React.
@@ -88,7 +88,7 @@ In this part we look on the alternative ways you can go along with in React.
 Javascript provides other libraries to use in the development process. \
 Below I want to introduce some of them.
 
-<i>ANY PACKAGES DO NOT INSTALL IT IF YOU CHOOSE THE FIRST OPTION</i>
+<i>IT IF YOU HAVE CHOOSEN THE FIRST OPTION, DO NOT INSTALL PACKAGES FROM THIS PART </i>
 
 * Start module packages.
 
