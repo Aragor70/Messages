@@ -1,6 +1,9 @@
 # Messages Application
 
-> Full stack javascript application.
+Full stack MERN application with typescript and mongoDB.
+
+Backend - Node js with express js.
+Frontend site contains React and typescript, redux, thunk middleware and CSS.
 
 ## Usage
 Rename "config/config.env.env" to "config/config.env" and update environment settings to your own.
@@ -22,7 +25,7 @@ created by mikey.prus@gmail.com
 # Description
 Messages is a MERN stack app designed for a community of users to share messages. Users who are registered and logged in can can search their friends and send the initial request. If you are as a friend, you will get the message. Users have a personal profile and can have unlimited friend list. User as a default has no special role. Project furthermore allows to exist web service and admin roles.
 
-Messages web application it is a project containing js full stack of technologies.
+Messages web application it is a project containing js full stack of technologies. 
 
 The goal is to provide the web user application to connect with people using your own chat.
 
@@ -53,6 +56,9 @@ sending messages;
 
 ## Front-end development process
 This part includes a pattern to create the application site. Process has the steps of installing app dependiences. I introduce the patterns, you can choose to the setup of the app.
+
+
+As optional - To run the application in dev mode using not two terminals but just one we need to add the script into the <i>package.json</i> in Messages folder.
 
 In this project we would like to use the site of react, redux, typescript.
 

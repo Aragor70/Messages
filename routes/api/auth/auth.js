@@ -11,12 +11,12 @@ const sign_in = require('./sing_in');
 const sgMail = require('@sendgrid/mail');
 
 //route GET    api/auth
-//description  test user route
+//description  user route
 //access       private
 router.get('/', auth, asyncHandler( async(req, res) => {
-    const users = await User.find().select('-password')
+    const user = await User.findById(req.user.id).select('-password')
 
-    res.json(users)
+    res.json(user)
     
 }))
 
@@ -76,7 +76,7 @@ router.post('/', [
         await user.save()
         await sgMail.send(msg)
         
-        return res.json({user: user._id})
+        return res.json({user: user})
 
     } else if (!user.two_factor) {
         return sign_in(user, 200, res)

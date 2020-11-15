@@ -1,13 +1,34 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import { connect, Provider } from 'react-redux';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { loadUser } from './store/actions/auth/auth';
+import store from './store/store';
+import './style/style.css'
+import setAuthToken from './utils/setAuthToken';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+
+export const Index = () => {
+
+
+  /* useEffect(():any => {
+    if (localStorage.token) {
+      setAuthToken(localStorage.token)
+      return store.dispatch(loadUser());
+    }
+  }, []) */
+
+
+  return (
+    <React.StrictMode>
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </React.StrictMode>
+  )
+}
+ReactDOM.render(<Index /> ,document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

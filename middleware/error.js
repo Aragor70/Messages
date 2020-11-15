@@ -24,7 +24,7 @@ const errorHandler = (err, req, res, next) => {
     // case of unhandled error
     res.status(error.statusCode || 500).json({
         success: false,
-        error: error.message || 'Server error.'
+        message: error.message || 'Server error.'
     })
 }
 module.exports = errorHandler;

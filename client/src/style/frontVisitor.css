@@ -1,0 +1,33 @@
+* {
+    box-sizing: border-box;
+}
+.front-param
+{
+    width: 100%;
+    min-height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 15px;
+    text-align: justify;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-family: 'Lato', cursive;
+}
+.front-param > h1, p
+{
+    width: 100%;
+    margin: 0;
+    margin-bottom: 15px;
+}
+.front-name
+{
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 30px;
+    
+}

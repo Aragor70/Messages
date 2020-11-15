@@ -7,7 +7,7 @@ const FriendshipSchema = new mongoose.Schema({
     }],
     text: {
         type: String,
-        required: true
+        default: "Friend"
     },
     date: {
         type: Date,

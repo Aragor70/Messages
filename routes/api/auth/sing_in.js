@@ -14,6 +14,6 @@ const sign_in = (user, status, res) => {
         options.secure = true;
     }
 
-    res.status(status).cookie('token', token, options).json({ success: true, token })
+    res.status(status).cookie('token', token, options).json({ success: true, token, user, message: `Hi ${user.name}.` })
 }
 module.exports = sign_in;

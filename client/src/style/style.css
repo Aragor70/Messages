@@ -1,0 +1,131 @@
+* {
+    box-sizing: border-box;
+}
+body
+{
+    width: 100vw;
+    margin: 0!important;
+    padding: 0!important;
+    text-align: justify;
+    word-wrap: break-word;
+    display: block;
+
+    background-color: #000;
+    color: #fff;
+    font-weight: 400;
+    font-family: 'Lato', sans-serif;
+
+    position: relative;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+a, button, textarea, input
+{
+    outline: none;
+    color: #000;
+    text-decoration: none;
+}
+
+a, button
+{
+    
+    font-weight: 400;
+    overflow: hidden;
+}
+a:hover, button:hover
+{
+    color: lightblue;
+}
+a:focus, button:focus
+{
+    color: #49c500;
+}
+
+textarea
+{
+    resize: none;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+input
+{
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.shield
+{
+    width: 100%;
+    height: auto;
+    padding: 5vw;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+hr
+{
+    color: #49c500;
+    width: 90%;
+}
+
+.alert 
+{
+    position: absolute;
+    width: 100%;
+    min-height: 35px;
+    border-radius: 2.5px;
+    top:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    font-size: 17.5px;
+    font-weight: 400;
+    z-index: 0;
+    
+}
+.alert-success
+{
+    color: #49c500;
+    transition: ease-in;
+    animation-name: success;
+    animation-duration: 1.5s;
+}
+.alert-danger
+{
+    color: red;
+    transition: ease-in;
+    animation-name: danger;
+    animation-duration: 1.5s;
+
+}
+@keyframes success {
+    from {color: lightblue;}
+    to {color: #49c500}
+}
+@keyframes danger {
+    from {color: lightblue;}
+    to {color: red}
+}
+
+.submit-button
+{
+    width: 75px;
+    height: 35px;
+
+}
+.right-button
+{
+    position: absolute;
+    top: 15px;
+    right: 0;
+}

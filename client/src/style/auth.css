@@ -1,0 +1,52 @@
+* {
+    box-sizing: border-box;
+}
+.front-name
+{
+    font-family: 'Indie Flower', cursive;
+    font-size: 22.5px;
+
+}
+.auth-form
+{
+    width: 100%;
+    height: auto;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+.auth-form > h1
+{
+    width: 100%;
+    height: 35px;
+    margin: 0;
+    margin-bottom: 15px;
+}
+.input-label > input
+{
+    border: none;
+    width: 100%;
+    height: 35px;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 15px;
+    
+}
+.auth-form > .input-label
+{
+    width: 100%;
+    height: auto;
+    z-index: 2;
+    margin-bottom: 15px;
+    background-color: #fff;
+
+}
+.auth-bottom
+{
+    width: 100%;
+    min-height: 7.5vh;
+    position: relative;
+    
+}
