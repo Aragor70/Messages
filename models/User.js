@@ -27,6 +27,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         default: 'User'
     },
+    status: {
+        type: String,
+        default: 'Offline'
+    },
     reset_password_token: String,
     reset_password_expire: String,
     two_factor: {

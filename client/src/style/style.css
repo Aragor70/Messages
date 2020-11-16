@@ -79,7 +79,7 @@ hr
     width: 100%;
     min-height: 35px;
     border-radius: 2.5px;
-    top:30px;
+    top:60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -128,4 +128,15 @@ hr
     position: absolute;
     top: 15px;
     right: 0;
+}
+
+.shadow
+{
+    position: fixed;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: gray;
+    z-index: 9;
 }

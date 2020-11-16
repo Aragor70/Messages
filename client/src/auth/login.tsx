@@ -5,13 +5,14 @@ import { login } from '../store/actions/auth/auth';
 import Alert from '../utils/alert';
 
 import '../style/auth.css'
+import { setAlert } from '../store/actions/alert/alert';
 
 type LoginForm = {
     email: string | null,
     password: string | null
 }
 
-const Login = ({ login, history }: any) => {
+const Login = ({ login, history, setAlert }: any) => {
 
     const [formData, setFormData] = useState<LoginForm>({
         email: null,
@@ -25,7 +26,13 @@ const Login = ({ login, history }: any) => {
     }
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        await login(formData, history)
+
+        if (!email) {
+            return setAlert('Please enter e-mail address.', 'danger')
+        }
+        
+
+        return await login(formData, history)
     }
 
     return (
@@ -37,11 +44,11 @@ const Login = ({ login, history }: any) => {
             <form className="auth-form" autoComplete="off" onSubmit={e=> handleSubmit(e)}>
                 <h1>Log in:</h1>
                 
-                <label className="input-label" htmlFor="email">
+                <label className="input-label" htmlFor="email">e-mail
                     <input type="text" autoComplete="off" name="email" onChange={e=> handleTyping(e)} placeholder="E-mail address" />
                 </label>
                 
-                <label className="input-label" htmlFor="password">
+                <label className="input-label" htmlFor="password">password
                     <input type="password" autoComplete="off" name="password" onChange={e=> handleTyping(e)} />
                 </label>
                 <div className="auth-bottom">
@@ -53,4 +60,4 @@ const Login = ({ login, history }: any) => {
         </Fragment>
     );
 }
-export default connect(null, { login })(withRouter(Login));
+export default connect(null, { login, setAlert })(withRouter(Login));

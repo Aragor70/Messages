@@ -17,12 +17,12 @@ const access = require('../../../middleware/access');
 //description  register new user
 //access       public
 router.post('/', [
-    check('name', 'Name is required.')
+    check('name', 'Please enter the name.')
     .isLength({ min: 2, max: 22 })
     .isString(),
     check('email', 'E-mail address is not valid.')
     .isEmail(),
-    check('password', 'Password is required.')
+    check('password', 'Please enter the password')
     .isLength({ min: 6 })
 ], asyncHandler( async(req, res, next) => {
     const errors = validationResult(req)
@@ -81,19 +81,24 @@ router.put('/', [auth, [
     .isEmpty(),
     check('new_password', 'Enter valid password.')
     .optional()
+    .isString()
     .isLength({ min: 6 }),
     check('email', 'E-mail address is not valid.')
     .optional()
     .isEmail(),
-    check('two_factor')
+    check('two_factor', 'Contact with the web support.')
     .optional()
-    .exists()
+    .isBoolean()
+    .exists(),
+    check('status', 'Please enter valid status.')
+    .optional()
+    .isString()
 ]], asyncHandler( async(req, res, next) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return next(new ErrorResponse(errors.array()[0].msg, 422))
     }
-    const { two_factor, name, email, password, new_password } = req.body;
+    const { status, two_factor, name, email, password, new_password } = req.body;
     let user = await User.findById(req.user.id);
     if (!user) {
         return next(new ErrorResponse('Invalid credentials.', 422))
@@ -121,6 +126,12 @@ router.put('/', [auth, [
         return res.json({ success: true, message: 'E-mail address changed.', user })
     }
 
+    if (status) {
+        user.status = status;
+        await user.save()
+        return res.json({ success: true, message: 'Status changed.', user })
+    }
+
     if (name && name.toString().length >= 2 && name.toString().length <= 22) {
         const nameUpperCase = name.charAt(0).toUpperCase() + name.slice(1)
         user.name = nameUpperCase;
@@ -130,7 +141,7 @@ router.put('/', [auth, [
         return next(new ErrorResponse('Enter valid name (2-22 characters).', 422))
     }
 
-    return res.json({ success: false, message: 'Please try again', user })
+    return res.json({ success: false, message: 'Please try again.', user })
 }))
 
 //route DELETE api/users

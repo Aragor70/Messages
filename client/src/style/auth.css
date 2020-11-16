@@ -16,6 +16,7 @@
     flex-direction: column;
     flex-wrap: wrap;
     padding: 30px;
+    color: teal;
 }
 .auth-form > h1
 {
@@ -32,7 +33,6 @@
     margin: 0;
     padding: 0;
     margin-bottom: 15px;
-    
 }
 .auth-form > .input-label
 {
@@ -40,8 +40,6 @@
     height: auto;
     z-index: 2;
     margin-bottom: 15px;
-    background-color: #fff;
-
 }
 .auth-bottom
 {

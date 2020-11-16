@@ -5,13 +5,13 @@ import { Link } from 'react-router-dom';
 
 
 
-const FrontPage = () => {
+const IndexPage = () => {
 
 
 
     return (
         <Fragment>
-                <div className="shield">
+            <div className="shield">
                 <div className="front-name">
                     <Link to="/">Types</Link>
                 </div>
@@ -25,7 +25,7 @@ const FrontPage = () => {
                 
 
                 <div className="front-param">
-                    <hr />
+                    
                 <h1>Meet Types, </h1>
                 
                 <p>You can communicate with anyone in any location with the reliability of texting and the richness of chat.</p> 
@@ -33,10 +33,10 @@ const FrontPage = () => {
                 Intuitive and modern, Types makes conversations easy, expressive, and fun.</p>
                 <p>Nicolai's official MERN + redux + typescript app. </p>
                 </div>
-                
-                
-                </div>
+            
+            
+            </div>
         </Fragment>
     );
 }
-export default FrontPage;
+export default IndexPage;

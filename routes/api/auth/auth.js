@@ -26,7 +26,7 @@ router.get('/', auth, asyncHandler( async(req, res) => {
 router.post('/', [
     check('email', 'E-mail address is not valid.')
     .isEmail(),
-    check('password', 'Password is required.')
+    check('password', 'Please enter your password.')
     .not()
     .isEmpty()
 ], asyncHandler( async(req, res, next) => {

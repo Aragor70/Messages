@@ -1,7 +1,7 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
-import FrontPage from './visitor/FrontPage';
+import IndexPage from './loggedOff/IndexPage';
 import { setAlert } from './store/actions/alert/alert';
 import './style/header.css'
 import './style/output.css'
@@ -12,6 +12,13 @@ import Alert from './utils/alert';
 import { AuthType } from './store/actions/auth/types';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser, logout } from './store/actions/auth/auth';
+import Menu from './Menu';
+
+import menuBtn from './style/menu.png'
+
+interface AppType<X> {
+  logout: X
+}
 
 type Props = {
   auth: AuthType,
@@ -30,26 +37,24 @@ const App = ({ loadUser, setAlert, logout, auth }: Props) => {
     }
   }, [loadUser])
 
+  const [menu, setMenu] = useState<boolean>(false)
+
+  console.log(menu)
 
   return (
     <Fragment>
       <Router>
         <header className="header">
           <div className="webName"><Link to="/">Types</Link></div>
-          <div className="logout" onClick={e=>logout()}>logout</div>
+          <div className="menu-button">
+            
+            <img src={menuBtn} alt="menu" height="45px" onClick={e=> setMenu(!menu)} />
+            
+          </div>
         </header>
+        
         {
-          auth.isAuthenticated ? null : <Fragment>
-            <nav className="navigate">
-              <h1>The Types</h1>
-              <button type="button" className="navigate-button">
-                log in
-              </button>
-              <button type="button" className="navigate-button">
-                sign up
-              </button>
-            </nav>
-          </Fragment>
+          menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="shadow"></div></Fragment>
         }
         
         <main className="output">
@@ -59,7 +64,7 @@ const App = ({ loadUser, setAlert, logout, auth }: Props) => {
             </Fragment> : <Fragment>
               <Route exact path="/">
               
-              <FrontPage />
+              <IndexPage />
               <Alert />
 
               </Route>
