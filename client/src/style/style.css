@@ -81,11 +81,13 @@ hr
     width: 100%;
     min-height: 35px;
     border-radius: 2.5px;
-    top:60px;
+    top: 60px;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
     text-align: center;
+    flex-direction: column;
+    flex-wrap: wrap;
     padding: 30px;
     padding-top: 15px;
     padding-bottom: 15px;
@@ -95,12 +97,23 @@ hr
     z-index: 5;
     
 }
+.alert-message
+{
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
 .alert-success
 {
+    
     color: #49c500;
     transition: ease-in;
     animation-name: success;
     animation-duration: 1.5s;
+    
 }
 .alert-danger
 {

@@ -24,6 +24,8 @@ import Notifications from './loggedIn/Notifications';
 import Settings from './loggedIn/Settings';
 import NoMatch from './NoMatch';
 
+import WebName from './style/types.png';
+
 interface AppType<X> {
   logout: X
 }
@@ -55,7 +57,9 @@ const App = ({ loadUser, setAlert, logout, auth }: Props) => {
   return (
     <Fragment>
         <header className="header">
-          <div className="webName"><Link to="/">Types</Link></div>
+          <div className="webName">
+            <Link to="/" ><img src={WebName} /></Link>
+          </div>
           <div className="menu-button">
             
             <img src={menuBtn} alt="menu" height="45px" onClick={e=> setMenu(!menu)} />

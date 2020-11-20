@@ -6,6 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 import './style/menu.css'
 import { setAlert } from './store/actions/alert/alert';
 import { logout } from './store/actions/auth/auth';
+import WebName from './style/types.png';
 
 
 const MenuUser = ({ history, setMenu, logout }: any) => {
@@ -13,7 +14,7 @@ const MenuUser = ({ history, setMenu, logout }: any) => {
   return (
     <Fragment>
       <nav className="navigate">
-        <h1>The Types</h1>
+        <h1><img src={WebName} onClick={e=> {history.push('/'), setMenu(false)}} /></h1>
         <button type="button" className="navigate-button" onClick={e=> {history.push('/status'), setMenu(false)}}>
           status
         </button>

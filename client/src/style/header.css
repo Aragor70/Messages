@@ -22,11 +22,18 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-direction: row;
     grid-column: 1/4;
     grid-row: 1/4;
     padding-left: 10vw;
     font-family: 'Indie Flower', cursive;
     font-size: 22.5px;
+    padding-top: 12px;
+}
+.webName img
+{
+    max-height: 100%;
+    max-width: 100%;
 }
 
 .menu-button
