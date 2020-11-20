@@ -1,11 +1,12 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
 import { login } from '../store/actions/auth/auth';
 import Alert from '../utils/alert';
 
 import '../style/auth.css'
 import { setAlert } from '../store/actions/alert/alert';
+
 
 type LoginForm = {
     email: string | null,

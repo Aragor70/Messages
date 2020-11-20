@@ -32,22 +32,22 @@ const Register = ({ register, history }: any) => {
             <div className="front-name">
                 <Link to="/">Types</Link>
             </div>
-            <form className="auth-form" autoComplete="new-password" onSubmit={ e=> handleSubmit(e) }>
+            <form className="auth-form" autoComplete="off" onSubmit={ e=> handleSubmit(e) }>
                 <h1>Sign up:</h1>
                 
-                <label className="input-label" htmlFor="name">
+                <label className="input-label" htmlFor="name">name
                     <input type="text" autoComplete="off" name="name" onChange={ e=> handleTyping(e) } />
                 </label>
 
-                <label className="input-label" htmlFor="email">
+                <label className="input-label" htmlFor="email">e-mail
                     <input type="text" autoComplete="off" name="email" onChange={ e=> handleTyping(e) } />
                 </label>
 
-                <label className="input-label" htmlFor="password">
+                <label className="input-label" htmlFor="password">password
                     <input type="password" autoComplete="off" name="password" onChange={ e=> handleTyping(e) } />
                 </label>
 
-                <label className="input-label" htmlFor="passwordConfirmation">
+                <label className="input-label" htmlFor="passwordConfirmation">confirm your password
                     <input type="password" autoComplete="off" name="passwordConfirmation" onChange={ e=> handleTyping(e) } />
                 </label>
                 <div className="auth-bottom">

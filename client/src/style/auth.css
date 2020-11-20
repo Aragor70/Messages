@@ -17,6 +17,7 @@
     flex-wrap: wrap;
     padding: 30px;
     color: teal;
+    text-align: left;
 }
 .auth-form > h1
 {
@@ -40,6 +41,7 @@
     height: auto;
     z-index: 2;
     margin-bottom: 15px;
+    text-align: left;
 }
 .auth-bottom
 {

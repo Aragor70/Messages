@@ -12,8 +12,6 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         const res = await axios.get('/api/auth');
 
-
-
         dispatch({ type: Load_User, payload: { user: res.data} });
 
     } catch(err) {
@@ -35,7 +33,7 @@ export const login = (formData: LoginUserType, history: any) => async(dispatch: 
         history.push('/')
         
     } catch (err) {
-        dispatch({ type: Register_Fail });
+        dispatch({ type: Login_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
         
     }
@@ -55,7 +53,7 @@ export const register = (formData: LoginUserType, history: any) => async(dispatc
         history.push('/')
         
     } catch (err) {
-        console.log(err.response.data.message)
+        dispatch({ type: Register_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
         
     }

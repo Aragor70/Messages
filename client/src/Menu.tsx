@@ -5,38 +5,39 @@ import { Link, withRouter } from 'react-router-dom';
 
 import './style/menu.css'
 import { setAlert } from './store/actions/alert/alert';
+import { logout } from './store/actions/auth/auth';
 
 
-const MenuUser = ({ history, setMenu }: any) => {
+const MenuUser = ({ history, setMenu, logout }: any) => {
 
   return (
     <Fragment>
       <nav className="navigate">
         <h1>The Types</h1>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {history.push('/status'), setMenu(false)}}>
           status
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {history.push('/friends'), setMenu(false)}}>
           friends
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {history.push('/notifications'), setMenu(false)}}>
           notifications
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {setMenu(false)}}>
           do not disturb
         </button>
         <hr />
-        <span>account</span>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-in'), setMenu(false)}}>
+        <span className="navigate-header">account</span>
+        <button type="button" className="navigate-button" onClick={e=> {history.push('/profile'), setMenu(false)}}>
           profile
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {history.push('/settings'), setMenu(false)}}>
           settings
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {history.push('/support'), setMenu(false)}}>
           support
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/sign-up'), setMenu(false)}}>
+        <button type="button" className="navigate-button" onClick={e=> {setMenu(false), logout()}}>
           logout
         </button>
       </nav>
@@ -61,20 +62,20 @@ const MenuNoUser = ({ history, setMenu }: any) => {
   )
 }
 
-const Menu = ({ history, setAlert, auth, setMenu }: any) => {
+const Menu = ({ history, setAlert, auth, setMenu, logout }: any) => {
 
 
     return (
         <Fragment>
           <div className="menu">
           {
-            auth.isAuthenticated ? <MenuUser history={history} setMenu={setMenu} /> : <MenuNoUser history={history} setMenu={setMenu} />
+            auth.isAuthenticated ? <MenuUser history={history} setMenu={setMenu} logout={logout} /> : <MenuNoUser history={history} setMenu={setMenu} logout={logout} />
           }
           </div> 
         </Fragment>
     );
 }
-export default connect(null, { setAlert })(withRouter(Menu));
+export default connect(null, { setAlert, logout })(withRouter(Menu));
 
 
 

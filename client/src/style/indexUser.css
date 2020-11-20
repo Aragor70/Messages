@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+}
+.recipient-content
+{
+    width: 100%;
+    height: 8vh;
+    float: left;
+    display: block;
+    position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    margin-bottom: 7.5px;
+}
+.recipient-content > .messenger
+{
+    width: 80%;
+    float: left;
+}
+.recipient-content > .messenger .avatar
+{
+    width: 35px;
+    height: 35px;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.recipient-content > .messenger > .name
+{
+    width: calc(80% - 35px);
+    height: 30px;
+    float: left;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding-left: 5px;
+    padding-right: 5px;
+    overflow: hidden;
+}
+.recipient-content > .messenger > .message
+{
+    width: calc(100% - 35px);
+    height: 20px;
+    float: left;
+    padding: 2.5px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: row;
+    padding-left: 5px;
+
+}
+.recipient-content > .time
+{
+    width: 20%;
+    height: 100%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Indie Flower', cursive;
+}
+.messenger > span
+{
+    float: left;
+    overflow: hidden;
+}
+.messenger > .message > .status
+{
+    width: 25px;
+    display: block;
+    float: left;
+    overflow: hidden;
+}
+.messenger > .message > .text
+{
+    width: calc(100% - 30px);
+    height: 25px;
+    display: block;
+    float: right;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    font-size: 17.5px;
+    font-family: 'Indie Flower', cursive;
+    overflow: hidden;
+}

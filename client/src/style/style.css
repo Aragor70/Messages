@@ -1,5 +1,7 @@
 * {
     box-sizing: border-box;
+    font-family: 'Lato', sans-serif;
+    
 }
 body
 {
@@ -90,7 +92,7 @@ hr
 
     font-size: 17.5px;
     font-weight: 400;
-    z-index: 0;
+    z-index: 5;
     
 }
 .alert-success
