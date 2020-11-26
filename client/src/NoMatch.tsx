@@ -2,6 +2,8 @@ import React,{ Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { setAlert } from './store/actions/alert/alert';
+import message from './style/404.png';
+import './style/noMatch.css';
 
 const NoMatch = ({ history, auth, setAlert, location }: any) => {
     
@@ -19,8 +21,11 @@ const NoMatch = ({ history, auth, setAlert, location }: any) => {
 
     return (
       <Fragment>
-          
-        404 - Page not found.
+        <div className="page-not-found">
+            <h1>404</h1>
+            <h1>Page not found</h1>
+        </div>  
+        
       </Fragment>
     )
 }

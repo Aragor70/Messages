@@ -9,7 +9,7 @@ type LoginForm = {
     password: string | null
 }
 
-const Messages = ({}: any) => {
+const Messages = () => {
 
     
 

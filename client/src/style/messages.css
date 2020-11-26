@@ -65,8 +65,8 @@
     align-items: center;
     float: left;
     
-    padding-left: 7.5px;
     padding-right: 15px;
+    padding-left: 7.5px;
 }
 .messages-content > .recipient span
 {

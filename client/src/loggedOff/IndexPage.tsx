@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
+import chatImg from '../style/chat.png';
 
 
 
@@ -12,15 +13,12 @@ const IndexPage = () => {
     return (
         <Fragment>
             <div className="shield">
-                <div className="front-name">
-                    <Link to="/">Types</Link>
-                </div>
                 
-                <div className="front-param">
-                    <Link to="/sign-in">Log in</Link>
-                </div>
-                <div className="front-param">
-                    <Link to="/sign-up">Make the account</Link>
+                <div className="front-param-center">
+                    
+                    <h1><img src={chatImg} /></h1>
+                    <p><span><Link to="/sign-in">log in</Link></span><span><Link to ="/sign-up">get started</Link></span></p>
+                    
                 </div>
                 
 

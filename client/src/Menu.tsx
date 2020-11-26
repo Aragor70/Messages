@@ -63,7 +63,7 @@ const MenuNoUser = ({ history, setMenu }: any) => {
   )
 }
 
-const Menu = ({ history, setAlert, auth, setMenu, logout }: any) => {
+const Menu = ({ history, auth, setMenu, logout }: any) => {
 
 
     return (
@@ -76,7 +76,7 @@ const Menu = ({ history, setAlert, auth, setMenu, logout }: any) => {
         </Fragment>
     );
 }
-export default connect(null, { setAlert, logout })(withRouter(Menu));
+export default connect(null, { logout })(withRouter(Menu));
 
 
 

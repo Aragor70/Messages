@@ -6,7 +6,7 @@ import '../style/messages.css'
 import '../style/indexUser.css'
 
 
-const indexUser = ({}: any) => {
+export const IndexUser = () => {
 
     
 
@@ -45,4 +45,4 @@ const indexUser = ({}: any) => {
         </Fragment>
     );
 }
-export default connect(null, { })(withRouter(indexUser));
+export default connect(null, { })(withRouter(IndexUser));

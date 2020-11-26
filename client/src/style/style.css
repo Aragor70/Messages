@@ -3,9 +3,10 @@
     font-family: 'Lato', sans-serif;
     
 }
-body
+body, html
 {
     width: 100vw;
+    height: 100vh;
     margin: 0!important;
     padding: 0!important;
     text-align: justify;
@@ -60,7 +61,7 @@ input
 .shield
 {
     width: 100%;
-    height: auto;
+    min-height: 91vh;
     padding: 5vw;
     padding-top: 30px;
     padding-bottom: 30px;

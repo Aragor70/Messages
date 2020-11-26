@@ -7,21 +7,14 @@ import reportWebVitals from './reportWebVitals';
 import store from './store/store';
 import './style/style.css'
 
-
-export const Index = () => {
-
-
-  return (
-    <React.StrictMode>
-      <Provider store={store}>
-        <Router>
+ReactDOM.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <Router>
         <App />
-        </Router>
-      </Provider>
-    </React.StrictMode>
-  )
-}
-ReactDOM.render(<Index /> ,document.getElementById('root')
+      </Router>
+    </Provider>
+  </React.StrictMode>, document.getElementById('root')
 );
 
 // If you want to start measuring performance in your app, pass a function

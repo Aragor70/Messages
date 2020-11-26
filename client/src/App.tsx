@@ -1,8 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Link, Route, Switch, withRouter } from 'react-router-dom';
+import { Link, Route, Switch } from 'react-router-dom';
 import IndexPage from './loggedOff/IndexPage';
-import { setAlert } from './store/actions/alert/alert';
 import './style/header.css'
 import './style/output.css'
 import './style/frontVisitor.css'
@@ -11,11 +10,10 @@ import Register from './auth/register';
 import Alert from './utils/alert';
 import { AuthType } from './store/actions/auth/types';
 import setAuthToken from './utils/setAuthToken';
-import { loadUser, logout } from './store/actions/auth/auth';
+import { loadUser  } from './store/actions/auth/auth';
 import Menu from './Menu';
 
 import menuBtn from './style/menu.png'
-import Messages from './loggedIn/Messages';
 import IndexUser from './loggedIn/IndexUser';
 import Profile from './loggedIn/Profile';
 import Status from './loggedIn/Status';
@@ -26,22 +24,15 @@ import NoMatch from './NoMatch';
 
 import WebName from './style/types.png';
 
-interface AppType<X> {
-  logout: X
-}
 
 type Props = {
   auth: AuthType,
-  logout: () => void,
-  loadUser: () => void,
-  setAlert: (message: string, alertType: string) => void
-  
-  
+  loadUser: () => void
 }
 
 
 
-const App = ({ loadUser, setAlert, logout, auth }: Props) => {
+const App = ({ loadUser, auth }: Props) => {
   
   useEffect(() => {
     if (localStorage.token) {
@@ -152,4 +143,4 @@ const mapStateToProps = (state: any) => ({
   alert: state.alert,
   auth: state.auth
 })
-export default connect(mapStateToProps, {setAlert, loadUser, logout})(App);
+export default connect(mapStateToProps, { loadUser })(App);

@@ -1,6 +1,6 @@
 <img src="./typesReadMe.png" width="100%" />
 
-# Messages Application
+# Types - Messages Application
 
 The Full stack MERN application with typescript and mongoDB.
 

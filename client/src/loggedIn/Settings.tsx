@@ -1,12 +1,11 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import Alert from '../utils/alert';
 
 import '../style/auth.css'
 
 
-const Settings = ({}: any) => {
+const Settings = () => {
 
     
 
@@ -15,7 +14,6 @@ const Settings = ({}: any) => {
             <div className="front-name">
                 Settings
             </div>
-            <Alert />
             
         </Fragment>
     );
