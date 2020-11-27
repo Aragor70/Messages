@@ -1,7 +1,7 @@
 import { AuthType, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType } from '../actions/auth/types'
 
 
-const initialState = {
+export const initialState = {
     user: {
         name: null,
         email: null,

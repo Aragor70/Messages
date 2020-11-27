@@ -13,8 +13,8 @@ Enzyme.configure({ adapter: new Adapter });
 describe("App component test", () => {
     const mockStore = createMockStore()
     const history = createBrowserHistory()
-    const loadUser = () => jest.fn()
-    const login = () => jest.fn()
+    const loadUser = jest.fn()
+    const login = jest.fn()
     const props = {
         loadUser, 
         auth: { isAuthenticated: false }

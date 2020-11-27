@@ -9,7 +9,7 @@ interface AlertState {
     alerts: any[]
 }
 
-const initialState = {
+export const initialState = {
     alerts: []
 };
 

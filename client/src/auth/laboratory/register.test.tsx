@@ -13,7 +13,7 @@ Enzyme.configure({ adapter: new Adapter });
 describe("register component test", () => {
     const mockStore = createMockStore()
     const history = createBrowserHistory()
-    const register = () => jest.fn()
+    const register = jest.fn()
     const props = {
         register, 
         history

@@ -14,8 +14,8 @@ describe("menu component test", () => {
     
     const mockStore = createMockStore()
     const history = createBrowserHistory()
-    const setMenu = () => jest.fn()
-    const logout = () => jest.fn()
+    const setMenu = jest.fn()
+    const logout = jest.fn()
     const props = {
         history,
         auth: { isAuthenticated: false }, 
@@ -24,7 +24,7 @@ describe("menu component test", () => {
     }
 
     const mountComponent = mount(
-    <Provider store={mockStore()}>
+    <Provider store={mockStore({})}>
         <Router history={history}>
             <Menu { ...props } />
         </Router>
@@ -36,15 +36,21 @@ describe("menu component test", () => {
         expect(mountComponent.find('.menu')).toHaveLength(1)
     });
 
+    it("setProps user logged in correctly", () => {
+        mountComponent.setProps({ auth: { isAuthenticated: true } })
+        //console.log(mountComponent.props())
+    });
 
     it("render different options menu when user logged in", () => {
         const loggedIn = { isAuthenticated: true }
         const componentLoggedIn = mount(
-        <Provider store={mockStore({})}>
+        <Provider store={mockStore({ })}>
             <Router history={history}>
                 <Menu history={history} auth={ loggedIn } setMenu={ setMenu } logout={ logout } />
             </Router>
         </Provider>)
+        
+        
         expect(componentLoggedIn.text()).toMatch(/logout/)
 
 
