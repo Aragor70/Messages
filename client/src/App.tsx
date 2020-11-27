@@ -123,9 +123,11 @@ const App = ({ loadUser, auth }: Props) => {
               </Route>
               <Route exact path="/sign-in">
                 <Login />
+                <Alert />
               </Route>
               <Route exact path="/sign-up">
                 <Register />
+                <Alert />
               </Route>
               
               <Route component={NoMatch} />

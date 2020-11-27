@@ -41,7 +41,7 @@ const Login = ({ login, history, setAlert }: any) => {
             <div className="front-name">
                 <Link to="/">Types</Link>
             </div>
-            <Alert />
+            
             <form className="auth-form" autoComplete="off" onSubmit={e=> handleSubmit(e)}>
                 <h1>Log in:</h1>
                 

@@ -23,7 +23,6 @@ const Register = ({ register, history }: any) => {
     }
     const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log('run')
         return await register(formData, history)
     }
 

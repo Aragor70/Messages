@@ -34,7 +34,6 @@ describe("menu component test", () => {
 
         expect(mountComponent).toHaveLength(1);
         expect(mountComponent.find('.menu')).toHaveLength(1)
-        
     });
 
 
