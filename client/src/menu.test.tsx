@@ -40,7 +40,7 @@ describe("menu component test", () => {
     it("render different options menu when user logged in", () => {
         const loggedIn = { isAuthenticated: true }
         const componentLoggedIn = mount(
-        <Provider store={mockStore()}>
+        <Provider store={mockStore({})}>
             <Router history={history}>
                 <Menu history={history} auth={ loggedIn } setMenu={ setMenu } logout={ logout } />
             </Router>

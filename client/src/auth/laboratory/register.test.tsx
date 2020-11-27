@@ -10,7 +10,7 @@ import createMockStore from 'redux-mock-store';
 
 Enzyme.configure({ adapter: new Adapter });
 
-describe("login component test", () => {
+describe("register component test", () => {
     const mockStore = createMockStore()
     const history = createBrowserHistory()
     const register = () => jest.fn()
