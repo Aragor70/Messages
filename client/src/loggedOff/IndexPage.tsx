@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import chatImg from '../style/chat.png';
 
 
-
+// <h1><img src={chatImg} /></h1>
 
 const IndexPage = () => {
 
@@ -16,7 +16,7 @@ const IndexPage = () => {
                 
                 <div className="front-param-center">
                     
-                    <h1><img src={chatImg} /></h1>
+                    
                     <p><span><Link to="/sign-in">log in</Link></span><span><Link to ="/sign-up">get started</Link></span></p>
                     
                 </div>

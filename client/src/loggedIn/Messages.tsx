@@ -31,21 +31,21 @@ const Messages = () => {
                 
                     <div className="message">
                         <div className="header-message">
-                            <span className="time">time</span>
+                            <span className="time">30.11</span>
                         </div>
                         <span className="text">text<span className="status">*</span></span>
                         <button className="delete">&times;</button>
                     </div>
                     <div className="message">
                         <div className="header-message">
-                            <span className="time">time</span>
+                            <span className="time">30.11</span>
                         </div>
                         <span className="text">text<span className="status">*</span></span>
                         <button className="delete">&times;</button>
                     </div>
                     <div className="message">
                         <div className="header-message">
-                            <span className="time">time</span> 
+                            <span className="time">30.11</span> 
                             
                         </div>
                         <span className="text">text<span className="status">*</span></span>

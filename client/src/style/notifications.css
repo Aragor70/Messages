@@ -1,0 +1,76 @@
+.notifications-content
+{
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.notifications-header
+{
+    width: 100%;
+    text-align: center;
+    height: 3.5vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+.notifications-row
+{
+    width: 100%;
+    text-align: justify;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 5.5vh;
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+.notifications-header > span
+{
+    position: absolute;
+    right: 15px;
+}
+.notifications-row > .recipient
+{
+    width: 20%;
+    height: auto;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    
+    padding-right: 7.5px;
+    padding-left: 7.5px;
+    overflow: hidden;
+}
+.notifications-row > .message
+{
+    width: 60%;
+    max-height: 17.5px;
+    float: left;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    padding-left: 15px;
+    padding-right: 15px;
+    overflow: hidden;
+    font-size: 17.5px;
+}
+.notifications-row > .time
+{
+    min-width: 40px;
+    height: 100%;
+    float: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Indie Flower', cursive;
+    position: absolute;
+    top: 0;
+    right: 15px;
+}

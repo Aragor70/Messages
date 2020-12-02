@@ -14,10 +14,10 @@
     position: fixed;
     top: 0;
     left: 0;
-    padding-right: calc(100vw / 64 * 8);;
+    padding-right: calc(100vw / 64 * 8);
 }
 
-.webName
+.header .webName
 {
     display: flex;
     justify-content: flex-start;
@@ -30,13 +30,13 @@
     font-size: 22.5px;
     padding-top: 12px;
 }
-.webName img
+.header .webName img
 {
     max-height: 100%;
     max-width: 100%;
 }
 
-.menu-button
+.header .menu-button
 {
     grid-column: 7/8;
     grid-row: 1/4;
@@ -49,9 +49,8 @@
     cursor: pointer;
     z-index: 10;
 }
-.menu-button img
+.header .menu-button img
 {
-
     width: 35px;
     height: 35px;
     transition: all 0.3s ease-in;

@@ -7,11 +7,13 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import createMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 Enzyme.configure({ adapter: new Adapter });
 
 describe("App component test", () => {
-    const mockStore = createMockStore()
+    const middlewares = [thunk]
+    const mockStore = createMockStore(middlewares)
     const history = createBrowserHistory()
     const loadUser = jest.fn()
     const login = jest.fn()
@@ -19,13 +21,19 @@ describe("App component test", () => {
         loadUser, 
         auth: { isAuthenticated: false }
     }
-
+    
     const mountComponent = mount(
     <Provider store={mockStore({ auth: { isAuthenticated: false }, alert: { alerts: null } })}>
         <Router history={history}>
             <App { ...props } />
         </Router>
     </Provider>)
+
+    afterEach(() => {
+        history.push(
+            '/'
+        );
+    });
 
     it("render App 1 component correctly", () => {
         expect(mountComponent).toHaveLength(1)
@@ -35,5 +43,40 @@ describe("App component test", () => {
 
     });
 
+    it("render auth routes correctly", () => {
+
+        
+        expect(history.location.pathname).toEqual('/')
+        history.push(
+            '/sign-in'
+        );
+
+        const component = mount(<Provider store={mockStore({ auth: { isAuthenticated: false }, alert: { alerts: null } })}>
+            <Router history={history}>
+                <App { ...props } />
+            </Router>
+        </Provider>)
+
+        expect(history.location.pathname).toEqual('/sign-in')
+        
+    });
+
+    it("render '/' path when user logged in try to log in", () => {
+
+        
+        expect(history.location.pathname).toEqual('/')
+        history.push(
+            '/sign-in'
+        );
+
+        const component = mount(<Provider store={mockStore({ auth: { isAuthenticated: true }, alert: { alerts: null } })}>
+            <Router history={history}>
+                <App { ...props } />
+            </Router>
+        </Provider>)
+
+        expect(history.location.pathname).toEqual('/')
+        
+    });
 
 });

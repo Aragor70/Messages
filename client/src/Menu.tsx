@@ -15,17 +15,12 @@ const MenuUser = ({ history, setMenu, logout }: any) => {
     <Fragment>
       <nav className="navigate">
         <h1><img src={WebName} onClick={e=> {history.push('/'), setMenu(false)}} /></h1>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/status'), setMenu(false)}}>
-          status
-        </button>
+        
         <button type="button" className="navigate-button" onClick={e=> {history.push('/friends'), setMenu(false)}}>
           friends
         </button>
         <button type="button" className="navigate-button" onClick={e=> {history.push('/notifications'), setMenu(false)}}>
           notifications
-        </button>
-        <button type="button" className="navigate-button" onClick={e=> {setMenu(false)}}>
-          do not disturb
         </button>
         <hr />
         <span className="navigate-header">account</span>

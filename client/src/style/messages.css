@@ -9,6 +9,13 @@
     display: block;
     
 }
+.header-shield
+{
+    width: 100%;
+
+    display: block;
+    
+}
 .messages-box
 {
     width: 100%;
@@ -17,10 +24,10 @@
     overflow-y: auto;
     float: left;
 }
-.message
+.messages-content .message
 {
     width: 100%;
-    min-height: 7vh;
+    min-height: 30px;
     float: left;
     display: flex;
     justify-content: flex-start;
@@ -32,10 +39,10 @@
     padding-right: 15px;
     padding-top: 15px;
 }
-.messages-content > .recipient
+.header-shield > .recipient
 {
     width: 100%;
-    height: 9vh;
+    height: 12vh;
     display: block;
     justify-content: space-between;
     align-items: center;
@@ -43,7 +50,7 @@
     margin-bottom: 7.5px;
 
 }
-.messages-content > .recipient > .header-person
+.header-shield > .recipient > .header-person
 {
     width: 75%;
     height: 100%;
@@ -56,7 +63,7 @@
     padding-left: 15px;
     padding-right: 7.5px;
 }
-.messages-content > .recipient > .header-action
+.header-shield > .recipient > .header-action
 {
     width: 25%;
     height: 100%;
@@ -64,11 +71,12 @@
     justify-content: flex-end;
     align-items: center;
     float: left;
+    text-align: right;
     
     padding-right: 15px;
     padding-left: 7.5px;
 }
-.messages-content > .recipient span
+.header-shield > .recipient span
 {
     width: auto;
     padding-right: 7.5px;

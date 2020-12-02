@@ -7,11 +7,13 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import createMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 Enzyme.configure({ adapter: new Adapter });
 
 describe("login component test", () => {
-    const mockStore = createMockStore()
+    const middlewares = [thunk]
+    const mockStore = createMockStore(middlewares)
     const history = createBrowserHistory()
     const setAlert = jest.fn()
     const login = jest.fn()
@@ -28,11 +30,13 @@ describe("login component test", () => {
         </Router>
     </Provider>)
 
+    
+
     it("render 1 login component correctly", () => {
         expect(mountComponent).toHaveLength(1) 
         expect(mountComponent.text()).toMatch(/Log in/)
         expect(mountComponent.find('.auth-form')).toHaveLength(1)
-        const mockLogin = mountComponent.props().children.props.children.login
+        //const mockLogin = mountComponent.props().children.props.children.login
         
 
     });

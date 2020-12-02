@@ -7,11 +7,13 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import createMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 Enzyme.configure({ adapter: new Adapter });
 
 describe("register component test", () => {
-    const mockStore = createMockStore()
+    const middlewares = [thunk]
+    const mockStore = createMockStore(middlewares)
     const history = createBrowserHistory()
     const register = jest.fn()
     const props = {

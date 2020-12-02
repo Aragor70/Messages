@@ -8,13 +8,15 @@ import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import createMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 Enzyme.configure({ adapter: new Adapter });
 
 describe("test Index component", () => {
 
     const history = createBrowserHistory()
-    const mockStore = createMockStore()
+    const middlewares = [thunk]
+    const mockStore = createMockStore(middlewares)
     let component: any;
 
     beforeEach(() => {
@@ -29,10 +31,10 @@ describe("test Index component", () => {
         const div = document.createElement('div');
         ReactDOM.render(
             <Provider store={mockStore({ auth: {isAuthenticated: false}, alert: {alerts: null } })}>
-            <Router history={history}>
-                <App />
-            </Router>
-        </Provider>
+                <Router history={history}>
+                    <App />
+                </Router>
+            </Provider>
         , div);
         ReactDOM.unmountComponentAtNode(div)
         

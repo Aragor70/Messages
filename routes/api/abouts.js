@@ -33,9 +33,10 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized.', 401))
     }
 
+    if (status) about.status = status;
     if (age) about.age = age;
     if (gender) about.gender = gender;
-    if (status) about.status = status;
+    
     
     await about.save()
 

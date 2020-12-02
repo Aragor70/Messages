@@ -17,8 +17,9 @@
 }
 .recipient-content > .messenger
 {
-    width: 90%;
+    width: 100%;
     float: left;
+    height: auto;
 
 }
 .recipient-content > .messenger .avatar
@@ -30,9 +31,9 @@
     justify-content: center;
     align-items: center;
 }
-.recipient-content > .messenger > .name
+.recipient-content > .messenger > .msg-head
 {
-    width: calc(80% - 35px);
+    width: calc(100% - 35px);
     height: 35px;
     float: left;
     display: flex;
@@ -42,6 +43,7 @@
     padding-left: 5px;
     padding-right: 5px;
     overflow: hidden;
+    position: relative;
 }
 .recipient-content > .messenger > .message
 {
@@ -55,27 +57,44 @@
     flex-direction: row;
     padding-left: 5px;
 }
-.recipient-content > .time
+.recipient-content .time
 {
-    width: 10%;
+    min-width: 40px;
     height: 100%;
     float: left;
     display: flex;
     justify-content: center;
     align-items: center;
     font-family: 'Indie Flower', cursive;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 .messenger > span
 {
     float: left;
     overflow: hidden;
 }
-.messenger > .message > .status
+.messenger > .msg-head > .status
 {
-    width: 25px;
+    min-width: 25px;
+    max-width: 100px;
     display: block;
     float: left;
     overflow: hidden;
+    
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+}
+.messenger > .msg-head > span
+{
+    
+    display: block;
+    float: left;
+    overflow: hidden;
+    
+    padding-left: 7.5px;
+    padding-right: 7.5px;
 }
 .messenger > .message > .text
 {

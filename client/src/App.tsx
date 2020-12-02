@@ -5,6 +5,12 @@ import IndexPage from './loggedOff/IndexPage';
 import './style/header.css'
 import './style/output.css'
 import './style/frontVisitor.css'
+import './style/headerLoggedIn.css'
+import './style/profile.css';
+import './style/notifications.css';
+import './style/friends.css';
+import './style/settings.css';
+
 import Login from './auth/login';
 import Register from './auth/register';
 import Alert from './utils/alert';
@@ -24,6 +30,7 @@ import NoMatch from './NoMatch';
 
 import WebName from './style/types.png';
 
+import photo from './style/photo.jpg'
 
 type Props = {
   auth: AuthType,
@@ -47,28 +54,49 @@ const App = ({ loadUser, auth }: Props) => {
 
   return (
     <Fragment>
-        <header className="header">
-          <div className="webName">
-            <Link to="/" ><img src={WebName} /></Link>
-          </div>
-          <div className="menu-button">
-            
-            <img src={menuBtn} alt="menu" height="45px" onClick={e=> setMenu(!menu)} />
-            
-          </div>
-        </header>
+        {
+          auth.isAuthenticated ? <Fragment>
+            <div className="header-shield">
+            <div className="recipient">
+                    <div className="header-person">
+                        <span><img src={photo} height="35px" width="35px" /></span>
+                        <span style={{ fontSize: '20px'}}>messenger</span>
+                        
+                        
+                    </div>
+                    
+                    <div className="header-action">
+                        <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)}>menu</span>
+                    </div>
+                    <hr />
+                </div>
+            </div>
+          </Fragment> : <Fragment>
+            <header className="header" >
+              <div className="webName">
+                <Link to="/" ><img src={WebName} /></Link>
+              </div>
+              <div className="menu-button">
+                
+                <img src={menuBtn} alt="menu" height="45px" onClick={e=> setMenu(!menu)} />
+                
+              </div>
+            </header>
+          </Fragment>
+        }
+        
         
         {
           menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="shadow" onClick={e=> setMenu(false)}></div></Fragment>
         }
         
-        <main className="output">
+        <main className="output" style={ auth.isAuthenticated ? { marginTop: '0' } : { marginTop : '9vh', width: '100%' }}>
           {
             auth.isAuthenticated ? <Fragment>
               <Switch>
               
               <Route exact path="/">
-                <IndexUser />
+                <IndexUser setMenu={setMenu} menu={menu} />
                 <Alert />
               </Route>
 
@@ -94,7 +122,7 @@ const App = ({ loadUser, auth }: Props) => {
               </Route>
 
 
-              <Route exact path="/profile">
+              <Route exact path="/settings">
               
                 <Settings />
                 <Alert />
