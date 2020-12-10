@@ -11,7 +11,7 @@ const router = express.Router();
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
 
-    const messenger = await Messenger.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
+    const messenger = await Messenger.findOne({ user: req.user.id }).populate({path: 'chats chat', model: 'Chat', populate: { path: 'messages message', model: 'Message', populate: { path: 'user user', model: 'User' } }}).populate('user', ['name', 'avatar']);
     if (!messenger) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }
@@ -26,12 +26,19 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
-    const chat = await Chat.find({ "users": { _id: req.user.id, _id: req.params.id } }).populate('user = users', ['name', 'avatar']);
+    // const chat = await Chat.findById(req.params.id).populate('message messages').populate('user = users', ['name', 'avatar']);
+    const chat = await Chat.findById(req.params.id).populate({ path: 'messages message', model: 'Message', populate: { path: 'recipient user', model: 'User' }}).populate('user = users', ['name', 'avatar']);
+    
+    
+    // User.findOne({ name: 'Val' }).populate({ path: 'friends', populate: { path: 'friends' } });
+    
+    // Get friends of friends - populate the 'friends' array for every friend
+
+
     if (!chat) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }
     
-
     res.json( chat )
 }))
 

@@ -1,4 +1,4 @@
-const sign_in = (user, status, res) => {
+const sign_in = async(user, status, res) => {
 
     const token = user.getSignedToken()
     
@@ -13,6 +13,8 @@ const sign_in = (user, status, res) => {
     if (process.env.NODE_ENV === 'production') {
         options.secure = true;
     }
+    user.status = "Online"
+    await user.save()
 
     res.status(status).cookie('token', token, options).json({ success: true, token, user, message: `Hi ${user.name}.` })
 }

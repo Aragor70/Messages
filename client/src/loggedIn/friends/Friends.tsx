@@ -1,15 +1,28 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { getFriends, getFriendships, getInvites } from '../../store/actions/friend/friend';
+import { getRecipients } from '../../store/actions/recipient/recipient';
 
 
-import '../style/auth.css'
-import photo from '../style/photo.jpg'
+import '../../style/auth.css'
+import photo from '../../style/photo.jpg'
+import Friend from './Friend';
 
 
-export const Friends = ({ history }: any) => {
+export const Friends = ({ history, getRecipients, recipient, getInvites, friend, getFriendships, getFriends, auth }: any) => {
 
     const [input, setInput] = useState(false)
+
+
+    useEffect(() => {
+        getFriendships()
+        getFriends()
+        getInvites()
+        return getRecipients()
+    }, [getRecipients, getInvites, getFriendships, getFriends])
+
+    
 
     return (
         <Fragment>
@@ -33,28 +46,10 @@ export const Friends = ({ history }: any) => {
                             }
                             
                         </div>
+                        {
+                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} optionName="options" />)
+                        }
 
-                        <div className="friends-row">
-                            <div className="avatar">
-                                <img src={photo} />
-                            </div>
-                            <span className="name">Bambino :</span>
-                            <span className="status">Offline</span>
-                            <div className="options">
-                                <button>options</button>
-                            </div>
-                        </div>
-
-                        <div className="friends-row">
-                            <div className="avatar">
-                                <img src={photo} />
-                            </div>
-                            <span className="name">Bambino :</span>
-                            <span className="status">Offline</span>
-                            <div className="options">
-                                <button>options</button>
-                            </div>
-                        </div>
                     </Route>
 
                     <Route exact path="/friends/invites">
@@ -68,6 +63,10 @@ export const Friends = ({ history }: any) => {
                             }
                             
                         </div>
+                        
+                        {
+                            friend.invites.map((invite: any) => <Friend key={invite._id} recipient={invite.recipient} inviteMode={true} />)
+                        }
                         <div className="friends-row">
                             <div className="avatar">
                                 <img src={photo} />
@@ -103,24 +102,9 @@ export const Friends = ({ history }: any) => {
                             }
                             
                         </div>
-                        <div className="friends-row">
-                            <div className="avatar">
-                                <img src={photo} />
-                            </div>
-                            <span className="name">Bambino</span>
-                            <div className="options">
-                                <button>invite</button>
-                            </div>
-                        </div>
-                        <div className="friends-row">
-                            <div className="avatar">
-                                <img src={photo} />
-                            </div>
-                            <span className="name">Bambino</span>
-                            <div className="options">
-                                <button>invite</button>
-                            </div>
-                        </div>
+                        {
+                            recipient.recipients.map((person: any) => <Friend key={person._id} recipient={person} optionName="invite" />)
+                        }
                     </Route>
 
 
@@ -134,4 +118,9 @@ export const Friends = ({ history }: any) => {
         </Fragment>
     );
 }
-export default connect(null, { })(withRouter(Friends));
+const mapStateToProps = (state: any) => ({
+    recipient: state.recipient,
+    friend: state.friend,
+    auth: state.auth
+})
+export default connect(mapStateToProps, { getRecipients, getInvites, getFriendships, getFriends })(withRouter(Friends));

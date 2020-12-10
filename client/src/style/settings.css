@@ -13,6 +13,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: center;
+    position: relative;
 }
 .settings-row
 {
@@ -32,7 +33,7 @@
     width: 50%;
     text-align: center;
 }
-.settings-row > img
+.settings-header > img
 {
     position: absolute;
     top: 0px;
@@ -40,3 +41,4 @@
     width: 25px;
     height: 25px;
 }
+

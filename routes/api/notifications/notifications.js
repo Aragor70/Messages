@@ -5,8 +5,8 @@ const Notification = require('../../../models/Notification');
 const ErrorResponse = require('../../../tools/errorResponse');
 const router = express.Router();
 
-//route GET    api/notification
-//description  get own notification
+//route GET    api/notifications
+//description  get own notifications
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
     const notification = await Notification.findOne({ user: req.user.id });
@@ -17,7 +17,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     res.json(notification);
 }))
 
-//route PUT    api/notification
+//route PUT    api/notifications
 //description  switch on/off notification
 //access       private
 router.put('/', auth, asyncHandler( async(req, res, next) => {

@@ -1,16 +1,14 @@
 import React from 'react';
-import Friends from '../Friends';
+import Friends from '../friends/Friends';
 
 import { configure, shallow, mount} from 'enzyme';
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { shallowToJson } from 'enzyme-to-json';
 import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 
-Enzyme.configure({ adapter: new Adapter });
 
 
 describe("friends component test", () => {
@@ -23,10 +21,11 @@ describe("friends component test", () => {
     it("render 1 <Friends /> component", () => {
         
         expect(shallowComponent).toHaveLength(1);
-        expect(shallowComponent.text()).toMatch(/Types/);
+        expect(shallowComponent.text()).toMatch(/friends/);
         
     });
-
+    
+    
 
 
 });

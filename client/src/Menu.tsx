@@ -33,7 +33,7 @@ const MenuUser = ({ history, setMenu, logout }: any) => {
         <button type="button" className="navigate-button" onClick={e=> {history.push('/support'), setMenu(false)}}>
           support
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {setMenu(false), logout()}}>
+        <button type="button" className="navigate-button" onClick={e=> {setMenu(false), logout(history)}}>
           logout
         </button>
       </nav>

@@ -47,3 +47,21 @@ export const updateSocial = (formData: AboutType) => async(dispatch: Dispatch<Ab
         console.log(err.message)
     }
 }
+
+export const deleteSocial = (value: string) => async(dispatch: Dispatch<AboutDispatchTypes | any>) => {
+    try {
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        const res = await axios.delete(`api/abouts/social/${value}`, config);
+
+        dispatch({ type: Update_About, payload: res.data.about });
+        
+        return dispatch(setAlert('saved', 'success'))
+
+    } catch (err) {
+        console.log(err.message)
+    }
+}

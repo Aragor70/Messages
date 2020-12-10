@@ -20,6 +20,11 @@
     width: 100%;
     float: left;
     height: auto;
+    background-color: rgba(0, 255, 0, 0.7);
+    border-radius: 7.5px;
+    overflow: hidden;
+
+
 
 }
 .recipient-content > .messenger .avatar
@@ -70,12 +75,12 @@
     top: 0;
     right: 0;
 }
-.messenger > span
+.recipient-content .messenger > span
 {
     float: left;
     overflow: hidden;
 }
-.messenger > .msg-head > .status
+.recipient-content .messenger > .msg-head > .status
 {
     min-width: 25px;
     max-width: 100px;
@@ -86,7 +91,7 @@
     padding-left: 7.5px;
     padding-right: 7.5px;
 }
-.messenger > .msg-head > span
+.recipient-content .messenger > .msg-head > span
 {
     
     display: block;
@@ -96,7 +101,7 @@
     padding-left: 7.5px;
     padding-right: 7.5px;
 }
-.messenger > .message > .text
+.recipient-content .messenger > .message > .text
 {
     width: calc(100% - 30px);
     height: 25px;

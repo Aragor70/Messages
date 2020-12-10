@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux';
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from 'uuid';
 import { AlertDispatchTypes, Remove_Alert, Set_Alert } from "./types";
 
 

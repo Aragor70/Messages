@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Enzyme, { mount } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import { mount } from 'enzyme';
 import App from './App';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
@@ -10,7 +9,6 @@ import { createBrowserHistory } from 'history';
 import createMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-Enzyme.configure({ adapter: new Adapter });
 
 describe("test Index component", () => {
 

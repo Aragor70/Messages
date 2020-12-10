@@ -11,6 +11,7 @@ const router = express.Router();
 router.get('/', auth, asyncHandler( async(req, res, next) => {
 
     const messenger = await Messenger.findOne({ user: req.user.id });
+    
     if (!messenger) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }

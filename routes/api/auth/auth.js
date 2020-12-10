@@ -41,9 +41,9 @@ router.post('/', [
         return next(new ErrorResponse('Invalid credentials', 422))
     }
     
-    const isMatch = bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if ( !isMatch ) {
-        return ErrorResponse('Invalid credentials', 422)
+        return next(new ErrorResponse('Invalid credentials', 422))
     }
 
     if (user.two_factor) {

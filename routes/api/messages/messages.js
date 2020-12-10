@@ -28,8 +28,8 @@ router.post('/:id', [auth, [
 
     const messenger = await Messenger.findOne({ user: req.user.id }).populate('user', ['email', 'avatar']);
     const recipient = await Messenger.findOne({ user: req.params.id }).populate('user', ['email', 'avatar']);
-    const friendship = await Friendship.findOne({ "users":{ _id: req.user.id, _id: req.params.id } });
-    
+    const friendship = await Friendship.findOne({ "users": { $all: [req.params.id, req.user.id] } });
+    console.log(friendship)
     if (!messenger || !recipient) {
         return next(new ErrorResponse('User not found.', 404))
     }
@@ -40,7 +40,9 @@ router.post('/:id', [auth, [
         return next(new ErrorResponse(`Please invite ${recipient.user.name} to your friends list.`, 404))
     }
     const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
-    let chat = await Chat.findOne({ "users":{ _id: req.user.id, _id: req.params.id } });
+    let chat = await Chat.findOne({ users: {$all: [ req.params.id, req.user.id ]} });
+    console.log(chat)
+    
     if (!chat) {
         chat = new Chat({
             users: [
@@ -50,7 +52,7 @@ router.post('/:id', [auth, [
         })
         
         await chat.save()
-
+        //console.log(chat)
         messenger.chats.unshift(chat._id)
         recipient.chats.unshift(chat._id)
         
@@ -64,12 +66,12 @@ router.post('/:id', [auth, [
     })
     await message.save()
     
-    chat.messages.unshift(message._id)
+    await chat.messages.unshift(message._id)
     
     
     await messenger.save()
     await recipient.save()
-    
+    await chat.save()
 
     const notification = await Notification.findOne({ user: recipient.user._id });
     if (!notification) {
@@ -98,6 +100,20 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
     res.json( message )
 }))
+
+//route GET    api/messages/:id
+//description  get messages with user by id
+//access       private
+/* router.get('/:id', auth, asyncHandler( async(req, res, next) => {
+    
+    const messages = await Message.find({ "users":{ _id: req.user.id, _id: req.params.id } }).populate('user = recipient', ['name', 'avatar'])
+    if (!messages) {
+        return next(new ErrorResponse('Messages not found.', 404))
+    }
+
+
+    res.json( messages )
+})); */
 
 //route PUT    api/messages/:id
 //description  edit single communication

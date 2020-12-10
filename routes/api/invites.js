@@ -29,13 +29,13 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     if (!recipient) {
         return next(new ErrorResponse('Recipient not found.', 404))
     }
-
+    
     if (!recipient.turn_on || !recipient.invite.turn_on) {
         return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
     }
 
-    const friendship = await Friendship.findOne({ "users": {_id: recipient.user._id, _id: user.user._id} });
-
+    const friendship = await Friendship.findOne({ "users": {_id: recipient.user._id, _id: user._id} });
+    
     if (friendship) {
         return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 
     }
@@ -61,16 +61,13 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
     
-    const invite = await Invite.find({ recipient: req.user.id}).populate('user = recipient', ['name', 'avatar']);
+    const invites = await Invite.find({ recipient: req.user.id}).populate('user = recipient', ['name', 'avatar']);
     
-    if (!invite) {
+    if (!invites) {
         return next(new ErrorResponse('Invitation not found.', 404))
     }
-    if (invite.user._id !== req.user.id && invite.recipient._id !== req.user.id) {
-        return next(new ErrorResponse('User not authorized.', 401))
-    }
 
-    res.json(invite)
+    res.json(invites)
 
 }));
 

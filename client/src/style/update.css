@@ -1,0 +1,40 @@
+.update-content
+{
+    width: 100%;
+    height: 30vh;
+    position: absolute;
+    top: 35vh;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    
+}
+
+.update-header
+{
+    width: 100%;
+    text-align: center;
+    height: 3.5vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+.update-row
+{
+    width: 100%;
+    text-align: justify;
+    padding-left: 15px;
+    padding-right: 15px;
+    height: 3.5vh;
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.update-row input
+{
+    height: 100%;
+}

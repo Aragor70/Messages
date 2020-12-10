@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Login_Success, Logout_User, RegisterUserType, Register_Fail, Register_Success } from "./types";
+import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Login_Success, Logout_User, RegisterUserType, Register_Fail, Register_Success, User_Update } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/alert";
@@ -16,6 +16,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 
     } catch(err) {
         dispatch({ type: Login_Fail });
+        
     }
 }
 
@@ -59,7 +60,40 @@ export const register = (formData: LoginUserType, history: any) => async(dispatc
     }
 }
 
-export const logout = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
-    dispatch({ type: Logout_User });
-    
+export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        dispatch({ type: Logout_User });
+        history.push('/')
+    } catch (err) {
+        dispatch(setAlert('Could not log out.', 'danger'))
+    }
+}
+
+
+export const confirm = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        
+        const res = await axios.post('/api/users/confirm', formData);
+        
+        return res.data.success
+        
+    } catch (err) {
+        dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
+}
+
+export const update = (formData: any, setView: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
+    try {
+        
+        const res = await axios.put('/api/users', formData);
+        
+        dispatch({type: User_Update, payload: res.data})
+        
+        setView(false)
+        
+    } catch (err) {
+        dispatch(setAlert(err.response.data.message, 'danger'))
+        
+    }
 }

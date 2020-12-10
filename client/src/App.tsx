@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Switch } from 'react-router-dom';
+import { Link, Route, Switch, RouteComponentProps, withRouter } from 'react-router-dom';
 import IndexPage from './loggedOff/IndexPage';
 import './style/header.css'
 import './style/output.css'
@@ -10,6 +10,10 @@ import './style/profile.css';
 import './style/notifications.css';
 import './style/friends.css';
 import './style/settings.css';
+import './style/messenger.css';
+import './style/support.css';
+import './style/options.css';
+import './style/update.css';
 
 import Login from './auth/login';
 import Register from './auth/register';
@@ -21,9 +25,9 @@ import Menu from './Menu';
 
 import menuBtn from './style/menu.png'
 import IndexUser from './loggedIn/IndexUser';
-import Profile from './loggedIn/Profile';
+import Profile from './loggedIn/profile/Profile';
 import Status from './loggedIn/Status';
-import Friends from './loggedIn/Friends';
+import Friends from './loggedIn/friends/Friends';
 import Notifications from './loggedIn/Notifications';
 import Settings from './loggedIn/Settings';
 import NoMatch from './NoMatch';
@@ -31,15 +35,19 @@ import NoMatch from './NoMatch';
 import WebName from './style/types.png';
 
 import photo from './style/photo.jpg'
+import leftArrow from './style/icons/left-arrow2.png'
+import Messenger from './loggedIn/Messenger';
+import Support from './loggedIn/Support';
 
 type Props = {
   auth: AuthType,
+  history: RouteComponentProps,
   loadUser: () => void
 }
 
 
 
-const App = ({ loadUser, auth }: Props) => {
+const App = ({ loadUser, auth, history }: any) => {
   
   useEffect(() => {
     if (localStorage.token) {
@@ -49,8 +57,8 @@ const App = ({ loadUser, auth }: Props) => {
   }, [loadUser])
 
   const [menu, setMenu] = useState<boolean>(false)
-  
-  
+  const [titlePage, setTitlePage] = useState('messenger')
+
 
   return (
     <Fragment>
@@ -59,8 +67,14 @@ const App = ({ loadUser, auth }: Props) => {
             <div className="header-shield">
             <div className="recipient">
                     <div className="header-person">
-                        <span><img src={photo} height="35px" width="35px" /></span>
-                        <span style={{ fontSize: '20px'}}>messenger</span>
+                        <span>
+                        {
+                          history.location.pathname === '/' ? <img src={photo} height="35px" width="35px" /> : <img src={leftArrow} onClick={e=> history.push('/')} style={{ width: '35px', height: '35px' }} />
+                        }
+                        </span>
+                      
+                        
+                      <span style={{ fontSize: '20px'}}>{titlePage}</span>
                         
                         
                     </div>
@@ -135,7 +149,20 @@ const App = ({ loadUser, auth }: Props) => {
                 <Alert />
 
               </Route>
+              <Route exact path="/messenger/:id">
+                
+                <Messenger />
+                <Alert />
 
+              </Route>
+
+              <Route exact path="/support">
+                
+                <Support />
+                <Alert />
+
+              </Route>
+              
               <Route>
                 <NoMatch />
               </Route>
@@ -173,4 +200,4 @@ const mapStateToProps = (state: any) => ({
   alert: state.alert,
   auth: state.auth
 })
-export default connect(mapStateToProps, { loadUser })(App);
+export default connect(mapStateToProps, { loadUser })(withRouter(App));

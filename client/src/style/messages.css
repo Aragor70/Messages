@@ -19,7 +19,7 @@
 .messages-box
 {
     width: 100%;
-    max-height: calc(100% - 9vh);
+    height: calc(100vh - 12vh - 64px - 70px - 18px + 1px);
     overflow: hidden;
     overflow-y: auto;
     float: left;
@@ -83,7 +83,7 @@
     padding-left: 7.5px;
 }
 
-.message .header-message
+.messages-content .message .header-message
 {
     position: absolute;
     top: 5px;
@@ -93,7 +93,7 @@
     font-family: 'Lato', sans-serif;
 }
 
-.message .text
+.messages-content .message .text
 {
     width: 85%;
     display: block;
@@ -102,7 +102,7 @@
     font-family: 'Indie Flower', cursive;
 }
 
-.message > .delete
+.messages-content .message > .delete
 {
     width: 25px;
     height: 25px;
@@ -116,7 +116,7 @@
     color: rgb(119, 14, 14);
     border-radius: 25px;
 }
-.message > .delete:hover
+.messages-content .message > .delete:hover
 {
     color: red;
     font-weight: bold;

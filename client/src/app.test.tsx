@@ -1,15 +1,13 @@
 import React from 'react';
 import App from './App';
 
-import Enzyme, { mount } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import createMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 
-Enzyme.configure({ adapter: new Adapter });
 
 describe("App component test", () => {
     const middlewares = [thunk]

@@ -2,15 +2,10 @@ import React from 'react';
 import IndexPage from '../IndexPage';
 
 import { configure, shallow, mount } from 'enzyme';
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import { Route, Router, Switch } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import { Provider } from 'react-redux';
 import createMockStore from 'redux-mock-store';
-import Login from '../../auth/login';
-
-Enzyme.configure({ adapter: new Adapter });
 
 
 describe("component IndexPage test", () => {

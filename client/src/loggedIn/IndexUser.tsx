@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import '../style/messages.css'
@@ -6,35 +6,37 @@ import '../style/messages.css'
 import '../style/indexUser.css'
 
 import photo from '../style/photo.jpg'
+import { getChats } from '../store/actions/messenger/messenger';
+import ChatPreview from './ChatPreview';
 
 
-export const IndexUser = ({ auth, setMenu, menu }: any) => {
+const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger }: any) => {
 
     const { avatar, name, status } = auth.user
     
+    useEffect(() => {
+        getChats()
+        return () => getChats()
+    }, [getChats])
+
+    
+    console.log(messenger.chats)
 
     return (
         <Fragment>
             <div className="messages-content">
+            <div className="messages-box">
+                {
+                    messenger.chats ? messenger.chats.map((chat: any) => <ChatPreview key={chat._id} chat={chat} user={auth.user}  />) : null
+                }
                 
-                
-                <div className="messages-box">
-
-                    <div className="recipient-content">
-                        <div className="messenger"><div className="avatar"><img src={photo} height="35px" width="35px" /></div><div className="msg-head"><span>Bambino : </span><span className="status" >Offline</span><div className="time">28.11</div></div>
-                        <div className="message"><span className="text">A start-up in Manchester have just received a huge amount of investment to scale-up their platform and we're looking for the industries top tier talent to drive their product forward!</span><span className="status">*</span></div>
-                        </div>
-                        
-                    </div>
-                    <hr />
-                    
-                    
-                </div>
+            </div>
             </div>
         </Fragment>
     );
 }
 const mapStateToProps = (state:any) => ({
-    auth: state.auth
+    auth: state.auth,
+    messenger: state.messenger
 })
-export default connect(mapStateToProps, { })(withRouter(IndexUser));
+export default connect(mapStateToProps, { getChats })(withRouter(IndexUser));

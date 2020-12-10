@@ -99,17 +99,19 @@ router.put('/', [auth, [
         return next(new ErrorResponse(errors.array()[0].msg, 422))
     }
     const { status, two_factor, name, email, password, new_password } = req.body;
+
+    
     let user = await User.findById(req.user.id);
     if (!user) {
         return next(new ErrorResponse('Invalid credentials.', 422))
     }
-    const isMatch = bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password)
     if (!isMatch) {
         return next(new ErrorResponse('Invalid credentials.', 422))
     }
     if (new_password) {
         const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(password, salt)
+        user.password = await bcrypt.hash(new_password, salt)
         await user.save()
         return res.json({ success: true, message: 'Password changed.', user })
     }
@@ -144,6 +146,31 @@ router.put('/', [auth, [
     return res.json({ success: false, message: 'Please try again.', user })
 }))
 
+//route GET    api/users/confirm
+//description  confim user password
+//access       private
+router.post('/confirm', [auth, [
+    check('password', 'Confirm your password.')
+    .not()
+    .isEmpty()
+]], async(req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return next(new ErrorResponse(errors.array()[0].msg, 422))
+    }
+    const { password } = req.body;
+
+    const user = await User.findById(req.user.id)
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+        return next(new ErrorResponse('Invalid credentials.', 422))
+    }
+
+    return res.json({ success: true, confirm: true })
+
+})
+
 //route DELETE api/users
 //description  delete user account + profile + notification + about
 //access       private
@@ -160,7 +187,7 @@ router.delete('/', [auth, [
 
     const user = await User.findById(req.user.id)
 
-    const isMatch = bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return next(new ErrorResponse('Invalid credentials.', 422))
     }
@@ -199,5 +226,15 @@ router.delete('/:id', [auth, [access("Admin", "Service"), [
     res.json({ success: true, message: `Deleted user ${user.name} with role - ${user.role}.`, user })
     
 }));
+
+//route GET    api/users
+//description  user route
+//access       private
+router.get('/', auth, asyncHandler( async(req, res) => {
+    const user = await User.findById(req.user.id).select('-password')
+
+    res.json(user)
+    
+}))
 
 module.exports = router;

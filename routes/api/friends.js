@@ -19,6 +19,24 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     res.json(friendships)
 }));
 
+//route GET    api/friends/users
+//description  get friendships
+//access       private
+router.get('/users', auth, asyncHandler( async(req, res, next) => {
+    const friendships = await Friendship.find({ "users": { _id: req.user.id } }).populate('user = users', ['name', 'avatar']);
+    if (!friendships) {
+        return next(new ErrorResponse('Friendship not found.', 404));
+    }
+    const friends = friendships.map(friendship => {
+        let users = friendship.users
+        return users.filter(user => user._id !== req.user._id)
+    })
+
+    const listOfFriends = friends.flat(1).filter(user => user._id.toString() !== req.user.id)
+
+    res.json(listOfFriends)
+}));
+
 
 //route GET    api/friends/:id
 //description  get friendship by id
@@ -31,6 +49,7 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
     res.json(friendship)
 }));
+
 
 //route PUT    api/friends/:id
 //description  set type of friendship by id

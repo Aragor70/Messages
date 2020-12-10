@@ -20,11 +20,12 @@ app.use('/api/abouts/', require('./routes/api/abouts'))
 app.use('/api/services/', require('./routes/api/services'))
 app.use('/api/invites/', require('./routes/api/invites'))
 
-app.use('/api/messages/', require('./routes/api/messages/messages'))
 app.use('/api/messages/chats/', require('./routes/api/messages/chats'))
 app.use('/api/messages/messengers/', require('./routes/api/messages/messengers'))
+app.use('/api/messages/', require('./routes/api/messages/messages'))
 
 app.use('/api/friends', require('./routes/api/friends'))
+app.use('/api/recipients', require('./routes/api/recipients/recipients'))
 
 
 app.use('/api/notifications/', require('./routes/api/notifications/notifications'))

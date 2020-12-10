@@ -60,6 +60,7 @@
     text-align: justify;
     font-size: 17.5px;
     font-family: 'Indie Flower', cursive;
+    overflow: hidden;
 }
 .profile-social-icon-row > input
 {
@@ -75,13 +76,52 @@
 .profile-social-icon-row > span
 {
     width: 100%;
-    height: 24px;
+    height: 35px;
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+.profile-social-icon-row > span > img
+{
+    width: 17.5px;
+    height: 17.5px;
+    margin-left: 7.5px;
+    margin-bottom: 7.5px;
+}
+.profile-social-icon-row > span > .delete-button
+{
+    width: 17.5px;
+    height: 17.5px;
+    margin-left: 7.5px;
+    margin-bottom: 7.5px;
+    position: absolute;
+    right: 15px;
+
+}
+.profile-social-icon-row .social-address
+{
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-size: 17.5px;
+    font-family: 'Indie Flower', cursive;
+    overflow: hidden;
+    overflow-x: auto;
 }
 
 .profile-header > img
+{
+    position: absolute;
+    top: -7.5px;
+    right: 15px;
+    width: 25px;
+    height: 25px;
+}
+.profile-row > img
 {
     position: absolute;
     top: -7.5px;
@@ -102,6 +142,24 @@
     position: relative;
 }
 
+.profile-social-column
+{
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+    height: auto;
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+.profile-social-column img
+{
+    width: 32px;
+    height: 32px;
+    
+}
 
 .profile-social-row img
 {

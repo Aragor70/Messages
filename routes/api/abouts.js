@@ -67,6 +67,30 @@ router.put('/social', auth, asyncHandler( async(req, res, next) => {
 
 }));
 
+//route DELETE api/abouts/social
+//description  delete single social media
+//access       private
+router.delete('/social/:value', auth, asyncHandler( async(req, res, next) => {
+    
+    const { value } = req.params;
+
+    const about = await About.findOne({ user: req.user.id });
+
+    if (!about) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+
+    if (value === "youtube") about.social.youtube = null
+    if (value === "twitter") about.social.twitter = null
+    if (value === "linkedin") about.social.linkedin = null
+    if (value === "facebook") about.social.facebook = null
+    if (value === "instagram") about.social.instagram = null
+    
+    await about.save()
+    res.json({ success: true, about })
+
+}));
+
 //route DELETE api/abouts
 //description  empty about details
 //access       private

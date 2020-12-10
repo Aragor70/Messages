@@ -2,8 +2,6 @@ import React from 'react';
 import Messages from '../Messages';
 
 import { configure, shallow, mount} from 'enzyme';
-import Enzyme from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import configureMockStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { shallowToJson } from 'enzyme-to-json';
@@ -11,8 +9,6 @@ import { Router } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import createMockStore from 'redux-mock-store';
 import { createBrowserHistory } from 'history';
-
-Enzyme.configure({ adapter: new Adapter });
 
 
 describe("component <Messages /> test", () => {

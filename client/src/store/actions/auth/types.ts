@@ -1,11 +1,10 @@
-
-
 export const Login_Success = 'Log_Success';
 export const Login_Fail = 'Log_Fail';
 export const Register_Success = 'Register_Success';
 export const Register_Fail = 'Register_Fail';
 export const Load_User = 'Load_User';
 export const Logout_User = 'Logout_User';
+export const User_Update = 'User_Update';
 
 export type UserType = {
     name?: string | null,

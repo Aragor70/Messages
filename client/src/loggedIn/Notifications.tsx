@@ -1,15 +1,18 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
+import { getNotifications } from '../store/actions/notification/notification';
 
 import '../style/auth.css'
 
 import photo from '../style/photo.jpg'
 
 
-const Notifications = () => {
+const Notifications = ({ getNotifications }: any) => {
 
-    
+    useEffect(() => {
+        return getNotifications()
+    }, [getNotifications])
 
     return (
         <Fragment>
@@ -80,4 +83,7 @@ const Notifications = () => {
         </Fragment>
     );
 }
-export default connect(null, {})(withRouter(Notifications));
+const mapStateToProps = (state: any) => ({
+    notification: state.notification
+})
+export default connect(mapStateToProps, { getNotifications })(withRouter(Notifications));

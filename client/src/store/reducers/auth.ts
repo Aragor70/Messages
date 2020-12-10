@@ -1,4 +1,4 @@
-import { AuthType, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType } from '../actions/auth/types'
+import { AuthType, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update } from '../actions/auth/types'
 
 
 export const initialState = {
@@ -35,6 +35,9 @@ const auth = (state: AuthType = initialState, action: any) => {
             localStorage.removeItem('token');
             return {...state, user: null, token: null, isAuthenticated: false, loading: false }    
         
+        case User_Update:
+            return { ...state, user: payload.user, loading: false }
+
         default:
             return state;
     }
