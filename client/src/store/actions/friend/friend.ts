@@ -5,17 +5,6 @@ import { Dispatch } from "redux";
 
 
 
-export const getInvites = () => async(dispatch: Dispatch<any>) => {
-    try {
-        const res = await axios.get('/api/invites');
-    
-        dispatch({ type: Get_Invites, payload: res.data });
-        
-    } catch (err) {
-        console.log(err.message)
-    }
-    
-}
 
 export const getFriendships = () => async(dispatch: Dispatch<any>) => {
     try {

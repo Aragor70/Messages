@@ -33,8 +33,8 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     if (!recipient.turn_on || !recipient.invite.turn_on) {
         return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
     }
-
-    const friendship = await Friendship.findOne({ "users": {_id: recipient.user._id, _id: user._id} });
+    
+    const friendship = await Friendship.findOne({ "users": { $all: [recipient.user._id, user._id] } });
     
     if (friendship) {
         return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 

@@ -20,7 +20,7 @@ const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger }: any) =
     }, [getChats])
 
     
-    console.log(messenger.chats)
+    // console.log(messenger.chats)
 
     return (
         <Fragment>

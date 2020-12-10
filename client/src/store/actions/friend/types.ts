@@ -1,4 +1,5 @@
 export const Get_Invites = 'Get_invites'
 export const Get_Friendships = 'Get_Friendships'
 export const Get_Friends = 'Get_Friends'
-
+export const Update_Invite = 'Update_Invite'
+export const Delete_Invite = 'Delete_Invite'

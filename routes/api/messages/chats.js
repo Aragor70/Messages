@@ -49,7 +49,7 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
     let message = ''
 
-    const chat = await Chat.find({ "users": { _id: req.user.id, _id: req.params.id } }).populate('user = users', ['name', 'avatar']);
+    const chat = await Chat.find({ "users": { $all: [req.params.id, req.user.id] } }).populate('user = users', ['name', 'avatar']);
     if (!chat) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }

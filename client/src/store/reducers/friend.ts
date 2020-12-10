@@ -1,4 +1,4 @@
-import { Get_Friends, Get_Friendships, Get_Invites } from '../actions/friend/types';
+import { Delete_Invite, Get_Friends, Get_Friendships, Get_Invites, Update_Invite } from '../actions/friend/types';
 
 interface FriendState {
     friendships: any[],
@@ -22,10 +22,15 @@ const friendReducer = (state: FriendState = initialState, action: any ): any => 
     switch(type) {
         case Get_Invites:
             return {...state, invites: payload, loading: false}
+        case Update_Invite:
+            return {...state, invites: state.invites.map((invite: any)=> invite._id === payload.id ? { payload } : invite), loading: false}
+        case Delete_Invite:
+            return {...state, invites: state.invites.filter((invite: any)=> invite._id !== payload.id), loading: false}
         case Get_Friendships:
             return {...state, friendships: payload, loading: false}
         case Get_Friends:
             return {...state, friends: payload, loading: false}
+        
         
         default:
             return state;

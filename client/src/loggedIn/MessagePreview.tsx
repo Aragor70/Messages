@@ -12,7 +12,7 @@ const MessagePreview = ({ message, auth, history, chat }: any) => {
     
     const { text, date, user, recipient } = message
     
-    console.log(user)
+    // console.log(user)
     // const recipientUser: any = users.filter((person:any) => person._id.toString() === recipient)[0]
     
     return (

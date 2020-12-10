@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
@@ -16,13 +17,12 @@ const Messenger = ({ auth, getChats, getChat, messenger, match }: any) => {
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
 
+    const [editMessage, setEditMessage] = useState([])
 
     useEffect(() => {
         return getChat(match.params.id)
     }, [getChat, match.params.id])
 
-    console.log(messenger)
-    console.log(match.params.id)
     
     return (
         <Fragment>
@@ -43,16 +43,23 @@ const Messenger = ({ auth, getChats, getChat, messenger, match }: any) => {
                 {
                     msgNavOpt && <Fragment>
 
-                        <Options recipient="Dymy" user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} />
+                        <Options recipient="Dymy" user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} />
 
                     </Fragment>
                 }
                 <hr />
+                <div className="messages-box">
                 {
-                    messenger.chat && messenger.chat.messages && messenger.chat.messages.map((msg: any) => <Message key={msg._id} message={msg} />)
+                    messenger.chat && messenger.chat.messages && messenger.chat.messages.map((msg: any) => <Message key={msg._id} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />)
                 }
-                
-                
+                </div>
+                <div className="write-box">
+                    <div className="write-header">header</div>
+                    <div className="write-input">
+                        <input type="text" />
+                        <button>Ok</button>
+                    </div>
+                </div>
                 
                 
                 

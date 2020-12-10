@@ -1,13 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { getFriends, getFriendships, getInvites } from '../../store/actions/friend/friend';
+import { getFriends, getFriendships } from '../../store/actions/friend/friend';
+import { getInvites } from '../../store/actions/friend/invite';
 import { getRecipients } from '../../store/actions/recipient/recipient';
 
 
 import '../../style/auth.css'
 import photo from '../../style/photo.jpg'
 import Friend from './Friend';
+import Invite from './Invite';
 
 
 export const Friends = ({ history, getRecipients, recipient, getInvites, friend, getFriendships, getFriends, auth }: any) => {
@@ -47,7 +49,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                             
                         </div>
                         {
-                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} optionName="options" />)
+                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} />)
                         }
 
                     </Route>
@@ -65,7 +67,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                         </div>
                         
                         {
-                            friend.invites.map((invite: any) => <Friend key={invite._id} recipient={invite.recipient} inviteMode={true} />)
+                            friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user}  />)
                         }
                         <div className="friends-row">
                             <div className="avatar">
@@ -103,7 +105,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                             
                         </div>
                         {
-                            recipient.recipients.map((person: any) => <Friend key={person._id} recipient={person} optionName="invite" />)
+                            recipient.recipients.map((person: any) => <Friend key={person._id} recipient={person}/>)
                         }
                     </Route>
 

@@ -177,7 +177,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     // notification to send feedback
     let notification = await Notification.findOne({ user: message.user._id });
     
-    const chat = await Chat.findOne({"users": {_id: message.user._id, _id: message.recipient._id}});
+    const chat = await Chat.findOne({"users": { $all: [message.recipient._id, message.user._id] }});
     if (chat) {
         chat.messages = chat.messages.filter(msg => msg._id.toString() !== message._id.toString())
     }
