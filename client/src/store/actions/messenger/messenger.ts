@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { Get_Messenger, Get_Chat, Get_Chats, Update_Message } from "./types";
+import { Get_Messenger, Get_Chat, Get_Chats, Like_Message, Delete_Message } from "./types";
 import axios from 'axios';
 
 
@@ -49,7 +49,29 @@ export const updateMessage = (id: string, formData: any) => async(dispatch: Disp
     try {
         const res = await axios.put(`/api/messages/${id}`, formData, config);
         console.log(res.data)
-        dispatch({ type: Update_Message, payload: {id, message: res.data.message} });
+        switch(formData) {
+            case { liked: true }:
+                return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });
+            case { seen: true }:
+                return console.log('seen')
+            
+            
+            default:
+                return null
+                
+        }
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+
+export const deleteMessage = (id: string) => async(dispatch: Dispatch<any>) => {
+    try {
+        const res = await axios.delete(`/api/messages/${id}`);
+    
+        dispatch({ type: Delete_Message, payload: {id, message: res.data} });
         
     } catch (err) {
         console.log(err.message)

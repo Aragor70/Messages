@@ -19,16 +19,16 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
             setEditMessage([]);
         } else {
             setEditMode(true);
-            setEditMessage([...editMessage, message._id]);
+            setEditMessage([...editMessage, message]);
         }
     }
-    // console.log(editMessage)
-
+    console.log(editMessage)
+    // use id of single message id={editMessage[0] && editMessage[0]._id === message._id ? editMessage[0]._id : null}
     return (
         <Fragment>
             {
                 user._id === auth.user._id ? <Fragment>
-                    <div className="message message-user" style={ editMessage.includes(message._id) ? { backgroundColor: 'red' } : { } }>
+                    <div className="message message-user" style={ editMessage[0] && editMessage[0]._id === message._id ? { backgroundColor: 'red' } : { } }>
                         
                         <div className="msg-field">
                             <div className="msg-head"><span>time</span> <span>*</span></div>
@@ -40,11 +40,11 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
                         </div>
                     </div>
                 </Fragment> : <Fragment>
-                    <div className="message message-recipient" style={ editMessage.includes(message._id) ? { backgroundColor: 'red' } : { } } >
+                    <div className="message message-recipient" style={ editMessage[0] && editMessage[0]._id === message._id ? { backgroundColor: 'red' } : { } } >
                             
                         <div className="msg-field">
                             <div className="msg-head"><span>time</span> <span>*</span></div>
-                            <div className="text">{text}</div>
+                            <div className="text" >{text}</div>
                         
                         </div>
                         <div className="options">

@@ -15,7 +15,7 @@ const ChatPreview = ({ chat, user }: any) => {
     return (
         <Fragment>
             {
-                chat && chat.messages && <MessagePreview message={chat.messages[0]} chat={chat} />
+                chat && chat.messages.length > 0 ? <MessagePreview message={chat.messages[0]} chat={chat} /> : null
             }
         </Fragment>
     );

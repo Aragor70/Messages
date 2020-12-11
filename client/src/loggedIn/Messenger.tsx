@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 
@@ -8,21 +8,27 @@ import photo from '../style/photo.jpg'
 import Options from './reusable/Options';
 import leftArrow from '../style/icons/left-arrow2.png'
 import auth from '../store/reducers/auth';
-import { getChat, getChats, getMessenger, updateMessage } from '../store/actions/messenger/messenger';
+import { deleteMessage, getChat, getChats, getMessenger, updateMessage } from '../store/actions/messenger/messenger';
 import Chat from './Chat';
 import Message from './Message';
+import copy from 'copy-to-clipboard';
 
-const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage }: any) => {
+const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, deleteMessage }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
 
-    const [editMessage, setEditMessage] = useState([])
+    const [editMessage, setEditMessage] = useState<any>([])
 
     useEffect(() => {
         return getChat(match.params.id)
     }, [getChat, match.params.id])
 
+    const cleanMode = () => {
+        setEditMode(false)
+        setEditMessage([])
+    }
+    
     
     return (
         <Fragment>
@@ -30,8 +36,9 @@ const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage }:
                 <div className="messenger-header">
                     {
                         editMode ? <Fragment>
+                            
                             <div className="editMode">
-                                <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0], {liked: true})}>like</span><span>copy</span><span>delete</span>
+                                <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0]._id, {liked: true})}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span><span onClick={e=> { deleteMessage(editMessage[0]._id), cleanMode() }}>delete</span>
                             </div>
                         </Fragment> : <Fragment>
                             <div className="avatar"><img src={photo} height="35px" width="35px" /></div><div className="messenger-recipient"><span>Bambino : </span><span className="status" >Offline</span></div>
@@ -43,7 +50,7 @@ const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage }:
                 {
                     msgNavOpt && <Fragment>
 
-                        <Options recipient={messenger.chat.users.filter((person: any) => person._id !== auth.user._id)} user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} />
+                        <Options recipient={editMessage && messenger.chat.users.filter((person: any) => person._id !== auth.user._id)} user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} />
 
                     </Fragment>
                 }
@@ -78,4 +85,4 @@ const mapStateToProps = (state: any) => ({
     auth: state.auth,
     messenger: state.messenger
 })
-export default connect(mapStateToProps, { getChats, getChat, updateMessage })(withRouter(Messenger));
+export default connect(mapStateToProps, { getChats, getChat, updateMessage, deleteMessage })(withRouter(Messenger));
