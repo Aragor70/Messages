@@ -121,8 +121,10 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     const { seen, opened, liked } = req.body;
     let feedback = '';
+    
 
     let message = await Message.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
+    
     if (!message) {
         return next(new ErrorResponse('Message not found.', 404))
     }
@@ -133,9 +135,11 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
     if (message.recipient._id.toString() !== req.user.id) {
         return next(new ErrorResponse('User not authorized.', 401))
     }
-    if (!seen && !opened) {
+    
+    if (!seen && !opened && !liked) {
         return next(new ErrorResponse('No option choosed.', 404))
     }
+    
     if (seen) {
         message.seen = true;
         feedback = `${message.recipient.name} has seen the message.`
@@ -148,12 +152,12 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
         message.liked = !message.liked;
         feedback = `${message.recipient.name} has liked your message.`
     }
-
+    
     if (notification && notification.turn_on && notification.feedback.turn_on && feedback) {
-        notification.feedback.messages = notification.feedback.messages.unshift({ message: feedback })
+        await notification.feedback.messages.unshift({ message: feedback })
         await notification.save()
     }
-
+    
     await message.save()
     
     res.json({ success: true, message })

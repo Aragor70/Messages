@@ -2,7 +2,6 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { getMessage } from '../store/actions/messenger/messenger';
 
 
 
@@ -61,4 +60,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getMessage })(Message);
+export default connect(mapStateToProps, { })(Message);

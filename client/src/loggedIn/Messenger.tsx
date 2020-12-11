@@ -8,11 +8,11 @@ import photo from '../style/photo.jpg'
 import Options from './reusable/Options';
 import leftArrow from '../style/icons/left-arrow2.png'
 import auth from '../store/reducers/auth';
-import { getChat, getChats, getMessenger } from '../store/actions/messenger/messenger';
+import { getChat, getChats, getMessenger, updateMessage } from '../store/actions/messenger/messenger';
 import Chat from './Chat';
 import Message from './Message';
 
-const Messenger = ({ auth, getChats, getChat, messenger, match }: any) => {
+const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
@@ -31,7 +31,7 @@ const Messenger = ({ auth, getChats, getChat, messenger, match }: any) => {
                     {
                         editMode ? <Fragment>
                             <div className="editMode">
-                                <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span>quote</span><span>like</span><span>copy</span><span>delete</span>
+                                <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0], {liked: true})}>like</span><span>copy</span><span>delete</span>
                             </div>
                         </Fragment> : <Fragment>
                             <div className="avatar"><img src={photo} height="35px" width="35px" /></div><div className="messenger-recipient"><span>Bambino : </span><span className="status" >Offline</span></div>
@@ -78,4 +78,4 @@ const mapStateToProps = (state: any) => ({
     auth: state.auth,
     messenger: state.messenger
 })
-export default connect(mapStateToProps, { getChats, getChat })(withRouter(Messenger));
+export default connect(mapStateToProps, { getChats, getChat, updateMessage })(withRouter(Messenger));

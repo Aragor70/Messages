@@ -1,10 +1,10 @@
-import { Get_Chat, Get_Messenger, Get_Chats, Get_Message } from '../actions/messenger/types';
+import { Get_Chat, Get_Messenger, Get_Chats, Update_Message } from '../actions/messenger/types';
 
 interface MessengerState {
     chat: any,
     chats: any[],
     messenger: any,
-    message: any[],
+    messages: any[],
     loading: true | false,
     errors: any
 }
@@ -13,7 +13,7 @@ export const initialState = {
     chat: {},
     chats: [],
     messenger: {},
-    message: [],
+    messages: [],
     loading: true,
     errors: {}
 };
@@ -28,8 +28,8 @@ const messengerReducer = (state: MessengerState = initialState, action: any ): a
             return {...state, chat: payload, loading: false}
         case Get_Chats:
             return {...state, chats: payload, loading: false}
-        case Get_Message:
-            return {...state, message: [...state.message, payload], loading: false}
+        case Update_Message:
+            return {...state, chat: {messages: state.chat.messages.map((message: any) => message._id === payload.id ? {... message, liked: payload.message.liked} : message )}, loading: false}
         
         default:
             return state;

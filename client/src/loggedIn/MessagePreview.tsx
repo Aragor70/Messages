@@ -2,8 +2,6 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 
-import { getMessage } from '../store/actions/messenger/messenger';
-
 
 import photo from '../style/photo.jpg'
 
@@ -43,4 +41,4 @@ const MessagePreview = ({ message, auth, history, chat }: any) => {
 const mapStateToProps = (state: any) => ({
     auth: state.auth
 })
-export default connect(mapStateToProps, { getMessage })(withRouter(MessagePreview));
+export default connect(mapStateToProps, { })(withRouter(MessagePreview));

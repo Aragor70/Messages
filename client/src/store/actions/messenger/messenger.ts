@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { Get_Messenger, Get_Chat, Get_Chats, Get_Message } from "./types";
+import { Get_Messenger, Get_Chat, Get_Chats, Update_Message } from "./types";
 import axios from 'axios';
 
 
@@ -38,11 +38,18 @@ export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
     }
     
 }
-export const getMessage = (id: string) => async(dispatch: Dispatch<any>) => {
+
+
+export const updateMessage = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
     try {
-        const res = await axios.get(`/api/messages/${id}`);
-        
-        dispatch({ type: Get_Message, payload: res.data });
+        const res = await axios.put(`/api/messages/${id}`, formData, config);
+        console.log(res.data)
+        dispatch({ type: Update_Message, payload: {id, message: res.data.message} });
         
     } catch (err) {
         console.log(err.message)
