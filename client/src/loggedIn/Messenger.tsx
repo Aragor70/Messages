@@ -43,7 +43,7 @@ const Messenger = ({ auth, getChats, getChat, messenger, match }: any) => {
                 {
                     msgNavOpt && <Fragment>
 
-                        <Options recipient="Dymy" user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} />
+                        <Options recipient={messenger.chat.users.filter((person: any) => person._id !== auth.user._id)} user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} />
 
                     </Fragment>
                 }

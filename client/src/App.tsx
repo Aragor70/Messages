@@ -38,6 +38,7 @@ import photo from './style/photo.jpg'
 import leftArrow from './style/icons/left-arrow2.png'
 import Messenger from './loggedIn/Messenger';
 import Support from './loggedIn/Support';
+import Recipient from './loggedIn/profiles/Recipient';
 
 type Props = {
   auth: AuthType,
@@ -152,6 +153,12 @@ const App = ({ loadUser, auth, history }: any) => {
               <Route exact path="/messenger/:id">
                 
                 <Messenger />
+                <Alert />
+
+              </Route>
+              <Route exact path="/profile/:id">
+                
+                <Recipient />
                 <Alert />
 
               </Route>

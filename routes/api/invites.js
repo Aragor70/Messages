@@ -39,7 +39,11 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     if (friendship) {
         return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 
     }
-
+    const isMatch = await Invite.findOne({ user: recipient.user._id, recipient: user._id }) || await Invite.findOne({ user: user._id, recipient: recipient.user._id })
+    
+    if (isMatch) {
+        return next(new ErrorResponse(`Invitation already exists.`, 422)) 
+    }
     const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
     
     const invite = new Invite({

@@ -20,6 +20,20 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     res.json(about)
 }));
 
+//route GET    api/abouts
+//description  get recipient about 
+//access       private
+router.get('/:id', auth, asyncHandler( async(req, res, next) => {
+
+    const about = await About.findOne({ user: req.params.id }).populate('user', ['name', 'avatar']);
+
+    if (!about) {
+        return next(new ErrorResponse('User not authorized.', 401))
+    }
+    
+    res.json(about)
+}));
+
 //route PUT    api/abouts
 //description  set up about age, gender, status
 //access       private

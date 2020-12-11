@@ -1,4 +1,4 @@
-export const Get_About = 'Get_About';
+export const Get_About_Me = 'Get_About_Me';
 export const Remove_About = 'Remove_About';
 export const Update_About = 'Update_About';
 
@@ -23,7 +23,7 @@ export type AboutReducerType = {
 
 
 export type GetAbout = {
-    type: typeof Get_About,
+    type: typeof Get_About_Me,
     payload: AboutType
 }
 export type UpdateAbout = {

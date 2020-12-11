@@ -1,11 +1,15 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
+import { connect } from 'react-redux';
+import { update } from '../../store/actions/auth/auth';
+import { deleteInvite, updateInvite } from '../../store/actions/friend/invite';
 
 
 
-const Invite = ({ user, optionName }: any) => {
+const Invite = ({ user, id, updateInvite, deleteInvite }: any) => {
 
     const { name, email, avatar } = user
 
+    
     
     return (
         <Fragment>
@@ -15,14 +19,16 @@ const Invite = ({ user, optionName }: any) => {
                 <div className="avatar">
                     <img src={avatar} />
                 </div>
-                <span className="name">{user.name}</span>
+                <span className="name">{name}</span>
                 <div className="options">
-                    <button>accept</button>
-                    <button>decline</button>
+                    
+                    <button onClick={e=> updateInvite(id, {accepted: true})}>accept</button>
+                    <button onClick={e=> deleteInvite(id)}>decline</button>
+                    
                 </div>
                 
             </div>
         </Fragment>
     );
 }
-export default Invite;
+export default connect(null, { updateInvite, deleteInvite })(Invite);

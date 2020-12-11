@@ -67,7 +67,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                         </div>
                         
                         {
-                            friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user}  />)
+                            friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user} id={invite._id} />)
                         }
                         <div className="friends-row">
                             <div className="avatar">

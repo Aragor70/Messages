@@ -3,13 +3,13 @@
 import axios from 'axios'
 import { Dispatch } from 'redux';
 import { setAlert } from '../alert/alert';
-import { AboutDispatchTypes, AboutType, Get_About, Update_About } from './types';
+import { AboutDispatchTypes, AboutType, Get_About_Me, Update_About } from './types';
 
 export const getAboutMe = () => async(dispatch: Dispatch<AboutDispatchTypes>) => {
 
     const res = await axios.get('/api/abouts/');
     
-    dispatch({ type: Get_About, payload: res.data });
+    dispatch({ type: Get_About_Me, payload: res.data });
 }
 
 export const updateAboutMe = (formData: AboutType) => async(dispatch: Dispatch<AboutDispatchTypes | any>) => {

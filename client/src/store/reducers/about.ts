@@ -1,4 +1,4 @@
-import { AboutReducerType, Get_About, Update_About } from "../actions/about/types"
+import { AboutReducerType, Get_About_Me, Update_About } from "../actions/about/types"
 
 
 
@@ -24,10 +24,11 @@ const aboutReducer = (state: AboutReducerType = initialState, action: any) => {
     const { type, payload } = action;
 
     switch(type) {
-        case Get_About:
+        case Get_About_Me:
             return { ...state, about: payload, loading: false }
         case Update_About:
             return { ...state, about: payload, loading: false }
+            
         default:
             return state;
     }

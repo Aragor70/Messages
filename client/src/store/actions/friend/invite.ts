@@ -16,9 +16,14 @@ export const getInvites = () => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const updateInvite = (id: string) => async(dispatch: Dispatch<any>) => {
+export const updateInvite = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
     try {
-        const res = await axios.put(`/api/invites/${id}`);
+        const res = await axios.put(`/api/invites/${id}`, formData, config);
     
         dispatch({ type: Update_Invite, payload: {id, invite: res.data} });
         
@@ -30,7 +35,7 @@ export const updateInvite = (id: string) => async(dispatch: Dispatch<any>) => {
 
 export const deleteInvite = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.put(`/api/invites/${id}`);
+        const res = await axios.delete(`/api/invites/${id}`);
     
         dispatch({ type: Delete_Invite, payload: {id, invite: res.data} });
         

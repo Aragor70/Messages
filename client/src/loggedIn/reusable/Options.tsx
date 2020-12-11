@@ -3,7 +3,8 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
 
-const MsgNavOpt = ({ user, recipient, history, editMessage, setEditMessage }: any) => {
+const MsgNavOpt = ({ user, recipient, history }: any) => {
+    
     return (
         <div className="options-content msg-nav-opt">
             <div className="options-header" onClick={e=> history.push(`/profile/${recipient._id}`)}>
@@ -35,7 +36,7 @@ const Options = ({ user, recipient, msgNavOpt=false, setMsgNavOpt, history }: an
                 <div className="shadow" style={{ zIndex: 2, opacity: 0.1 }} onClick={e=> setMsgNavOpt(false)}></div>
             }
             {
-                msgNavOpt && <MsgNavOpt user={user} recipient={recipient} history={history} />
+                msgNavOpt && <MsgNavOpt user={user} recipient={recipient[0]} history={history} />
             }
             
             
