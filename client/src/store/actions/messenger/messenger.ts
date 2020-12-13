@@ -1,8 +1,23 @@
 import { Dispatch } from "redux";
-import { Get_Messenger, Get_Chat, Get_Chats, Like_Message, Delete_Message } from "./types";
+import { Get_Messenger, Get_Chat, Get_Chats, Like_Message, Delete_Message, Send_Message } from "./types";
 import axios from 'axios';
 
-
+export const sendMessage = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.post(`/api/messages/${id}`, formData, config);
+        
+        dispatch({ type: Send_Message, payload: res.data });
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
 
 export const getMessenger = () => async(dispatch: Dispatch<any>) => {
     try {
@@ -48,7 +63,7 @@ export const updateMessage = (id: string, formData: any) => async(dispatch: Disp
     }
     try {
         const res = await axios.put(`/api/messages/${id}`, formData, config);
-        console.log(res.data)
+        //console.log(res.data)
         switch(formData) {
             case { liked: true }:
                 return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });

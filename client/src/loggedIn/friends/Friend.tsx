@@ -1,22 +1,29 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
+import { ifExists } from '../../utils/getDataFromArray'
 
 
 
-const Friend = ({ recipient }: any) => {
+const Friend = ({ recipient, editMode, setEditMode, friends, history }: any) => {
 
     const { name, email, avatar } = recipient
 
+    const [isFriend, setIsFriend] = useState(false)
+    useEffect(() => {
+        
+        return setIsFriend(ifExists(friends, recipient))
+    }, [])
+    
     
     return (
         <Fragment>
             <div className="friends-row">
                 
-                <div className="avatar">
+                <div className="avatar" onClick={e=> history.push(`profile/${recipient._id}`)}>
                     <img src={avatar} />
                 </div>
-                <span className="name">{name}</span>
+                <span className="name" onClick={e=> history.push(`profile/${recipient._id}`)}>{name}</span>
                 <div className="options">
-                    <button>options</button>
+                    <button onClick={e=> setEditMode(!editMode)}>options</button>
                 </div>
                     
             </div>

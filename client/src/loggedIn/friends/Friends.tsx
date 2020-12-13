@@ -1,9 +1,8 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { getFriends, getFriendships } from '../../store/actions/friend/friend';
+import { getFriends, getFriendships, getUnknowns } from '../../store/actions/friend/friend';
 import { getInvites } from '../../store/actions/friend/invite';
-import { getRecipients } from '../../store/actions/recipient/recipient';
 
 
 import '../../style/auth.css'
@@ -12,7 +11,7 @@ import Friend from './Friend';
 import Invite from './Invite';
 
 
-export const Friends = ({ history, getRecipients, recipient, getInvites, friend, getFriendships, getFriends, auth }: any) => {
+export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth }: any) => {
 
     const [input, setInput] = useState(false)
 
@@ -21,20 +20,30 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
         getFriendships()
         getFriends()
         getInvites()
-        return getRecipients()
-    }, [getRecipients, getInvites, getFriendships, getFriends])
+        return getUnknowns()
+    }, [getUnknowns, getInvites, getFriendships, getFriends])
+
+    const [editMode, setEditMode] = useState(false)
 
     
-
     return (
         <Fragment>
             <div className="friends-content">
                 <Router>
-                <div className="friends-navs">
-                    <Link to="/friends"><button>friends</button></Link>
-                    <Link to="/friends/invites"><button>invites</button></Link>
-                    <Link to="/friends/new-friends"><button>find new</button></Link>
-                </div>
+                    {
+                        editMode ? <Fragment>
+                            <div className="friends-navs">
+                                <span>invite</span>
+                            </div>
+                        </Fragment> : <Fragment>
+                            <div className="friends-navs">
+                                <Link to="/friends"><button>friends</button></Link>
+                                <Link to="/friends/invites"><button>invites</button></Link>
+                                <Link to="/friends/new-friends"><button>find new</button></Link>
+                            </div>
+                        </Fragment>
+                    }
+                
                 <Switch>
                     
                     <Route exact path="/friends">
@@ -49,7 +58,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                             
                         </div>
                         {
-                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} />)
+                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} friends={friend.friends} history={history} />)
                         }
 
                     </Route>
@@ -67,7 +76,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                         </div>
                         
                         {
-                            friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user} id={invite._id} />)
+                            friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user} id={invite._id} history={history} />)
                         }
                         <div className="friends-row">
                             <div className="avatar">
@@ -105,7 +114,7 @@ export const Friends = ({ history, getRecipients, recipient, getInvites, friend,
                             
                         </div>
                         {
-                            recipient.recipients.map((person: any) => <Friend key={person._id} recipient={person}/>)
+                            friend.unknowns.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} friends={friend.friends} history={history} />)
                         }
                     </Route>
 
@@ -125,4 +134,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getRecipients, getInvites, getFriendships, getFriends })(withRouter(Friends));
+export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends })(withRouter(Friends));

@@ -1,8 +1,9 @@
-import { Delete_Invite, Get_Friends, Get_Friendships, Get_Invites, Update_Invite } from '../actions/friend/types';
+import { Delete_Invite, Get_Friends, Get_Friendships, Get_Invites, Update_Invite, Get_Unknowns } from '../actions/friend/types';
 
 interface FriendState {
     friendships: any[],
     friends: any[],
+    unknowns: any[],
     invites: any[],
     loading: true | false,
     errors: any
@@ -11,6 +12,7 @@ interface FriendState {
 export const initialState = {
     friendships: [],
     friends: [],
+    unknowns: [],
     invites: [],
     loading: true,
     errors: {}
@@ -30,6 +32,8 @@ const friendReducer = (state: FriendState = initialState, action: any ): any => 
             return {...state, friendships: payload, loading: false}
         case Get_Friends:
             return {...state, friends: payload, loading: false}
+        case Get_Unknowns:
+            return {...state, unknowns: payload, loading: false}
         
         
         default:

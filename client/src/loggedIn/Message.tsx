@@ -11,7 +11,6 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
     const { text, date, user, recipient } = message
     
     
-    //const recipientUser: any = users.filter((person:any) => person._id.toString() === recipient)[0]
     
     const handleOption = () => {
         if (editMode === true) {

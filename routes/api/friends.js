@@ -3,6 +3,7 @@ const { check } = require('express-validator');
 const asyncHandler = require('../../middleware/async');
 const auth = require('../../middleware/auth');
 const Friendship = require('../../models/Friendship');
+const User = require('../../models/User');
 const ErrorResponse = require('../../tools/errorResponse');
 const router = express.Router();
 
@@ -20,23 +21,49 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 }));
 
 //route GET    api/friends/users
-//description  get friendships
+//description  get friends
 //access       private
 router.get('/users', auth, asyncHandler( async(req, res, next) => {
+    let users = await User.find();
+    
+    const friendships = await Friendship.find({ "users": { _id: req.user.id } }).populate('user = users', ['name', 'avatar']);
+    if (!friendships) {
+        return next(new ErrorResponse('Friendship not found.', 404));
+    }
+    const friends = await friendships.map(friendship => {
+        let users = friendship.users
+        return users.filter(user => user._id !== req.user._id)[0]
+    })
+        
+        
+    
+    
+    res.json(friends)
+}));
+
+//route GET    api/friends/unknowns
+//description  get no friends
+//access       private
+router.get('/unknowns', auth, asyncHandler( async(req, res, next) => {
+    
     const friendships = await Friendship.find({ "users": { _id: req.user.id } }).populate('user = users', ['name', 'avatar']);
     if (!friendships) {
         return next(new ErrorResponse('Friendship not found.', 404));
     }
     const friends = friendships.map(friendship => {
         let users = friendship.users
-        return users.filter(user => user._id !== req.user._id)
-    })
+        
+        return users.filter(user => user._id !== req.user._id)[0]
+    });
+    
+    const users = await User.find();    
 
-    const listOfFriends = friends.flat(1).filter(user => user._id.toString() !== req.user.id)
+    const fIds = await friends.map(user => JSON.stringify(user._id))
+    
+    const recipients = users.filter(user => !fIds.includes(JSON.stringify(user._id)) && JSON.stringify(user._id) !== JSON.stringify(req.user._id))
 
-    res.json(listOfFriends)
+    res.json(recipients)
 }));
-
 
 //route GET    api/friends/:id
 //description  get friendship by id

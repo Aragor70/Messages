@@ -3,6 +3,7 @@ const asyncHandler = require('../../../middleware/async');
 const auth = require('../../../middleware/auth');
 const Chat = require('../../../models/Chat');
 const Messenger = require('../../../models/Messenger');
+const ErrorResponse = require('../../../tools/errorResponse');
 const router = express.Router();
 
 
@@ -27,9 +28,9 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
     // const chat = await Chat.findById(req.params.id).populate('message messages').populate('user = users', ['name', 'avatar']);
-    const chat = await Chat.findById(req.params.id).populate({ path: 'messages message', model: 'Message', populate: { path: 'recipient user', model: 'User' }}).populate('user = users', ['name', 'avatar']);
+    const chat = await Chat.findOne({ "users": { $all: [req.params.id, req.user.id] } }).populate({ path: 'messages message', model: 'Message', populate: { path: 'recipient user', model: 'User' }}).populate('user = users', ['name', 'avatar']);
     
-    
+    // console.log(chat)
     // User.findOne({ name: 'Val' }).populate({ path: 'friends', populate: { path: 'friends' } });
     
     // Get friends of friends - populate the 'friends' array for every friend
@@ -49,7 +50,7 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
     let message = ''
 
-    const chat = await Chat.find({ "users": { $all: [req.params.id, req.user.id] } }).populate('user = users', ['name', 'avatar']);
+    const chat = await Chat.findOne({ "users": { $all: [req.params.id, req.user.id] } }).populate('user = users', ['name', 'avatar']);
     if (!chat) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }

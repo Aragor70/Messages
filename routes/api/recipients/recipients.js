@@ -16,7 +16,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorised.', 401))
     }
     const recipients = await User.find();
-
+    
     res.json(recipients)
 
 }));
