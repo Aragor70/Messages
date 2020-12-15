@@ -1,17 +1,20 @@
+/* eslint-disable */
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { getFriends, getFriendships, getUnknowns } from '../../store/actions/friend/friend';
-import { getInvites } from '../../store/actions/friend/invite';
+import { cancelInvite, getInvites, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
 
 
 import '../../style/auth.css'
 import photo from '../../style/photo.jpg'
 import Friend from './Friend';
 import Invite from './Invite';
+import leftArrow from '../../style/icons/left-arrow2.png'
+import { ifExists } from '../../utils/getDataFromArray';
 
 
-export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth }: any) => {
+export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite }: any) => {
 
     const [input, setInput] = useState(false)
 
@@ -20,11 +23,21 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
         getFriendships()
         getFriends()
         getInvites()
+        getSentInvites()
         return getUnknowns()
-    }, [getUnknowns, getInvites, getFriendships, getFriends])
+    }, [getUnknowns, getInvites, getFriendships, getFriends, getSentInvites])
 
     const [editMode, setEditMode] = useState(false)
-
+    const [editFriend, setEditFriend] = useState<any>([])
+    
+    useEffect(() => {
+        if (!editMode) {
+            setEditFriend([])
+        }
+    }, [editMode])
+    //console.log(friend.sentInvites ? friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0] : null)
+    
+    //console.log(editFriend[0] && editFriend[0]._id)
     
     return (
         <Fragment>
@@ -32,8 +45,27 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                 <Router>
                     {
                         editMode ? <Fragment>
-                            <div className="friends-navs">
-                                <span>invite</span>
+                            <div className="edit-mode">
+                                {
+                                    ifExists(friend.friends, editFriend[0]) ? <Fragment>
+                                            
+                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button>view profile</button></span>
+                                        </Fragment> : <Fragment>
+                                            
+                                            {
+                                                !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0] ? <Fragment>
+
+                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0]._id), setEditMode(false)}}>cancel</button></span><span><button>view profile</button></span>
+                                        
+                                                </Fragment> : <Fragment>
+                                                    
+                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id), setEditMode(false)}}>invite</button></span><span><button>view profile</button></span>
+                                        
+                                                </Fragment>
+                                            }
+                                        </Fragment>
+                                }
+                                
                             </div>
                         </Fragment> : <Fragment>
                             <div className="friends-navs">
@@ -58,7 +90,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                             
                         </div>
                         {
-                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} friends={friend.friends} history={history} />)
+                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />)
                         }
 
                     </Route>
@@ -114,7 +146,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                             
                         </div>
                         {
-                            friend.unknowns.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} friends={friend.friends} history={history} />)
+                            friend.unknowns.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />)
                         }
                     </Route>
 
@@ -134,4 +166,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends })(withRouter(Friends));
+export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends, getSentInvites, cancelInvite, sendInvite })(withRouter(Friends));

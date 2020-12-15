@@ -75,6 +75,22 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 
 }));
 
+//route GET    api/invites
+//description  get all invitations
+//access       private
+router.get('/sent', auth, asyncHandler( async(req, res, next) => {
+    
+    const invites = await Invite.find({ user: req.user.id}).populate('user = recipient', ['name', 'avatar']);
+    
+    if (!invites) {
+        return next(new ErrorResponse('Invitation not found.', 404))
+    }
+
+    res.json(invites)
+
+}));
+
+
 //route GET    api/invites/:id
 //description  get single invitation
 //access       private

@@ -15,7 +15,7 @@ const MessagePreview = ({ message, auth, history, chat }: any) => {
 
     useEffect(() => {
         if (chat.users && auth.user) {
-            console.log('getRecipient')
+            
             return setRecipient(getNotEqual(chat.users, auth.user._id))
         }
     }, [])

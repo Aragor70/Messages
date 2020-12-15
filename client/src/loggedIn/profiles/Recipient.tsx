@@ -9,6 +9,7 @@ import '../../style/auth.css'
 import photo from '../../style/photo.jpg'
 import { getAbout } from '../../store/actions/recipient/about';
 import { getRecipient } from '../../store/actions/recipient/recipient';
+import { sendInvite } from '../../store/actions/friend/invite';
 
 import youtube from '../../style/icons/social-media/png/008-youtube.png'
 import twitter from '../../style/icons/social-media/png/002-twitter.png'
@@ -16,7 +17,7 @@ import facebook from '../../style/icons/social-media/png/001-facebook.png'
 import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
 
-const Recipient = ({ recipient, auth, match, getAbout, getRecipient }: any): any => {
+const Recipient = ({ recipient, auth, match, getAbout, getRecipient, history }: any): any => {
 
     useEffect(() => {
         getAbout(match.params.id)
@@ -32,8 +33,11 @@ const Recipient = ({ recipient, auth, match, getAbout, getRecipient }: any): any
             <div className="image-profile">
                 <img src={recipient.recipient.avatar} style={{maxHeight: '100%'}} />
             </div>
-            <div className="front-name">
+            <div className="profile-name">
                 {recipient.recipient.name}
+            </div>
+            <div className="profile-buttons">
+                <span><button onClick={e=> history.push(`/messenger/${recipient.recipient._id}`)}>message</button></span><span><button onClick={e=> sendInvite(recipient._id)}>invite</button></span>
             </div>
             
                     <div className="profile-header">
@@ -41,9 +45,6 @@ const Recipient = ({ recipient, auth, match, getAbout, getRecipient }: any): any
                     </div>
                     <div className="profile-row">
                         <span>status</span><span>{recipient.recipient.status}</span>
-                    </div>
-                    <div className="profile-row">
-                        <span>do not disturb</span><span>on / off</span>
                     </div>
 
                     {

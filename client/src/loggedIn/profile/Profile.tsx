@@ -17,10 +17,11 @@ import twitter from '../../style/icons/social-media/png/002-twitter.png'
 import facebook from '../../style/icons/social-media/png/001-facebook.png'
 import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
+import auth from '../../store/reducers/auth';
 
 
 
-const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, deleteSocial }: any): any => {
+const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, deleteSocial, auth }: any): any => {
 
     useEffect(() => {
         return getAboutMe()
@@ -109,8 +110,9 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
             <div className="image-profile">
                 <img src={photo} style={{maxHeight: '100%'}} />
             </div>
-            <div className="front-name">
-                Mikołaj Prus
+            <div className="profile-name">
+                {about.user.name}
+                
             </div>
             {
                 editMode || editSocialMode ? null : <Fragment>
@@ -118,7 +120,7 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
                         account
                     </div>
                     <div className="profile-row">
-                        <span>status</span><span>Online</span>
+                        <span>status</span><span>{auth.user.status}</span>
                     </div>
                     <div className="profile-row">
                         <span>do not disturb</span><span>on / off</span>
@@ -250,6 +252,7 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
     );
 }
 const mapStateToProps = (state: any) => ({
-    about: state.about
+    about: state.about,
+    auth: state.auth
 })
 export default connect(mapStateToProps, { getAboutMe, updateAboutMe, updateSocial, deleteSocial })(withRouter(Profile));

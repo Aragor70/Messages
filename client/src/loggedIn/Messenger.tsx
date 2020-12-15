@@ -6,7 +6,7 @@ import { RouteComponentProps, Link, withRouter } from 'react-router-dom';
 import '../style/messages.css'
 import photo from '../style/photo.jpg'
 import Options from './reusable/Options';
-import leftArrow from '../style/icons/left-arrow2.png'
+import leftArrow from '../style/icons/left-arrow2.png';
 import auth from '../store/reducers/auth';
 import { deleteMessage, getChat, getChats, getMessenger, sendMessage, updateMessage } from '../store/actions/messenger/messenger';
 import Chat from './Chat';
