@@ -79,7 +79,7 @@ export const sendInvite = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.post(`/api/invites/${id}`, { text: '' }, config);
     
-        dispatch({ type: Send_Invite, payload: res.data });
+        dispatch({ type: Send_Invite, payload: res.data.invite });
         
     } catch (err) {
         console.log(err.message)

@@ -55,7 +55,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     await recipient.invite.messages.unshift( invite._id )
     await recipient.save()
 
-    res.json({ success: true, message:'Invitation sent.' })
+    res.json({ success: true, message:'Invitation sent.', invite })
 
 }))
 

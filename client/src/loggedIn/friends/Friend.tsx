@@ -11,11 +11,12 @@ const Friend = ({ recipient, editMode, setEditMode, sentInvites, history, setEdi
     const [isInvited, setInvited] = useState(false)
     useEffect(() => {
         if (sentInvites) {
-            return setInvited(!!sentInvites.filter((invite: any) => invite.recipient._id.toString() === recipient._id.toString() )[0])
+            
+            return setInvited(!!sentInvites.filter((invite: any) => invite.recipient._id == recipient._id || invite.recipient == recipient._id )[0])
         }
         
     }, [sentInvites])
-
+    console.log(sentInvites)
     const handleOption = () => {
         if (editMode === true) {
             setEditMode(false);
