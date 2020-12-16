@@ -31,10 +31,10 @@ const Friend = ({ recipient, editMode, setEditMode, sentInvites, history, setEdi
         <Fragment>
             <div className="friends-row" style={ editFriend[0] && editFriend[0]._id === recipient._id ? { backgroundColor: 'red' } : { } }>
                 
-                <div className="avatar" onClick={e=> history.push(`profile/${recipient._id}`)}>
+                <div className="avatar" onClick={e=> history.push(`/profile/${recipient._id}`)}>
                     <img src={avatar} />
                 </div>
-                <span className="name" onClick={e=> history.push(`profile/${recipient._id}`)}>{name}</span>
+                <span className="name" onClick={e=> history.push(`/profile/${recipient._id}`)}>{name}</span>
                 <div className="options">
                     <button onClick={e=> handleOption()}>{isInvited ? "pending..." : "options"}</button>
                 </div>

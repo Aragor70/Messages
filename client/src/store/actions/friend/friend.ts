@@ -1,4 +1,4 @@
-import { Get_Friends, Get_Friendships, Get_Unknowns } from "./types";
+import { Get_Friends, Get_Friendships, Get_Unknowns, Delete_Friendship } from "./types";
 import axios from 'axios';
 import { Dispatch } from "redux";
 
@@ -35,6 +35,18 @@ export const getUnknowns = () => async(dispatch: Dispatch<any>) => {
         const res = await axios.get('/api/friends/unknowns');
     
         dispatch({ type: Get_Unknowns, payload: res.data });
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+
+export const deleteFriendship = (id: string) => async(dispatch: Dispatch<any>) => {
+    try {
+        const res = await axios.delete(`/api/friends/${id}`);
+    
+        dispatch({ type: Delete_Friendship, payload: { id, recipient: res.data.recipient } });
         
     } catch (err) {
         console.log(err.message)

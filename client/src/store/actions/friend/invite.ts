@@ -38,7 +38,7 @@ export const updateInvite = (id: string, formData: any) => async(dispatch: Dispa
     try {
         const res = await axios.put(`/api/invites/${id}`, formData, config);
         
-        dispatch({ type: Update_Invite, payload: {id, invite: res.data} });
+        dispatch({ type: Update_Invite, payload: {id, invite: res.data.invite } });
         
     } catch (err) {
         console.log(err.message)
@@ -62,7 +62,7 @@ export const cancelInvite = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/invites/${id}`);
     
-        dispatch({ type: Cancel_Invite, payload: {id, invite: res.data} });
+        dispatch({ type: Cancel_Invite, payload: {id, invite: res.data.invite} });
         
     } catch (err) {
         console.log(err.message)

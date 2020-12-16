@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import { getFriends, getFriendships, getUnknowns } from '../../store/actions/friend/friend';
+import { deleteFriendship, getFriends, getFriendships, getUnknowns } from '../../store/actions/friend/friend';
 import { cancelInvite, getInvites, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
 
 
@@ -14,7 +14,7 @@ import leftArrow from '../../style/icons/left-arrow2.png'
 import { ifExists } from '../../utils/getDataFromArray';
 
 
-export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite }: any) => {
+export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite, deleteFriendship }: any) => {
 
     const [input, setInput] = useState(false)
 
@@ -49,17 +49,17 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                 {
                                     ifExists(friend.friends, editFriend[0]) ? <Fragment>
                                             
-                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button>view profile</button></span>
+                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         </Fragment> : <Fragment>
                                             
                                             {
                                                 !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id || invitation.recipient === editFriend[0]._id)[0] ? <Fragment>
 
-                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0]._id), setEditMode(false)}}>cancel</button></span><span><button>view profile</button></span>
+                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(editFriend[0]._id), setEditMode(false)}}>cancel</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         
                                                 </Fragment> : <Fragment>
                                                     
-                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id), setEditMode(false)}}>invite</button></span><span><button>view profile</button></span>
+                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id), setEditMode(false)}}>invite</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         
                                                 </Fragment>
                                             }
@@ -90,7 +90,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                             
                         </div>
                         {
-                            friend.friends.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />)
+                            friend.friends.length > 0 ? friend.friends.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />) :  <div className="friends-row"><span className="empty">Invite your friends.</span></div>
                         }
 
                     </Route>
@@ -108,30 +108,9 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                         </div>
                         
                         {
-                            friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user} id={invite._id} history={history} />)
+                            friend.invites.length > 0 ? friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user} id={invite._id} history={history} />) : <div className="friends-row"><span className="empty">No new invites.</span></div>
                         }
-                        <div className="friends-row">
-                            <div className="avatar">
-                                <img src={photo} />
-                            </div>
-                            <span className="name">Bambino :</span>
-                            <span className="status">Offline</span>
-                            <div className="options">
-                                <button>accept</button>
-                                <button>decline</button>
-                            </div>
-                        </div>
-                        <div className="friends-row">
-                            <div className="avatar">
-                                <img src={photo} />
-                            </div>
-                            <span className="name">Bambino :</span>
-                            <span className="status">Offline</span>
-                            <div className="options">
-                                <button>accept</button>
-                                <button>decline</button>
-                            </div>
-                        </div>
+                        
                     </Route>
 
                     <Route exact path="/friends/new-friends">
@@ -146,7 +125,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                             
                         </div>
                         {
-                            friend.unknowns.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />)
+                            friend.unknowns.length > 0 ? friend.unknowns.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />) : <div className="friends-row"><span className="empty">No new users.</span></div>
                         }
                     </Route>
 
@@ -166,4 +145,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends, getSentInvites, cancelInvite, sendInvite })(withRouter(Friends));
+export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends, getSentInvites, cancelInvite, sendInvite, deleteFriendship })(withRouter(Friends));

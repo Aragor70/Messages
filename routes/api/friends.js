@@ -24,20 +24,17 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 //description  get friends
 //access       private
 router.get('/users', auth, asyncHandler( async(req, res, next) => {
-    let users = await User.find();
-    
+        
     const friendships = await Friendship.find({ "users": { _id: req.user.id } }).populate('user = users', ['name', 'avatar']);
     if (!friendships) {
         return next(new ErrorResponse('Friendship not found.', 404));
     }
     const friends = await friendships.map(friendship => {
         let users = friendship.users
-        return users.filter(user => user._id !== req.user._id)[0]
+        return users.filter(user => JSON.stringify(user._id) != JSON.stringify(req.user._id))[0]
     })
         
-        
-    
-    
+
     res.json(friends)
 }));
 
@@ -53,7 +50,7 @@ router.get('/unknowns', auth, asyncHandler( async(req, res, next) => {
     const friends = friendships.map(friendship => {
         let users = friendship.users
         
-        return users.filter(user => user._id !== req.user._id)[0]
+        return users.filter(user => JSON.stringify(user._id) != JSON.stringify(req.user._id))[0]
     });
     
     const users = await User.find();    
@@ -107,7 +104,9 @@ router.put('/:id', [auth, [
 //description  delete friendship
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
-    const friendship = await Friendship.findById( req.params.id );
+    const recipient = await User.findById(req.params.id).populate('user', ['name', 'avatar'])
+    const friendship = await Friendship.findOne({ "users": { $all: [recipient._id, req.user._id] } });
+    
     if (!friendship) {
         return next(new ErrorResponse('Friendship not found.', 404));
     }
@@ -118,6 +117,6 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
     await friendship.remove()
 
-    res.json({ success: true, message: 'Friendship removed.'})
+    res.json({ success: true, message: 'Friendship removed.', recipient})
 }));
 module.exports = router;

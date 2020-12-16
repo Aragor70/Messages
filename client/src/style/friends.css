@@ -80,6 +80,15 @@
     width: 35px;
     height: 35px;
 }
+.friends-row > .empty
+{
+    width: 100%;
+    text-align: center;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .friends-row > .name
 {
@@ -103,7 +112,7 @@
 
 .friends-row > .options
 {
-    width: auto;
+    min-width: 64px;
     height: 100%;
     position: absolute;
     right: 15px;

@@ -3,12 +3,35 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const connect = require('./config/connect');
 const errorHandler = require('./middleware/error');
-const app = express()
+const app = express();
+const socketio = require('socket.io');
+const http = require('http')
 
 connect()
 
 app.use(express.json({ extended: false }))
 app.use(cookieParser())
+
+const server = http.createServer(app)
+const io = socketio(server)
+
+io.on('connection', (socket) => {
+    
+    console.log('new connection')
+
+    socket.on('join', ({ user, recipient }) => {
+        socket.id = user
+        
+        console.log(`Socket ${socket.id} joining ${recipient}`);
+        socket.join(recipient);
+     });
+
+    socket.on('disconnect', () => {
+        console.log(socket.id)
+    })
+
+})
+
 
 app.use('/api/auth/', require('./routes/api/auth/auth'))
 app.use('/api/auth/two_factor', require('./routes/api/auth/two_factor'))
@@ -38,7 +61,9 @@ app.use(errorHandler)
 
 
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => console.log(`Server is running on port: ${PORT}.`));
+
+
+server.listen(PORT, () => console.log(`Server is running on port: ${PORT}.`));
 
 process.on('unhandledRejection', (err, _promise) => {
     console.error(`Error message: ${err.message}`)

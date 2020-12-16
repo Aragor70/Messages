@@ -16,14 +16,14 @@ const Invite = ({ user, id, updateInvite, deleteInvite, history }: any) => {
             <div className="friends-row">
                 
                 
-                <div className="avatar" onClick={e=> history.push(`profile/${user._id}`)}>
+                <div className="avatar" onClick={e=> history.push(`/profile/${user._id}`)}>
                     <img src={avatar} />
                 </div>
-                <span className="name" onClick={e=> history.push(`profile/${user._id}`)}>{name}</span>
+                <span className="name" onClick={e=> history.push(`/profile/${user._id}`)}>{name}</span>
                 <div className="options">
                     
                     <button onClick={e=> updateInvite(id, {accepted: true})}>accept</button>
-                    <button onClick={e=> deleteInvite(id)}>decline</button>
+                    <button onClick={e=> deleteInvite(id)}>deny</button>
                     
                 </div>
                 

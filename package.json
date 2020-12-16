@@ -21,7 +21,9 @@
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "rm": "^0.1.8",
+    "socket.io": "^3.0.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

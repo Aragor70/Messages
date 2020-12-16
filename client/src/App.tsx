@@ -39,6 +39,7 @@ import leftArrow from './style/icons/left-arrow2.png'
 import Messenger from './loggedIn/Messenger';
 import Support from './loggedIn/Support';
 import Recipient from './loggedIn/profiles/Recipient';
+import Heap from './utils/Heap';
 
 type Props = {
   auth: AuthType,
@@ -113,6 +114,7 @@ const App = ({ loadUser, auth, history }: any) => {
               <Route exact path="/">
                 <IndexUser setMenu={setMenu} menu={menu} />
                 <Alert />
+                <Heap />
               </Route>
 
               <Route exact path="/status">

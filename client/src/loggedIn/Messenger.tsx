@@ -13,7 +13,14 @@ import Chat from './Chat';
 import Message from './Message';
 import copy from 'copy-to-clipboard';
 
-const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, deleteMessage, sendMessage }: any) => {
+import queryString from 'query-string';
+import io from 'socket.io-client';
+import { disconnectSocket, initialSocket } from '../utils/socketTools';
+
+
+let socket: any;
+
+const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, deleteMessage, sendMessage, location }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
@@ -40,6 +47,18 @@ const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, d
         e.preventDefault()
         sendMessage(id, formData)
     }
+
+
+    useEffect(() => {
+        
+        initialSocket(auth.user._id, match.params.id)
+        
+        return () => {
+
+            disconnectSocket()
+        }
+    }, [match.params.id])
+
 
     return (
         <Fragment>

@@ -17,6 +17,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     const { text } = req.body;
 
     if (req.user.id === req.params.id) {
+        
         return next(new ErrorResponse('Users are equals.', 422))
     }
 
@@ -35,13 +36,14 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     }
     
     const friendship = await Friendship.findOne({ "users": { $all: [recipient.user._id, user._id] } });
-    
+    //console.log(friendship)
     if (friendship) {
         return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 
     }
     const isMatch = await Invite.findOne({ user: recipient.user._id, recipient: user._id }) || await Invite.findOne({ user: user._id, recipient: recipient.user._id })
     
     if (isMatch) {
+        
         return next(new ErrorResponse(`Invitation already exists.`, 422)) 
     }
     const textUpperCase = text.charAt(0).toUpperCase() + text.slice(1);
@@ -180,7 +182,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
-    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar']);
+    const invite = await Invite.findOne({ user: req.user.id, recipient: req.params.id }).populate('user = recipient', ['name', 'avatar']);
     let message = '';
     
     if (!invite) {

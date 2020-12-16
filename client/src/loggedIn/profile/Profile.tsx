@@ -111,7 +111,7 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
                 <img src={photo} style={{maxHeight: '100%'}} />
             </div>
             <div className="profile-name">
-                {about.user.name}
+                {auth.user.name}
                 
             </div>
             {
