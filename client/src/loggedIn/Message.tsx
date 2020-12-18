@@ -21,6 +21,10 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
             setEditMessage([...editMessage, message]);
         }
     }
+
+    
+
+
     console.log(editMessage)
     // use id of single message id={editMessage[0] && editMessage[0]._id === message._id ? editMessage[0]._id : null}
     return (

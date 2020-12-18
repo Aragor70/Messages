@@ -15,17 +15,22 @@ import copy from 'copy-to-clipboard';
 
 import queryString from 'query-string';
 import io from 'socket.io-client';
-import { disconnectSocket, initialSocket } from '../utils/socketTools';
+import { disconnectSocket, initialSocket, messagesSocket } from '../utils/socketTools';
+import Messages from './Messages';
+import { connectUser, disconnectUser, initialConnection } from '../store/actions/messenger/connection';
 
 
 let socket: any;
 
-const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, deleteMessage, sendMessage, location }: any) => {
+const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, deleteMessage, sendMessage, location, connectUser, disconnectUser, initialConnection }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
 
     const [editMessage, setEditMessage] = useState<any>([])
+    
+    const [usersOnline, setUsersOnline] = useState<any>([])
+
 
     useEffect(() => {
         return getChat(match.params.id)
@@ -51,13 +56,24 @@ const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, d
 
     useEffect(() => {
         
-        initialSocket(auth.user._id, match.params.id)
+        initialConnection(auth.user._id, match.params.id, messenger.chat._id)
         
         return () => {
 
-            disconnectSocket()
+            disconnectUser(auth.user._id)
         }
     }, [match.params.id])
+
+    useEffect(() => {
+        connectUser()
+
+        return () => {
+
+            disconnectUser()
+        }
+    }, [connectUser])
+
+    console.log(messenger.connected)
 
 
     return (
@@ -123,4 +139,4 @@ const mapStateToProps = (state: any) => ({
     auth: state.auth,
     messenger: state.messenger
 })
-export default connect(mapStateToProps, { getChats, getChat, updateMessage, deleteMessage, sendMessage })(withRouter(Messenger));
+export default connect(mapStateToProps, { getChats, getChat, updateMessage, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection })(withRouter(Messenger));

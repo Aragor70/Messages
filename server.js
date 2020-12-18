@@ -15,19 +15,37 @@ app.use(cookieParser())
 const server = http.createServer(app)
 const io = socketio(server)
 
+let clients = 0
 io.on('connection', (socket) => {
-    
+    clients++
     console.log('new connection')
 
-    socket.on('join', ({ user, recipient }) => {
+    socket.on('join', ({ user, recipient, chat }, callback) => {
         socket.id = user
+        socket.chat = chat
+        //console.log(`Socket ${user} joining ${chat}`);
         
-        console.log(`Socket ${socket.id} joining ${recipient}`);
-        socket.join(recipient);
-     });
+
+        //socket.emit('message', { user, text: "You joined to the chat." })
+        socket.broadcast.emit('broadcast', { user, text: `${user} has joined.`})
+        
+        socket.join(chat);
+
+        callback()
+    });
+
+    socket.on('sendMessage', (message, callback) => {
+        const user = socket.id 
+        io.to(socket.chat).emit('message', { user, text: message})
+
+        callback()
+    })
 
     socket.on('disconnect', () => {
-        console.log(socket.id)
+        clients--;
+        const user = socket.id 
+        socket.broadcast.emit('broadcast',{ user, action: 'disconnect'})
+        console.log('disconnect')
     })
 
 })
