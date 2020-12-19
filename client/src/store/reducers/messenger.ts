@@ -11,7 +11,7 @@ interface MessengerState {
 }
 
 export const initialState = {
-    chat: {},
+    chat: null,
     chats: [],
     messenger: {},
     messages: [],
@@ -39,7 +39,7 @@ const messengerReducer = (state: MessengerState = initialState, action: any ): a
         case Connect_User:
             return {...state, connected: [...state.connected, payload], loading: false }
         case Disconnect_User:
-            return {...state, connected: state.connected.filter((connection: any) => connection.user.toString() !== payload.toString()) , loading: false }
+            return {...state, connected: state.connected.filter((connection: any) => connection.user !== payload) , loading: false }
 
         default:
             return state;

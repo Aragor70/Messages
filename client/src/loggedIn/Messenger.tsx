@@ -53,25 +53,29 @@ const Messenger = ({ auth, getChats, getChat, messenger, match, updateMessage, d
         sendMessage(id, formData)
     }
 
-
     useEffect(() => {
+        if(messenger.chat) {
+            
+            initialConnection(auth.user._id, match.params.id, messenger.chat._id)
+            connectUser()
+        }
         
-        initialConnection(auth.user._id, match.params.id, messenger.chat._id)
-        
+    
         return () => {
 
             disconnectUser(auth.user._id)
         }
-    }, [match.params.id])
+        
+    }, [messenger.chat])
 
-    useEffect(() => {
+    /* useEffect(() => {
         connectUser()
 
         return () => {
 
             disconnectUser()
         }
-    }, [connectUser])
+    }, [connectUser]) */
 
     console.log(messenger.connected)
 

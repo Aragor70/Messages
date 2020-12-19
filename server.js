@@ -7,6 +7,8 @@ const app = express();
 const socketio = require('socket.io');
 const http = require('http')
 
+const { addUser, removeUser, getUser, getUsers } = require('./tools/socketTransfer');
+
 connect()
 
 app.use(express.json({ extended: false }))
@@ -15,39 +17,63 @@ app.use(cookieParser())
 const server = http.createServer(app)
 const io = socketio(server)
 
-let clients = 0
+let clients = []
+
 io.on('connection', (socket) => {
-    clients++
+    
     console.log('new connection')
 
-    socket.on('join', ({ user, recipient, chat }, callback) => {
-        socket.id = user
-        socket.chat = chat
-        //console.log(`Socket ${user} joining ${chat}`);
+    socket.on('join', ({ id, recipient, chat }, callback) => {
+
+        socket.id = id
+        const { error, user } = addUser(id, chat)
+
+        if (error) {
+            return callback(error)
+        }
         
 
+        const users = getUsers(chat)
+        
+        /* socket.room = chat
+        clients.push({chat, user}) */
+        //console.log(`Socket ${user} joining ${chat}`);
+        
+        /* const currentUsers = clients.filter(element => element.chat === chat) */
+
         //socket.emit('message', { user, text: "You joined to the chat." })
-        socket.broadcast.emit('broadcast', { user, text: `${user} has joined.`})
         
         socket.join(chat);
+
+        socket.broadcast.emit('broadcast', { user, users, text: `${id} has joined.`})
+        
+        
+        
 
         callback()
     });
 
     socket.on('sendMessage', (message, callback) => {
         const user = socket.id 
-        io.to(socket.chat).emit('message', { user, text: message})
-
+        /* const currentUsers = clients.filter(element => element.chat === chat) */
+        io.to(socket.room).emit('message', { user, users: currentUsers, text: message})
+        
         callback()
     })
 
     socket.on('disconnect', () => {
-        clients--;
-        const user = socket.id 
-        socket.broadcast.emit('broadcast',{ user, action: 'disconnect'})
-        console.log('disconnect')
-    })
+        /* const user = socket.id 
+        const chat = socket.room */
+        removeUser(socket.id)
+        /* clients = clients.filter(client => client.user != user) */
+        
+        /* const currentUsers = clients.filter(element => element.chat === chat) */
 
+        socket.broadcast.emit('broadcast',{ user: socket.id, action: 'disconnect'})
+        //console.log(clients)
+        
+    })
+    
 })
 
 
