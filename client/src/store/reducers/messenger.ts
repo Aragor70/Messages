@@ -1,4 +1,4 @@
-import { Get_Chat, Get_Messenger, Get_Chats, Like_Message, Delete_Message, Send_Message, Connect_User, Disconnect_User } from '../actions/messenger/types';
+import { Get_Chat, Get_Messenger, Get_Chats, Like_Message, Delete_Message, Send_Message, Get_Connected, Disconnect_User } from '../actions/messenger/types';
 
 interface MessengerState {
     chat: any,
@@ -36,8 +36,8 @@ const messengerReducer = (state: MessengerState = initialState, action: any ): a
             return {...state, chat: { messages: [...state.chat.messages, payload.message] }, loading: false}
         case Delete_Message:
             return {...state, chat: { messages: state.chat.messages.filter((message: any) => message._id !== payload.id )}, loading: false}
-        case Connect_User:
-            return {...state, connected: [...state.connected, payload], loading: false }
+        case Get_Connected:
+            return {...state, connected: payload, loading: false }
         case Disconnect_User:
             return {...state, connected: state.connected.filter((connection: any) => connection.user !== payload) , loading: false }
 

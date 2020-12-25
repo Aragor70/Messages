@@ -5,7 +5,7 @@ const connect = require('./config/connect');
 const errorHandler = require('./middleware/error');
 const app = express();
 const socketio = require('socket.io');
-const http = require('http')
+const http = require('http');
 
 const { addUser, removeUser, getUser, getUsers } = require('./tools/socketTransfer');
 
@@ -17,64 +17,71 @@ app.use(cookieParser())
 const server = http.createServer(app)
 const io = socketio(server)
 
-let clients = []
+let clients = [];
+let messages = [];
 
 io.on('connection', (socket) => {
     
-    console.log('new connection')
+    console.log('New client');
 
-    socket.on('join', ({ id, recipient, chat }, callback) => {
+    //socket.emit("Welcome the new user");
+    
 
-        socket.id = id
-        const { error, user } = addUser(id, chat)
 
-        if (error) {
-            return callback(error)
-        }
-        
+    socket.on('join', ({ id, chat = 'chat' }) => {
 
-        const users = getUsers(chat)
-        
-        /* socket.room = chat
-        clients.push({chat, user}) */
-        //console.log(`Socket ${user} joining ${chat}`);
-        
-        /* const currentUsers = clients.filter(element => element.chat === chat) */
+        console.log(chat, "chat");
 
-        //socket.emit('message', { user, text: "You joined to the chat." })
+        console.log(id, "user");
         
         socket.join(chat);
 
-        socket.broadcast.emit('broadcast', { user, users, text: `${id} has joined.`})
+        clients = [...clients, { id, socketId: socket.id, chat }]
+
+        socket.broadcast.emit("welcome", clients );
+
+        socket.emit("success", `You have joined to the room ${chat}`);
+
         
-        
+        socket.emit("userlist", clients);
+
+        console.log('logged in', clients.length)
+
+
         
 
-        callback()
+        socket.on('disconnect', () => {
+
+            io.emit("welcome", clients );
+
+            io.emit('userlist', clients.filter(user => user.id != id))
+            console.log('Socket disconnected: ' + socket.id)
+            clients = clients.filter(user => user.id != id)
+            console.log('logged out', clients.length)
+        });
+    
+        // socket.broadcast.emit('broadcast', { id, socketId: socket.id, users, text: `${id} has joined.`})
+        
     });
 
-    socket.on('sendMessage', (message, callback) => {
-        const user = socket.id 
-        /* const currentUsers = clients.filter(element => element.chat === chat) */
-        io.to(socket.room).emit('message', { user, users: currentUsers, text: message})
+    socket.on('chat', (formData) => {
+        if (formData) {
+            console.log(formData, 'sent message')
+            messages = [...messages, formData]
+            socket.broadcast.emit('chat', formData)
+        }
         
-        callback()
     })
-
-    socket.on('disconnect', () => {
-        /* const user = socket.id 
-        const chat = socket.room */
-        removeUser(socket.id)
-        /* clients = clients.filter(client => client.user != user) */
-        
-        /* const currentUsers = clients.filter(element => element.chat === chat) */
-
-        socket.broadcast.emit('broadcast',{ user: socket.id, action: 'disconnect'})
-        //console.log(clients)
+    socket.on('deletemessage', (formData) => {
+        if (formData) {
+            messages = messages.filter(element => element.message._id != formData.formData)
+            
+            socket.broadcast.emit('deletemessage', formData.formData)
+        }
         
     })
     
-})
+});
 
 
 app.use('/api/auth/', require('./routes/api/auth/auth'))

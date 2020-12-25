@@ -1,37 +1,36 @@
+const ErrorResponse = require("./errorResponse");
 
 let users = [];
 
 
 
-const addUser = (id, chat) => {
+const addUser = (id, socketId, chat) => {
     
     
-    //console.log(chat)
-    const exists = users.filter(user => user.chat === chat && user.id === id)
-    if (exists[0]) {
-        return { error: 'User is connected already.' }
+    const exists = users.filter(user => user.chat == chat && user.id == id)[0]
+    if (exists) {
+        return new ErrorResponse('User already exists.', 401)
     }
-    const user = { id, chat }
+    const user = { id, socketId, chat }
 
     users.push(user)
-    //console.log(user)
+    
     return user;
 }
 
 const removeUser = (id) => {
     
-    users = users.filter(user => user.id !== id)
-    //console.log(id)
+    return users = users.filter(user => user.id !== id)
     
 }
 
 const getUser = (id) => {
-    //console.log(id)
+    
     return users.filter(user => user.id === id)
 }
 
 const getUsers = (chat) => {
-    console.log(users)
+    
     return users.filter(user => user.chat === chat)
     
 }

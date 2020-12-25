@@ -10,7 +10,9 @@ const Notification = require('../../../models/Notification');
 const User = require('../../../models/User');
 const ErrorResponse = require('../../../tools/errorResponse');
 const router = express.Router();
+const io = require('../../../server');
 
+let messages = require('../../../server');
 
 //route POST   api/messages
 //description  send the message and apply for notification
@@ -81,6 +83,9 @@ router.post('/:id', [auth, [
         notification.messenger.messages.unshift( message._id )
         await notification.save()
     }
+    console.log('sent message')
+
+
     
     return res.json({ success: true, message })
 

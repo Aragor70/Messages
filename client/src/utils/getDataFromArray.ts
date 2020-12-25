@@ -7,6 +7,15 @@ export const getNotEqual = (array: any[], given: string) => {
     }
 }
 
+export const getNotEqualById = (array: any[], given: string) => {
+
+    if(array && given) {
+        return array.filter((element:any) => element._id !== given)[0]
+    } else {
+        return null
+    }
+}
+
 export const ifExists = (array: any[], given: any) => {
 
     if(array && given) {

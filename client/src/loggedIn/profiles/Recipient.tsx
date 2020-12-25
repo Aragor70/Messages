@@ -27,7 +27,13 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getRecipient, his
         getSentInvites()
     }, [getAbout, match.params.id, getRecipient, getFriends, getSentInvites])
 
-    // console.log(recipient)
+    console.log(match.params.id)
+    useEffect(() => {
+        if (match.params.id == auth.user._id) {
+            history.push('/profile')
+        }
+    }, [match.params.id])
+
 
     return (
         <Fragment>

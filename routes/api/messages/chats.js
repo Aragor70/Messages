@@ -12,7 +12,7 @@ const router = express.Router();
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
 
-    const messenger = await Messenger.findOne({ user: req.user.id }).populate({path: 'chats chat', model: 'Chat', populate: { path: 'messages message', model: 'Message', populate: { path: 'user user', model: 'User' } }}).populate('user', ['name', 'avatar']);
+    const messenger = await Messenger.findOne({ user: req.user.id }).populate({path: 'chats chat', model: 'Chat', populate: { path: 'messages message', model: 'Message', populate: { path: 'user user', model: 'User' } }}).populate({path: 'chats chat', model: 'Chat', populate: { path: 'users user', model: 'User', populate: { path: 'user user', model: 'User' } }})
     if (!messenger) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }

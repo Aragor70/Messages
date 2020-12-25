@@ -25,7 +25,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
     
 
 
-    console.log(editMessage)
+    // console.log(editMessage)
     // use id of single message id={editMessage[0] && editMessage[0]._id === message._id ? editMessage[0]._id : null}
     return (
         <Fragment>

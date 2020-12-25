@@ -2,7 +2,7 @@ import { Dispatch } from "redux";
 import { Get_Messenger, Get_Chat, Get_Chats, Like_Message, Delete_Message, Send_Message } from "./types";
 import axios from 'axios';
 
-export const sendMessage = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+export const sendMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -11,7 +11,11 @@ export const sendMessage = (id: string, formData: any) => async(dispatch: Dispat
     try {
         const res = await axios.post(`/api/messages/${id}`, formData, config);
         
+        
         dispatch({ type: Send_Message, payload: res.data });
+        const message = res.data.message
+        // console.log(message)
+        socket.emit('chat', { chat: id, message })
         
     } catch (err) {
         console.log(err.message)
@@ -82,11 +86,15 @@ export const updateMessage = (id: string, formData: any) => async(dispatch: Disp
     
 }
 
-export const deleteMessage = (id: string) => async(dispatch: Dispatch<any>) => {
+export const deleteMessage = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/messages/${id}`);
     
         dispatch({ type: Delete_Message, payload: {id, message: res.data} });
+
+        socket.emit('deletemessage', { formData: id })
+        
+
         
     } catch (err) {
         console.log(err.message)

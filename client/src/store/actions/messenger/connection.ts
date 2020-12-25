@@ -1,12 +1,12 @@
 import io from 'socket.io-client';
 import { Dispatch } from 'redux';
-import { Connect_User, Disconnect_User } from './types';
-
+import { Get_Connected, Disconnect_User, Send_Message, Delete_Message } from './types';
+import { v4 as uuidv4 } from 'uuid';
 
 let socket: any;
 export const initialConnection = (user: string, recipient: string, chat: string)=> (dispatch: Dispatch<any>) => {
     
-    const PORT = 'localhost:3000'
+    const PORT = 'localhost:3000/messenger'
 
     socket = io(PORT)
 
@@ -17,25 +17,22 @@ export const initialConnection = (user: string, recipient: string, chat: string)
 
 export const connectUser = () => (dispatch: Dispatch<any>) => {
     socket.on('broadcast', (data: any) => {
-        
+        console.log('connectUser', data)
         if (data.action == 'disconnect') {
-            return dispatch({ type: Disconnect_User, payload: data.user || socket.id })
+            return dispatch({ type: Disconnect_User, payload: data.user })
         }
             console.log('connection')
-            dispatch({ type: Connect_User, payload: data })
+            //dispatch({ type: Connect_User, payload: data })
         
-            
         
-        // setServices([...services, message]) 
-        // send connected user to reducer
     })
-    //console.log(socket)
+    
 }
 
-export const disconnectUser = (id: string) => (dispatch: Dispatch<any>) => {
+export const disconnectUser = () => (dispatch: Dispatch<any>) => {
     
        
-        dispatch({ type: Disconnect_User, payload: id || socket.id })
+        dispatch({ type: Disconnect_User, payload: socket.id })
         
       
     if (socket) {
@@ -43,4 +40,33 @@ export const disconnectUser = (id: string) => (dispatch: Dispatch<any>) => {
         socket.off()
     }
     
+}
+export const getSocketMessage = (message: any) => async(dispatch: Dispatch<any>) => {
+    
+    
+
+    console.log(message)
+    dispatch({ type: Send_Message, payload: { message } })
+
+}
+
+export const deleteSocketMessage = (id: any) => async(dispatch: Dispatch<any>) => {
+    
+    
+
+    console.log(id)
+    dispatch({ type: Delete_Message, payload: { id } })
+
+}
+
+export const getConnected = (arry: any[]) => (dispatch: Dispatch<any>) => {
+    
+    dispatch({ type: Get_Connected, payload: arry })
+
+}
+
+export const connectOne = (client: any[]) => (dispatch: Dispatch<any>) => {
+    
+    dispatch({ type: Get_Connected, payload: client })
+
 }
