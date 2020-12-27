@@ -63,7 +63,14 @@ io.on('connection', (socket) => {
         // socket.broadcast.emit('broadcast', { id, socketId: socket.id, users, text: `${id} has joined.`})
         
     });
-
+    socket.on('invite', (formData) => {
+        if (formData) {
+            console.log(formData, 'sent message')
+            messages = [...messages, formData]
+            socket.broadcast.emit('chat', formData)
+        }
+        
+    })
     socket.on('chat', (formData) => {
         if (formData) {
             console.log(formData, 'sent message')

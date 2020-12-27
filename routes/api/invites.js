@@ -30,7 +30,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
     if (!recipient) {
         return next(new ErrorResponse('Recipient not found.', 404))
     }
-    
+    console.log(recipient, "recipient")
     if (!recipient.turn_on || !recipient.invite.turn_on) {
         return next(new ErrorResponse(`Recipient does not allow to get this content.`, 401))
     }
@@ -41,7 +41,7 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse(`${recipient.user.name} is your friend.`, 422)) 
     }
     const isMatch = await Invite.findOne({ user: recipient.user._id, recipient: user._id }) || await Invite.findOne({ user: user._id, recipient: recipient.user._id })
-    
+    console.log(isMatch, "isMatch")
     if (isMatch) {
         
         return next(new ErrorResponse(`Invitation already exists.`, 422)) 
@@ -182,7 +182,7 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
-    const invite = await Invite.findOne({ user: req.user.id, recipient: req.params.id }).populate('user = recipient', ['name', 'avatar']);
+    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar']);
     let message = '';
     
     if (!invite) {
@@ -192,23 +192,25 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized', 401))
     }
 
-    let notification = await Notification.findOne({user: invite.recipient._id});
+    let notification = await Notification.findOne({user: invite.user._id});
 
     let recipient = await Notification.findOne({user: invite.recipient._id});
     
     if (req.user.id.toString() === invite.user._id.toString() && recipient && recipient.turn_on && recipient.feedback.turn_on) {
-        recipient.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
+        recipient.feedback.messages.unshift({ message: `Invitation with ${invite.user.name} removed.` })
     }
-    else if(req.user.id.toString() === invite.recipient._id.toString() && notification && notification.turn_on && notification.feedback.turn_on) {
-        notification.feedback.messages.unshift({ message: `Invitation with ${invite.user.name} removed.` })
+    if(req.user.id.toString() === invite.recipient._id.toString() && notification && notification.turn_on && notification.feedback.turn_on) {
+        notification.feedback.messages.unshift({ message: `Invitation with ${invite.recipient.name} removed.` })
+        await notification.save()
     }
     
     if (recipient) {
         
-        recipient.invite.messages = recipient.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
+        recipient.invite.messages = await recipient.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
+        await recipient.save()
     }
     
-    await recipient.save()
+    
     
     await invite.remove()
 

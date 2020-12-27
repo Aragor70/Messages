@@ -11,11 +11,13 @@ import auth from '../store/reducers/auth';
 import { deleteMessage, getChat, getChats, getMessenger, sendMessage, updateMessage } from '../store/actions/messenger/messenger';
 import Chat from './Chat';
 import { connectUser, disconnectUser, initialConnection } from '../store/actions/messenger/connection';
+import { getFriends } from '../store/actions/friend/friend';
+import { getRecipient } from '../store/actions/recipient/recipient';
 
 
 let socket: any;
 
-const Messenger = ({ getChat, messenger, match }: any) => {
+const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, getRecipient }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
@@ -26,8 +28,13 @@ const Messenger = ({ getChat, messenger, match }: any) => {
 
 
     useEffect(() => {
+        getFriends()
         return getChat(match.params.id)
-    }, [getChat, match.params.id, messenger.chat && messenger.chat.messages && messenger.chat.messages.length])
+    }, [getChat, getFriends, match.params.id, messenger.chat && messenger.chat.messages && messenger.chat.messages.length])
+
+    useEffect(()=> {
+        getRecipient(match.params.id)
+    }, [getRecipient, match.params.id])
 
     const cleanMode = () => {
         setEditMode(false)
@@ -43,7 +50,7 @@ const Messenger = ({ getChat, messenger, match }: any) => {
         <Fragment>
 
             {
-                messenger.chat ? <Chat editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} formData={formData} setFormData={setFormData} cleanMode={cleanMode} match={match} /> : <Fragment>
+                messenger.chat ? <Chat recipient={recipient} friend={friend} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} formData={formData} setFormData={setFormData} cleanMode={cleanMode} match={match} /> : <Fragment>
                     'loading...'
                 </Fragment>
             }
@@ -59,6 +66,8 @@ const Messenger = ({ getChat, messenger, match }: any) => {
 }
 const mapStateToProps = (state: any) => ({
     auth: state.auth,
-    messenger: state.messenger
+    messenger: state.messenger,
+    friend: state.friend,
+    recipient: state.recipient
 })
-export default connect(mapStateToProps, { getChats, getChat, updateMessage, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection })(withRouter(Messenger));
+export default connect(mapStateToProps, { getChats, getFriends, getChat, updateMessage, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection, getRecipient })(withRouter(Messenger));

@@ -12,13 +12,13 @@ const router = express.Router();
 //access       private
 router.get('/', auth, asyncHandler( async(req, res, next) => {
     
-    const notification = await Notification.findOne({ user: req.user.id });
+    const notification = await Notification.findOne({ user: req.user.id }).populate({ path: 'service.messages', model: 'Service', populate: { path: 'user = recipient', model: 'User' }});
     
     if (!notification) {
         return next(new ErrorResponse('User not authorized.', 401))
     }
     const services = notification.service.messages
-    
+    console.log(services)
 
     res.json(services)
 }))

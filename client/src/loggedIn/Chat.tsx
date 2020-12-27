@@ -13,11 +13,12 @@ import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/ac
 
 
 let socket: any;
-const Chat = ({ messenger, getConnected, match, getSocketMessage, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage }: any) => {
+const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage }: any) => {
 
     const { date, messages, users } = messenger.chat;
     
     const [isOnline, setIsOnline] = useState(false)
+    const [isFriend, setIsFriend] = useState(false)
     
     useEffect(() => {
 
@@ -87,6 +88,14 @@ const Chat = ({ messenger, getConnected, match, getSocketMessage, deleteSocketMe
     }, [])
 
 
+    useEffect(() => {
+        const value = !!friend.friends.filter((person: any) => person._id === match.params.id)[0]
+        setIsFriend(value)
+
+        return () => {
+            setIsFriend(value)
+        }
+    }, [match.params.id])
 
     const handleChange = ( e: any ) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -117,7 +126,7 @@ const Chat = ({ messenger, getConnected, match, getSocketMessage, deleteSocketMe
                             }
                             
                         </Fragment> : <Fragment>
-                            <div className="avatar"><img src={photo} height="35px" width="35px" /></div><div className="messenger-recipient"><span>Bambino : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
+                            <div className="avatar"><img src={recipient.recipient.avatar} height="35px" width="35px" /></div><div className="messenger-recipient"><span>{recipient.recipient.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
                             <div className="options"><button onClick={e=> setMsgNavOpt(true)}>options</button></div>
                         </Fragment>
                     }
@@ -136,13 +145,25 @@ const Chat = ({ messenger, getConnected, match, getSocketMessage, deleteSocketMe
                     messenger.chat.messages && messenger.chat.messages.map((msg: any) => <Message key={msg._id} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />)
                 }
                 </div>
-                <form className="write-box" onSubmit={e=> handleSubmit(match.params.id, e)}>
-                    <div className="write-header">header</div>
-                    <div className="write-input">
-                        <input type="text" name="text" onChange={e=> handleChange(e)} />
-                        <button type="submit">Ok</button>
-                    </div>
-                </form>
+
+                {
+                    isFriend ? <Fragment>
+                        <form className="write-box" onSubmit={e=> handleSubmit(match.params.id, e)}>
+                            <div className="write-header">header</div>
+                            <div className="write-input">
+                                <input type="text" name="text" onChange={e=> handleChange(e)} />
+                                <button type="submit">Ok</button>
+                            </div>
+                        </form>
+                    </Fragment> : <Fragment>
+                        <div className="write-box">
+                            This recipient is not friend.
+                            To connect with {recipient.recipient.name}
+                            Send invite now.
+                        </div>
+                    </Fragment>
+                }
+                
                 
             </div>
         </Fragment>
@@ -150,7 +171,6 @@ const Chat = ({ messenger, getConnected, match, getSocketMessage, deleteSocketMe
 }
 const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
-    auth: state.auth,
-
+    auth: state.auth
 })
 export default connect(mapStateToProps, { updateMessage, deleteMessage, sendMessage, getConnected, getSocketMessage, deleteSocketMessage })(Chat);

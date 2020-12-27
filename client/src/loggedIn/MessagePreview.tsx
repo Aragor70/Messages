@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-
+import moment from 'moment';
 
 import photo from '../style/photo.jpg'
 import { getNotEqual, getNotEqualById } from '../utils/getDataFromArray';
@@ -34,7 +34,7 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
                 chat && person && person._id === auth.user._id ? <Fragment>
                     <div className="recipient-content">
                         <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)}>
-                            <div className="avatar"><img src={photo} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">28.11</div></div>
+                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
                             <div className="message"><span className="text">{text}</span><span className="status">*</span></div>
                         </div>
                         
@@ -42,7 +42,7 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
                 </Fragment> : <Fragment>
                     <div className="recipient-content">
                         <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)}>
-                            <div className="avatar"><img src={photo} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">28.11</div></div>
+                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
                             <div className="message"><span className="text">{text}</span><span className="status">*</span></div>
                         </div>
                         

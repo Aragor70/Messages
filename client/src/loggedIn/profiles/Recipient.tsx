@@ -9,7 +9,7 @@ import '../../style/auth.css'
 import photo from '../../style/photo.jpg'
 import { getAbout } from '../../store/actions/recipient/about';
 import { getRecipient } from '../../store/actions/recipient/recipient';
-import { cancelInvite, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
+import { cancelInvite, getInvites, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
 
 import youtube from '../../style/icons/social-media/png/008-youtube.png'
 import twitter from '../../style/icons/social-media/png/002-twitter.png'
@@ -17,7 +17,9 @@ import facebook from '../../style/icons/social-media/png/001-facebook.png'
 import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
 import { deleteFriendship, getFriends } from '../../store/actions/friend/friend';
+import io from 'socket.io-client';
 
+let socket: any
 const Recipient = ({ recipient, friend, auth, match, getAbout, getRecipient, history, getFriends, getSentInvites, sendInvite, cancelInvite, deleteFriendship }: any): any => {
 
     useEffect(() => {
@@ -33,6 +35,41 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getRecipient, his
             history.push('/profile')
         }
     }, [match.params.id])
+
+
+    useEffect(() => {
+
+        console.log('connected now')
+        
+        socket = io("http://localhost:3000")
+
+
+        socket.emit('join', {id: auth.user._id}, () => {
+            console.log('Socket client logged in')
+        })
+
+        socket.on('success', (success: any) => console.log(success))
+        
+        console.log('logged in')
+
+        return () => {
+            socket.disconnect()
+            socket.off()
+
+
+            console.log('disconnected now')
+        }
+
+    }, [])
+
+    useEffect(() => {
+        socket.on('invite', (msg: any) => {
+            
+            getInvites()
+        })
+           
+    }, [])
+
 
 
     return (
@@ -56,7 +93,7 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getRecipient, his
                             friend.sentInvites && !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id == recipient.recipient._id || invitation.recipient == recipient.recipient._id)[0] ? <Fragment>
                                 <span><button onClick={e=> cancelInvite(recipient.recipient._id)}>cancel</button></span>
                             </Fragment> : <Fragment>
-                                <span><button onClick={e=> sendInvite(recipient.recipient._id)}>invite</button></span>
+                                <span><button onClick={e=> sendInvite(recipient.recipient._id, socket)}>invite</button></span>
                             </Fragment>
                         }
                         

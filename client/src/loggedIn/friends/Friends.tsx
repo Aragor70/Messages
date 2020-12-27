@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { deleteFriendship, getFriends, getFriendships, getUnknowns } from '../../store/actions/friend/friend';
 import { cancelInvite, getInvites, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
-
+import io from 'socket.io-client';
 
 import '../../style/auth.css'
 import photo from '../../style/photo.jpg'
@@ -12,8 +12,9 @@ import Friend from './Friend';
 import Invite from './Invite';
 import leftArrow from '../../style/icons/left-arrow2.png'
 import { ifExists } from '../../utils/getDataFromArray';
+import List from './List';
 
-
+let socket: any;
 export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite, deleteFriendship }: any) => {
 
     const [input, setInput] = useState(false)
@@ -31,11 +32,47 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
     const [editMode, setEditMode] = useState(false)
     const [editFriend, setEditFriend] = useState<any>([])
     
+
     useEffect(() => {
         if (!editMode) {
             setEditFriend([])
         }
     }, [editMode])
+
+
+    useEffect(() => {
+
+        console.log('connected now')
+        
+        socket = io("http://localhost:3000")
+
+
+        socket.emit('join', {id: auth.user._id}, () => {
+            console.log('Socket client logged in')
+        })
+
+        socket.on('success', (success: any) => console.log(success))
+        
+        console.log('logged in')
+
+        return () => {
+            socket.disconnect()
+            socket.off()
+
+
+            console.log('disconnected now')
+        }
+
+    }, [])
+
+    useEffect(() => {
+        socket.on('invite', (msg: any) => {
+            
+            getInvites()
+        })
+           
+    }, [])
+
     //console.log(friend.sentInvites ? friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0] : null)
     
     //console.log(editFriend[0] && editFriend[0]._id)
@@ -60,7 +97,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                         
                                                 </Fragment> : <Fragment>
                                                     
-                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id), setEditMode(false)}}>invite</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id, socket), setEditMode(false)}}>invite</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         
                                                 </Fragment>
                                             }
@@ -79,55 +116,23 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                 
                 <Switch>
                     
+                    
                     <Route exact path="/friends">
-                        <div className="friends-header">
-                            My friends
-                        </div>
-                        <div className="search-row">
-                            <button onClick={e=>setInput(!input)}>search</button>
-                            {
-                                input && <input type="text" />
-                            }
-                            
-                        </div>
-                        {
-                            friend.friends.length > 0 ? friend.friends.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />) :  <div className="friends-row"><span className="empty">Invite your friends.</span></div>
-                        }
-
+                        
+                        <List pageTitle="My friends" getOnLoad={getFriends} friend={friend} array={friend.friends} Component={Friend} ifEmpty="Invite your friends." input={input} setInput={setInput} setEditMode={setEditMode} editMode={editMode} setEditFriend={setEditFriend} editFriend={editFriend} history={history} />
+                        
                     </Route>
 
                     <Route exact path="/friends/invites">
-                        <div className="friends-header">
-                            Invites
-                        </div>
-                        <div className="search-row">
-                            <button onClick={e=>setInput(!input)}>search</button>
-                            {
-                                input && <input type="text" />
-                            }
-                            
-                        </div>
-                        
-                        {
-                            friend.invites.length > 0 ? friend.invites.map((invite: any) => <Invite key={invite._id} user={invite.user} id={invite._id} history={history} />) : <div className="friends-row"><span className="empty">No new invites.</span></div>
-                        }
+
+                        <List pageTitle="Invites" getOnLoad={getInvites} friend={friend} array={friend.invites} Component={Invite} ifEmpty="No new invites." input={input} setInput={setInput} setEditMode={setEditMode} editMode={editMode} setEditFriend={setEditFriend} editFriend={editFriend} history={history} />
                         
                     </Route>
 
                     <Route exact path="/friends/new-friends">
-                        <div className="friends-header">
-                            Find new friend
-                        </div>
-                        <div className="search-row">
-                            <button onClick={e=>setInput(!input)}>search</button>
-                            {
-                                input && <input type="text" />
-                            }
-                            
-                        </div>
-                        {
-                            friend.unknowns.length > 0 ? friend.unknowns.map((person: any) => <Friend key={person._id} recipient={person} setEditMode={setEditMode} editMode={editMode} sentInvites={friend.sentInvites} history={history} setEditFriend={setEditFriend} editFriend={editFriend} />) : <div className="friends-row"><span className="empty">No new users.</span></div>
-                        }
+                        
+                        <List pageTitle="Find new friend" getOnLoad={getUnknowns} friend={friend} array={friend.unknowns} Component={Friend} ifEmpty="No new users." input={input} setInput={setInput} setEditMode={setEditMode} editMode={editMode} setEditFriend={setEditFriend} editFriend={editFriend} history={history} />
+                        
                     </Route>
 
 
