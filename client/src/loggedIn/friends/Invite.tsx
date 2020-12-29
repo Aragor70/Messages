@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { connect } from 'react-redux';
-import { update } from '../../store/actions/auth/auth';
-import { acceptInvite, deleteInvite, updateInvite } from '../../store/actions/friend/invite';
+import { acceptInvite, deleteInvite } from '../../store/actions/friend/invite';
 
 
 
-const Invite = ({ invite, id, updateInvite, deleteInvite, history, acceptInvite, socket }: any) => {
+const Invite = ({ invite, deleteInvite, history, acceptInvite, socket }: any) => {
 
     console.log(invite)
     
@@ -20,7 +19,7 @@ const Invite = ({ invite, id, updateInvite, deleteInvite, history, acceptInvite,
                 <span className="name" onClick={e=> history.push(`/profile/${invite.user._id}`)}>{invite.user.name}</span>
                 <div className="options">
                     
-                    <button onClick={e=> acceptInvite(invite._id, {accepted: true})}>accept</button>
+                    <button onClick={e=> acceptInvite(invite._id, {accepted: true}, socket)}>accept</button>
                     <button onClick={e=> deleteInvite(invite._id, socket)}>deny</button>
                     
                 </div>
@@ -29,4 +28,4 @@ const Invite = ({ invite, id, updateInvite, deleteInvite, history, acceptInvite,
         </Fragment>
     );
 }
-export default connect(null, { updateInvite, deleteInvite, acceptInvite })(Invite);
+export default connect(null, { deleteInvite, acceptInvite })(Invite);

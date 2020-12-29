@@ -10,12 +10,13 @@ import leftArrow from '../style/icons/left-arrow2.png';
 import { deleteMessage, sendMessage, updateMessage } from '../store/actions/messenger/messenger';
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
-import { getFromInvite } from '../store/actions/notification/notification';
+import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 import { getInvites } from '../store/actions/friend/invite';
+import { getFriends } from '../store/actions/friend/friend';
 
 
 let socket: any;
-const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage }: any) => {
+const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage, getFriends, getFromMessenger }: any) => {
 
     const { date, messages, users } = messenger.chat;
     
@@ -102,6 +103,29 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
     }, [])
 
     useEffect(() => {
+        socket.on('deletefriend', (msg: any) => {
+            getFriends()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updateinvite', (msg: any) => {
+            getFriends()
+            getFromInvite()
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updatemessage', (msg: any) => {
+            getFromMessenger()
+        })
+           
+    }, [])
+
+    useEffect(() => {
         const value = !!friend.friends.filter((person: any) => person._id === match.params.id)[0]
         setIsFriend(value)
 
@@ -118,7 +142,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         e.preventDefault()
         sendMessage(id, formData, socket)
     }
-    console.log(messenger.chat)
+    // console.log(messenger.chat)
 
     return (
         <Fragment>
@@ -133,7 +157,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                                     </div>
                                 </Fragment> : <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0]._id, {liked: true})}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
+                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0]._id, {liked: true}, socket)}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
                                     </div>
                                 </Fragment>
                             }
@@ -155,7 +179,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                 <hr />
                 <div className="messages-box">
                 {
-                    messenger.chat.messages && messenger.chat.messages.map((msg: any) => <Message key={msg._id} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />)
+                    messenger.chat.messages && messenger.chat.messages.map((msg: any) => <Message key={msg._id} socket={socket} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />)
                 }
                 </div>
 
@@ -186,4 +210,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { updateMessage, deleteMessage, sendMessage, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage })(Chat);
+export default connect(mapStateToProps, { updateMessage, deleteMessage, sendMessage, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger })(Chat);

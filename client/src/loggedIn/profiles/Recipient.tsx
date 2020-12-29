@@ -16,12 +16,12 @@ import twitter from '../../style/icons/social-media/png/002-twitter.png'
 import facebook from '../../style/icons/social-media/png/001-facebook.png'
 import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
-import { deleteFriendship, getFriends } from '../../store/actions/friend/friend';
+import { deleteFriendship, getFriends, getFriendships } from '../../store/actions/friend/friend';
 import io from 'socket.io-client';
-import { getFromInvite } from '../../store/actions/notification/notification';
+import { getFromInvite, getFromMessenger } from '../../store/actions/notification/notification';
 
 let socket: any
-const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, getRecipient, history, getFriends, getSentInvites, sendInvite, cancelInvite, deleteFriendship }: any): any => {
+const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, getRecipient, history, getFriends, getSentInvites, sendInvite, cancelInvite, deleteFriendship, getFromMessenger }: any): any => {
 
     useEffect(() => {
         getAbout(match.params.id)
@@ -65,16 +65,56 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
 
     useEffect(() => {
         socket.on('invite', (msg: any) => {
-            
-            getInvites()
+            getFromInvite()
         })
            
+    
     }, [])
+
     useEffect(() => {
         socket.on('deleteinvite', (msg: any) => {
             
             getFromInvite()
         })
+    }, [])
+    useEffect(() => {
+        socket.on('chat', (msg: any) => {
+            getFromMessenger()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('deletemessage', (msg: any) => {
+            getFromMessenger()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('deletefriend', (msg: any) => {
+            getFriends()
+
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updateinvite', (msg: any) => {
+            getFriends()
+            getFromInvite()
+
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updatemessage', (msg: any) => {
+            getFromMessenger()
+        })
+           
     }, [])
 
 
@@ -184,4 +224,4 @@ const mapStateToProps = (state: any) => ({
     recipient: state.recipient,
     friend: state.friend
 })
-export default connect(mapStateToProps, { getAbout, getRecipient, getFriends, getSentInvites, getFromInvite, sendInvite, cancelInvite, deleteFriendship })(withRouter(Recipient));
+export default connect(mapStateToProps, { getAbout, getRecipient, getFriends, getSentInvites, getFromInvite, sendInvite, cancelInvite, deleteFriendship, getFromMessenger })(withRouter(Recipient));

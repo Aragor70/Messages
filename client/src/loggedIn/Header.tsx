@@ -28,13 +28,13 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
 
         socket.on('success', (success: any) => console.log(success))
         
-        console.log('logged in')
+        console.log('logged in <><><><>Header<><><><>')
 
         return () => {
             socket.disconnect()
             socket.off()
 
-
+            console.log('<><><><>Header disconnection<><><><>')
             console.log('disconnected now')
         }
 
@@ -89,7 +89,6 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
         })
     }, [])
 
-    console.log(friend)
 
     return (
         <Fragment>

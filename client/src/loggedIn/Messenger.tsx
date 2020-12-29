@@ -15,7 +15,6 @@ import { getFriends } from '../store/actions/friend/friend';
 import { getRecipient } from '../store/actions/recipient/recipient';
 
 
-let socket: any;
 
 const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, getRecipient }: any) => {
 

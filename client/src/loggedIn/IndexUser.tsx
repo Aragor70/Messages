@@ -12,10 +12,11 @@ import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getInvites } from '../store/actions/friend/invite';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
+import { getFriends } from '../store/actions/friend/friend';
 
 let socket: any;
 
-const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, getInvites, getFromInvite, getConnected, getFromMessenger, deleteSocketMessage, getSocketMessage }: any) => {
+const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, getInvites, getFromInvite, getConnected, getFromMessenger, getFriends }: any) => {
 
     const { avatar, name, status } = auth.user
     
@@ -39,13 +40,14 @@ const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, g
 
         socket.on('success', (success: any) => console.log(success))
         
+        console.log('front socket connect')
         console.log('logged in')
 
         return () => {
             socket.disconnect()
             socket.off()
 
-
+            console.log('front socket disconnect')
             console.log('disconnected now')
         }
 
@@ -100,6 +102,30 @@ const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, g
         })
     }, [])
 
+    useEffect(() => {
+        socket.on('deletefriend', (msg: any) => {
+            getFriends()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updateinvite', (msg: any) => {
+            
+            getFriends()
+            getFromInvite()
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updatemessage', (msg: any) => {
+            getFromMessenger()
+        })
+           
+    }, [])
+
     return (
         <Fragment>
             <div className="messages-content">
@@ -117,4 +143,4 @@ const mapStateToProps = (state:any) => ({
     auth: state.auth,
     messenger: state.messenger
 })
-export default connect(mapStateToProps, { getChats, getConnected, deleteSocketMessage, getSocketMessage, getInvites, getFromInvite, getFromMessenger })(withRouter(IndexUser));
+export default connect(mapStateToProps, { getChats, getConnected, deleteSocketMessage, getSocketMessage, getInvites, getFromInvite, getFromMessenger, getFriends })(withRouter(IndexUser));

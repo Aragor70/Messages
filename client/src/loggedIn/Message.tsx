@@ -7,13 +7,13 @@ import { updateMessage } from '../store/actions/messenger/messenger';
 
 
 
-const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage }: any) => {
+const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage, socket }: any) => {
     
     const { text, date, user, recipient } = message
     
     useEffect(() => {
         if (!message.seen) {
-            updateMessage(message._id, { seen: true })
+            updateMessage(message._id, { seen: true }, socket)
         }
         
     }, [updateMessage])

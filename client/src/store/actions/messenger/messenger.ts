@@ -59,7 +59,7 @@ export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
 }
 
 
-export const updateMessage = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+export const updateMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -68,13 +68,16 @@ export const updateMessage = (id: string, formData: any) => async(dispatch: Disp
     try {
         const res = await axios.put(`/api/messages/${id}`, formData, config);
         //console.log(res.data)
+
+        socket.emit('updatemessage', { formData: id })
+
         switch(formData) {
             case { liked: true }:
                 return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });
             case { seen: true }:
                 return console.log('seen')
             case { opened: true }:
-                return console.log('seen')
+                return console.log('open')
             
             
             default:

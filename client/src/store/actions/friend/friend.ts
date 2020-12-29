@@ -42,12 +42,12 @@ export const getUnknowns = () => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const deleteFriendship = (id: string) => async(dispatch: Dispatch<any>) => {
+export const deleteFriendship = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/friends/${id}`);
     
         dispatch({ type: Delete_Friendship, payload: { id, recipient: res.data.recipient } });
-        
+        socket.emit('deletefriend', id)
     } catch (err) {
         console.log(err.message)
     }

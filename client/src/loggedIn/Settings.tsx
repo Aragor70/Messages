@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
@@ -8,8 +8,12 @@ import editBtn from '../style/edit3.png'
 import Confirm from './reusable/Confirm';
 import { update, confirm } from '../store/actions/auth/auth';
 import { setAlert } from '../store/actions/alert/alert';
+import io from 'socket.io-client';
+import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 
-const Settings = ({ update, confirm, auth: { user } }: any) => {
+
+let socket: any;
+const Settings = ({ update, confirm, auth: { user }, getFromMessenger, getFromInvite }: any) => {
 
     const [emailUpdate, setEmailUpdate] = useState(false)
     const [passwordUpdate, setPasswordUpdate] = useState(false)
@@ -51,7 +55,78 @@ const Settings = ({ update, confirm, auth: { user } }: any) => {
         setSubmitPasswordView(false)
 
     }
-    console.log(formData)
+    
+    useEffect(() => {
+
+        console.log('connected now')
+        
+        socket = io("http://localhost:3000")
+
+
+        socket.emit('join', {id: user._id}, () => {
+            console.log('Socket client logged in')
+        })
+
+        socket.on('success', (success: any) => console.log(success))
+        
+        console.log('logged in')
+
+        return () => {
+            socket.disconnect()
+            socket.off()
+
+
+            console.log('disconnected now')
+        }
+
+    }, [])
+
+    useEffect(() => {
+        socket.on('invite', (msg: any) => {
+            getFromInvite()
+        })
+           
+    
+    }, [])
+
+    useEffect(() => {
+        socket.on('deleteinvite', (msg: any) => {
+            getFromInvite()
+        })
+    }, [])
+    useEffect(() => {
+        socket.on('chat', (msg: any) => {
+            getFromMessenger()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('deletemessage', (msg: any) => {
+            getFromMessenger()
+            
+        })
+           
+    }, [])
+
+
+    useEffect(() => {
+        socket.on('updateinvite', (msg: any) => {
+            getFromInvite()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updatemessage', (msg: any) => {
+            getFromMessenger()
+        })
+           
+    }, [])
+
+
     
     return (
         <Fragment>
@@ -145,4 +220,4 @@ const Settings = ({ update, confirm, auth: { user } }: any) => {
 const mapStateToProps = (state: any) => ({
     auth: state.auth
 })
-export default connect(mapStateToProps, { update, confirm, setAlert })(withRouter(Settings));
+export default connect(mapStateToProps, { update, confirm, setAlert, getFromMessenger, getFromInvite })(withRouter(Settings));

@@ -8,8 +8,6 @@ import chatImg from '../style/chat.png';
 
 const IndexPage = () => {
 
-
-
     return (
         <Fragment>
             <div className="shield">

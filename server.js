@@ -19,16 +19,11 @@ const io = socketio(server)
 
 let clients = [];
 let messages = [];
-let invites = [];
 
 io.on('connection', (socket) => {
     
     console.log('New client');
-
-    //socket.emit("Welcome the new user");
     
-
-
     socket.on('join', ({ id, chat = 'chat' }) => {
 
         console.log(chat, "chat");
@@ -48,9 +43,6 @@ io.on('connection', (socket) => {
 
         console.log('logged in', clients.length)
 
-
-        
-
         socket.on('disconnect', () => {
 
             io.emit("welcome", clients );
@@ -60,22 +52,17 @@ io.on('connection', (socket) => {
             clients = clients.filter(user => user.id != id)
             console.log('logged out', clients.length)
         });
-    
-        // socket.broadcast.emit('broadcast', { id, socketId: socket.id, users, text: `${id} has joined.`})
         
     });
     socket.on('invite', (formData) => {
         if (formData) {
-            //console.log(formData, 'sent message')
-            invites = [...invites, formData]
             socket.broadcast.emit('invite', formData)
         }
         
     })
     socket.on('deleteinvite', (formData) => {
         if (formData) {
-            //console.log(formData, 'sent message')
-            invites = invites.filter(id => id)
+            
             socket.broadcast.emit('deleteinvite', formData)
         }
         
@@ -96,11 +83,31 @@ io.on('connection', (socket) => {
         }
         
     })
+//
+    socket.on('deletefriend', (formData) => {
+        if (formData) {
+            
+            
+            socket.broadcast.emit('deletefriend', formData)
+        }
+        
+    })
 
-    // deletefriend
-    // update invite
-    // update message
-    // update notification, messenger, service, feedback
+    socket.on('updateinvite', (formData) => {
+        if (formData) {
+            
+            socket.broadcast.emit('updateinvite', formData)
+        }
+        
+    })
+    socket.on('updatemessage', (formData) => {
+        if (formData) {
+            
+            socket.broadcast.emit('updatemessage', formData)
+        }
+        
+    })
+    
     
 });
 

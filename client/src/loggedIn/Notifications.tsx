@@ -8,9 +8,10 @@ import '../style/auth.css'
 
 import photo from '../style/photo.jpg'
 import Notification from './Notification';
+import { getFriends } from '../store/actions/friend/friend';
 
 let socket: any;
-const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history }: any) => {
+const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends }: any) => {
 
     useEffect(() => {
         getFromInvite()
@@ -93,6 +94,30 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
         })
     }, [])
 
+    useEffect(() => {
+        socket.on('deletefriend', (msg: any) => {
+            
+            getFriends()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updateinvite', (msg: any) => {
+            getFriends()
+            getFromInvite()
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updatemessage', (msg: any) => {
+            getFromMessenger()
+        })
+           
+    }, [])
+
     return (
         <Fragment>
             <div className="notifications-content">
@@ -163,4 +188,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getFromMessenger, getConnected, getFromInvite, getFromService })(withRouter(Notifications));
+export default connect(mapStateToProps, { getFromMessenger, getConnected, getFromInvite, getFromService, getFriends })(withRouter(Notifications));

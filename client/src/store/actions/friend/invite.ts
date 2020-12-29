@@ -29,7 +29,7 @@ export const getSentInvites = () => async(dispatch: Dispatch<any>) => {
 }
 
 
-export const updateInvite = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+export const updateInvite = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -39,14 +39,14 @@ export const updateInvite = (id: string, formData: any) => async(dispatch: Dispa
         const res = await axios.put(`/api/invites/${id}`, formData, config);
         
         dispatch({ type: Update_Invite, payload: {id, invite: res.data.invite } });
-        
+        socket.emit('updateinvite', { formData: id })
     } catch (err) {
         console.log(err.message)
     }
     
 }
 
-export const acceptInvite = (id: string, formData: any) => async(dispatch: Dispatch<any>) => {
+export const acceptInvite = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -56,7 +56,7 @@ export const acceptInvite = (id: string, formData: any) => async(dispatch: Dispa
         const res = await axios.put(`/api/invites/${id}`, formData, config);
         
         dispatch({ type: Accept_Invite, payload: {id, invite: res.data.invite } });
-        
+        socket.emit('updateinvite', { formData: id })
     } catch (err) {
         console.log(err.message)
     }

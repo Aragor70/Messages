@@ -82,6 +82,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
             getInvites()
             getFromInvite()
             getUnknowns()
+            getSentInvites()
         })
     }, [])
     useEffect(() => {
@@ -102,6 +103,33 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
            
     }, [])
 
+    useEffect(() => {
+        socket.on('deletefriend', (msg: any) => {
+            getFriendships()
+            getFriends()
+            getUnknowns()
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updateinvite', (msg: any) => {
+            getFriendships()
+            getFriends()
+            getUnknowns()
+            getFromInvite()
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('updatemessage', (msg: any) => {
+            getFromMessenger()
+        })
+           
+    }, [])
+
     //console.log(friend.sentInvites ? friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0] : null)
     
     //console.log(editFriend[0] && editFriend[0]._id)
@@ -116,7 +144,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                 {
                                     ifExists(friend.friends, editFriend[0]) ? <Fragment>
                                             
-                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         </Fragment> : <Fragment>
                                             
                                             {
