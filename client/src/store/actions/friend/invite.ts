@@ -63,11 +63,12 @@ export const acceptInvite = (id: string, formData: any) => async(dispatch: Dispa
     
 }
 
-export const deleteInvite = (id: string) => async(dispatch: Dispatch<any>) => {
+export const deleteInvite = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/invites/${id}`);
     
         dispatch({ type: Delete_Invite, payload: {id, invite: res.data} });
+        socket.emit('deleteinvite', { formData: id })
         
     } catch (err) {
         console.log(err.message)
@@ -75,11 +76,12 @@ export const deleteInvite = (id: string) => async(dispatch: Dispatch<any>) => {
     
 }
 
-export const cancelInvite = (id: string) => async(dispatch: Dispatch<any>) => {
+export const cancelInvite = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/invites/${id}`);
     
         dispatch({ type: Cancel_Invite, payload: {id, invite: res.data.invite} });
+        socket.emit('deleteinvite', { formData: id })
         
     } catch (err) {
         console.log(err.message)

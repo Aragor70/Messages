@@ -13,9 +13,11 @@ import Invite from './Invite';
 import leftArrow from '../../style/icons/left-arrow2.png'
 import { ifExists } from '../../utils/getDataFromArray';
 import List from './List';
+import { getFromInvite, getFromMessenger } from '../../store/actions/notification/notification';
+import { deleteSocketMessage, getSocketMessage } from '../../store/actions/messenger/connection';
 
 let socket: any;
-export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite, deleteFriendship }: any) => {
+export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFromInvite, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite, deleteFriendship, getFromMessenger, deleteSocketMessage, getSocketMessage }: any) => {
 
     const [input, setInput] = useState(false)
 
@@ -67,8 +69,35 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
 
     useEffect(() => {
         socket.on('invite', (msg: any) => {
-            
+            getFromInvite()
             getInvites()
+            getUnknowns()
+        })
+           
+    
+    }, [])
+
+    useEffect(() => {
+        socket.on('deleteinvite', (msg: any) => {
+            getInvites()
+            getFromInvite()
+            getUnknowns()
+        })
+    }, [])
+    useEffect(() => {
+        socket.on('chat', (msg: any) => {
+            getFromMessenger()
+            getSocketMessage(msg.message)
+            
+        })
+           
+    }, [])
+
+    useEffect(() => {
+        socket.on('deletemessage', (msg: any) => {
+            getFromMessenger()
+            deleteSocketMessage(msg)
+            
         })
            
     }, [])
@@ -93,7 +122,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                             {
                                                 !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id == editFriend[0]._id || invitation.recipient == editFriend[0]._id)[0] ? <Fragment>
 
-                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(editFriend[0]._id), setEditMode(false)}}>cancel</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(editFriend[0]._id, socket), setEditMode(false)}}>cancel</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         
                                                 </Fragment> : <Fragment>
                                                     
@@ -125,7 +154,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
 
                     <Route exact path="/friends/invites">
 
-                        <List pageTitle="Invites" getOnLoad={getInvites} friend={friend} array={friend.invites} Component={Invite} ifEmpty="No new invites." input={input} setInput={setInput} setEditMode={setEditMode} editMode={editMode} setEditFriend={setEditFriend} editFriend={editFriend} history={history} />
+                        <List pageTitle="Invites" getOnLoad={getInvites} friend={friend} array={friend.invites} Component={Invite} ifEmpty="No new invites." input={input} setInput={setInput} setEditMode={setEditMode} editMode={editMode} setEditFriend={setEditFriend} editFriend={editFriend} history={history} socket={socket} />
                         
                     </Route>
 
@@ -151,4 +180,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends, getSentInvites, cancelInvite, sendInvite, deleteFriendship })(withRouter(Friends));
+export default connect(mapStateToProps, { getUnknowns, getInvites, getFriendships, getFriends, getFromInvite, getSentInvites, cancelInvite, sendInvite, deleteFriendship, getFromMessenger, deleteSocketMessage, getSocketMessage })(withRouter(Friends));

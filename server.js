@@ -19,6 +19,7 @@ const io = socketio(server)
 
 let clients = [];
 let messages = [];
+let invites = [];
 
 io.on('connection', (socket) => {
     
@@ -65,15 +66,23 @@ io.on('connection', (socket) => {
     });
     socket.on('invite', (formData) => {
         if (formData) {
-            console.log(formData, 'sent message')
-            messages = [...messages, formData]
-            socket.broadcast.emit('chat', formData)
+            //console.log(formData, 'sent message')
+            invites = [...invites, formData]
+            socket.broadcast.emit('invite', formData)
+        }
+        
+    })
+    socket.on('deleteinvite', (formData) => {
+        if (formData) {
+            //console.log(formData, 'sent message')
+            invites = invites.filter(id => id)
+            socket.broadcast.emit('deleteinvite', formData)
         }
         
     })
     socket.on('chat', (formData) => {
         if (formData) {
-            console.log(formData, 'sent message')
+            //console.log(formData, 'sent message')
             messages = [...messages, formData]
             socket.broadcast.emit('chat', formData)
         }
@@ -81,12 +90,17 @@ io.on('connection', (socket) => {
     })
     socket.on('deletemessage', (formData) => {
         if (formData) {
-            messages = messages.filter(element => element.message._id != formData.formData)
+            messages = messages.filter(element => element.message._id != formData.id)
             
-            socket.broadcast.emit('deletemessage', formData.formData)
+            socket.broadcast.emit('deletemessage', formData)
         }
         
     })
+
+    // deletefriend
+    // update invite
+    // update message
+    // update notification, messenger, service, feedback
     
 });
 

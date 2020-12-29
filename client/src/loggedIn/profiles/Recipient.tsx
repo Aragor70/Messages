@@ -18,9 +18,10 @@ import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
 import { deleteFriendship, getFriends } from '../../store/actions/friend/friend';
 import io from 'socket.io-client';
+import { getFromInvite } from '../../store/actions/notification/notification';
 
 let socket: any
-const Recipient = ({ recipient, friend, auth, match, getAbout, getRecipient, history, getFriends, getSentInvites, sendInvite, cancelInvite, deleteFriendship }: any): any => {
+const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, getRecipient, history, getFriends, getSentInvites, sendInvite, cancelInvite, deleteFriendship }: any): any => {
 
     useEffect(() => {
         getAbout(match.params.id)
@@ -69,7 +70,12 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getRecipient, his
         })
            
     }, [])
-
+    useEffect(() => {
+        socket.on('deleteinvite', (msg: any) => {
+            
+            getFromInvite()
+        })
+    }, [])
 
 
     return (
@@ -178,4 +184,4 @@ const mapStateToProps = (state: any) => ({
     recipient: state.recipient,
     friend: state.friend
 })
-export default connect(mapStateToProps, { getAbout, getRecipient, getFriends, getSentInvites, sendInvite, cancelInvite, deleteFriendship })(withRouter(Recipient));
+export default connect(mapStateToProps, { getAbout, getRecipient, getFriends, getSentInvites, getFromInvite, sendInvite, cancelInvite, deleteFriendship })(withRouter(Recipient));

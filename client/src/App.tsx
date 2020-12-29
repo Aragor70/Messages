@@ -40,6 +40,7 @@ import Messenger from './loggedIn/Messenger';
 import Support from './loggedIn/Support';
 import Recipient from './loggedIn/profiles/Recipient';
 import Heap from './utils/Heap';
+import Header from './loggedIn/Header';
 
 type Props = {
   auth: AuthType,
@@ -49,7 +50,7 @@ type Props = {
 
 
 
-const App = ({ loadUser, auth, history }: any) => {
+const App = ({ loadUser, auth, history, match }: any) => {
   
   useEffect(() => {
     if (localStorage.token) {
@@ -66,27 +67,8 @@ const App = ({ loadUser, auth, history }: any) => {
     <Fragment>
         {
           auth.isAuthenticated ? <Fragment>
-            <div className="header-shield">
-            <div className="recipient">
-                    <div className="header-person">
-                        <span>
-                        {
-                          history.location.pathname === '/' ? <img src={photo} height="35px" width="35px" /> : <img src={leftArrow} onClick={e=> history.push('/')} style={{ width: '35px', height: '35px' }} />
-                        }
-                        </span>
-                      
-                        
-                      <span style={{ fontSize: '20px'}}>{titlePage}</span>
-                        
-                        
-                    </div>
-                    
-                    <div className="header-action">
-                        <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)}>menu</span>
-                    </div>
-                    <hr />
-                </div>
-            </div>
+            <Header history={history} auth={auth} titlePage={titlePage} setMenu={setMenu} menu={menu} match={match} />
+            
           </Fragment> : <Fragment>
             <header className="header" >
               <div className="webName">

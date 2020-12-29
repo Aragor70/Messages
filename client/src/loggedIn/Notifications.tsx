@@ -8,7 +8,6 @@ import '../style/auth.css'
 
 import photo from '../style/photo.jpg'
 import Notification from './Notification';
-import { getInvites } from '../store/actions/friend/invite';
 
 let socket: any;
 const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history }: any) => {
@@ -73,11 +72,12 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
     useEffect(() => {
         socket.on('invite', (msg: any) => {
             
-            getInvites()
+            getFromInvite()
         })
+        
            
     }, [])
-
+    
     useEffect(() => {
         socket.on('deletemessage', (msg: any) => {
             
@@ -86,7 +86,12 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
         })
            
     }, [])
-
+    useEffect(() => {
+        socket.on('deleteinvite', (msg: any) => {
+            
+            getFromInvite()
+        })
+    }, [])
 
     return (
         <Fragment>

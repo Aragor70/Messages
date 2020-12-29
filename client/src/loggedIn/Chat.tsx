@@ -10,10 +10,12 @@ import leftArrow from '../style/icons/left-arrow2.png';
 import { deleteMessage, sendMessage, updateMessage } from '../store/actions/messenger/messenger';
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
+import { getFromInvite } from '../store/actions/notification/notification';
+import { getInvites } from '../store/actions/friend/invite';
 
 
 let socket: any;
-const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage }: any) => {
+const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage }: any) => {
 
     const { date, messages, users } = messenger.chat;
     
@@ -80,13 +82,24 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
     useEffect(() => {
         socket.on('deletemessage', (msg: any) => {
             
-            console.log(msg)
             deleteSocketMessage(msg)
             
         })
            
     }, [])
-
+    useEffect(() => {
+        socket.on('invite', (msg: any) => {
+            getFromInvite()
+            getInvites()
+        })
+           
+    }, [])
+    useEffect(() => {
+        socket.on('deleteinvite', (msg: any) => {
+            getInvites()
+            getFromInvite()
+        })
+    }, [])
 
     useEffect(() => {
         const value = !!friend.friends.filter((person: any) => person._id === match.params.id)[0]
@@ -116,11 +129,11 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                             {
                                 editMessage[0].user._id === auth.user._id ? <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span>quote</span><span onClick={e=> copy(editMessage[0].text)}>copy</span><span onClick={e=> { deleteMessage(editMessage[0]._id, socket), cleanMode() }}>delete</span>
+                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> copy(editMessage[0].text)}>copy</span><span onClick={e=> { deleteMessage(editMessage[0]._id, socket), cleanMode() }}>delete</span>
                                     </div>
                                 </Fragment> : <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0]._id, {liked: true})}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
+                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0]._id, {liked: true})}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
                                     </div>
                                 </Fragment>
                             }
@@ -173,4 +186,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { updateMessage, deleteMessage, sendMessage, getConnected, getSocketMessage, deleteSocketMessage })(Chat);
+export default connect(mapStateToProps, { updateMessage, deleteMessage, sendMessage, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage })(Chat);

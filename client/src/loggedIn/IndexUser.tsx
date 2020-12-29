@@ -10,10 +10,12 @@ import { getChats } from '../store/actions/messenger/messenger';
 import ChatPreview from './ChatPreview';
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
+import { getInvites } from '../store/actions/friend/invite';
+import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 
 let socket: any;
 
-const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, getConnected, deleteSocketMessage, getSocketMessage }: any) => {
+const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, getInvites, getFromInvite, getConnected, getFromMessenger, deleteSocketMessage, getSocketMessage }: any) => {
 
     const { avatar, name, status } = auth.user
     
@@ -69,7 +71,7 @@ const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, g
     
     useEffect(() => {
         socket.on('chat', (msg: any) => {
-            
+            getFromMessenger()
             getChats()
         })
            
@@ -77,11 +79,25 @@ const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, g
 
     useEffect(() => {
         socket.on('deletemessage', (msg: any) => {
-            
+            getFromMessenger()
             getChats()
             
         })
            
+    }, [])
+
+    useEffect(() => {
+        socket.on('invite', (msg: any) => {
+            getFromInvite()
+            getInvites()
+        })
+           
+    }, [])
+    useEffect(() => {
+        socket.on('deleteinvite', (msg: any) => {
+            getInvites()
+            getFromInvite()
+        })
     }, [])
 
     return (
@@ -101,4 +117,4 @@ const mapStateToProps = (state:any) => ({
     auth: state.auth,
     messenger: state.messenger
 })
-export default connect(mapStateToProps, { getChats, getConnected, deleteSocketMessage, getSocketMessage })(withRouter(IndexUser));
+export default connect(mapStateToProps, { getChats, getConnected, deleteSocketMessage, getSocketMessage, getInvites, getFromInvite, getFromMessenger })(withRouter(IndexUser));

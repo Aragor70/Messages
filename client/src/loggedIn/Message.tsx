@@ -1,6 +1,7 @@
 /* eslint-disable */
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { updateMessage } from '../store/actions/messenger/messenger';
 
 
 
@@ -10,7 +11,12 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
     
     const { text, date, user, recipient } = message
     
-    
+    useEffect(() => {
+        if (!message.seen) {
+            updateMessage(message._id, { seen: true })
+        }
+        
+    }, [updateMessage])
     
     const handleOption = () => {
         if (editMode === true) {

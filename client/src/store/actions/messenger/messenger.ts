@@ -73,10 +73,12 @@ export const updateMessage = (id: string, formData: any) => async(dispatch: Disp
                 return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });
             case { seen: true }:
                 return console.log('seen')
+            case { opened: true }:
+                return console.log('seen')
             
             
             default:
-                return null
+                return console.log('option')
                 
         }
         

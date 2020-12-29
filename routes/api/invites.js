@@ -182,7 +182,12 @@ router.put('/:id', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
-    const invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar']);
+    let invite = await Invite.findById(req.params.id).populate('user = recipient', ['name', 'avatar']);
+    
+    if ( !invite ) {
+        invite = await Invite.findOne({ user: req.user.id, recipient: req.params.id }).populate('user = recipient', ['name', 'avatar']);
+        
+    }
     let message = '';
     
     if (!invite) {
