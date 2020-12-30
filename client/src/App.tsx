@@ -59,14 +59,14 @@ const App = ({ loadUser, auth, history, match }: any) => {
   }, [loadUser])
 
   const [menu, setMenu] = useState<boolean>(false)
+  const [notificationView, setNotificationView] = useState<boolean>(false)
   const [titlePage, setTitlePage] = useState('messenger')
-
 
   return (
     <Fragment>
         {
           auth.isAuthenticated ? <Fragment>
-            <Header history={history} auth={auth} titlePage={titlePage} setMenu={setMenu} menu={menu} match={match} />
+            <Header history={history} auth={auth} titlePage={titlePage} setMenu={setMenu} menu={menu} match={match} setNotificationView={setNotificationView} notificationView={notificationView} />
             
           </Fragment> : <Fragment>
             <header className="header" >
@@ -83,13 +83,19 @@ const App = ({ loadUser, auth, history, match }: any) => {
         }
         
         
-        {
-          menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="shadow" onClick={e=> setMenu(false)}></div></Fragment>
-        }
         
         <main className="output" style={ auth.isAuthenticated ? { marginTop: '0' } : { marginTop : '9vh', width: '100%' }}>
           {
+            menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="shadow" onClick={e=> setMenu(false)}></div></Fragment>
+          }
+
+          {
             auth.isAuthenticated ? <Fragment>
+
+              {
+                notificationView && <Notifications notificationView={notificationView} setNotificationView={setNotificationView} />
+              }
+
               <Switch>
               
               <Route exact path="/">
@@ -111,13 +117,8 @@ const App = ({ loadUser, auth, history, match }: any) => {
 
               </Route>
 
-              <Route exact path="/notifications">
               
-                <Notifications />
-                <Alert />
-
-              </Route>
-
+              
 
               <Route exact path="/settings">
               

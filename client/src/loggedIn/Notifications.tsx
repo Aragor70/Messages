@@ -11,7 +11,7 @@ import Notification from './Notification';
 import { getFriends } from '../store/actions/friend/friend';
 
 let socket: any;
-const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification }: any) => {
+const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification, setNotificationView, notificationView }: any) => {
 
     useEffect(() => {
         getFromInvite()

@@ -6,7 +6,7 @@
     width: calc(100% - 100vw / 64 * 8 * 2);
     position: absolute;
     height: auto;
-    top: 9vh;
+    top: 12vh;
     right: calc(100vw / 64 * 8);
     display: flex;
     justify-content: center;

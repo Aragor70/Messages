@@ -13,7 +13,7 @@ import menuBtn from '../style/icons/menu2.png'
 
 
 let socket: any;
-const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, messenger, friend, getFromMessenger, notification, getFromInvite }: any) => {
+const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, messenger, friend, getFromMessenger, notification, getFromInvite, setNotificationView, notificationView }: any) => {
 
     useEffect(() => {
 
@@ -103,7 +103,7 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
                     </div>
                     
                     <div className="header-action">
-                        <span onClick={e=> history.push('/notifications')}><img src={!!notification.messenger.messages.filter((msg: any) => msg.opened)[0] ? notificationOn : notificationOff} /></span>
+                        <span onClick={e=> setNotificationView(!notificationView)}><img src={!!notification.messenger.messages.filter((msg: any) => msg.opened)[0] ? notificationOn : notificationOff} /></span>
                         <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)}><img src={menuBtn} /></span>
                     </div>
                     <hr />

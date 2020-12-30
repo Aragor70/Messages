@@ -3,6 +3,15 @@
     width: 100%;
     height: auto;
     display: block;
+    overflow: hidden;
+    overflow-y: auto;
+    position: fixed;
+    top: 12vh;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #121212;
+    z-index: 2;
 }
 
 .notifications-header
