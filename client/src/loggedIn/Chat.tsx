@@ -7,7 +7,7 @@ import photo from '../style/photo.jpg';
 import copy from 'copy-to-clipboard';
 import leftArrow from '../style/icons/left-arrow2.png';
 
-import { deleteMessage, sendMessage, updateMessage } from '../store/actions/messenger/messenger';
+import { deleteMessage, sendMessage, likeMessage } from '../store/actions/messenger/messenger';
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
@@ -16,7 +16,7 @@ import { getFriends } from '../store/actions/friend/friend';
 
 
 let socket: any;
-const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, updateMessage, deleteMessage, sendMessage, getFriends, getFromMessenger }: any) => {
+const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger }: any) => {
 
     const { date, messages, users } = messenger.chat;
     
@@ -119,7 +119,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
     }, [])
 
     useEffect(() => {
-        socket.on('updatemessage', (msg: any) => {
+        socket.on('updateMessage', (msg: any) => {
             getFromMessenger()
         })
            
@@ -157,7 +157,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                                     </div>
                                 </Fragment> : <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> updateMessage(editMessage[0]._id, {liked: true}, socket)}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
+                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> likeMessage(editMessage[0]._id, {liked: true}, socket)}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
                                     </div>
                                 </Fragment>
                             }
@@ -210,4 +210,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { updateMessage, deleteMessage, sendMessage, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger })(Chat);
+export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger })(Chat);

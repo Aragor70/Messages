@@ -105,7 +105,7 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
         socket.on('updateinvite', (msg: any) => {
             getFriends()
             getFromInvite()
-
+            getSentInvites()
         })
            
     }, [])

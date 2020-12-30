@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { Get_Messenger, Get_Chat, Get_Chats, Like_Message, Delete_Message, Send_Message } from "./types";
+import { Get_Messenger, Get_Chat, Get_Chats, Like_Message, Delete_Message, Send_Message, Open_Message, See_Message } from "./types";
 import axios from 'axios';
 
 export const sendMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
@@ -59,7 +59,46 @@ export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
 }
 
 
-export const updateMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
+export const likeMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.put(`/api/messages/${id}`, formData, config);
+        
+        socket.emit('updatemessage', { formData: id })
+
+        return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });
+           
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+export const openMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+    try {
+        const res = await axios.put(`/api/messages/${id}`, formData, config);
+        
+
+        socket.emit('updatemessage', { formData: id })
+
+        return dispatch({ type: Open_Message, payload: {id, message: res.data.message} });
+            
+            
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+export const seeMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -71,20 +110,9 @@ export const updateMessage = (id: string, formData: any, socket: any) => async(d
 
         socket.emit('updatemessage', { formData: id })
 
-        switch(formData) {
-            case { liked: true }:
-                return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });
-            case { seen: true }:
-                return console.log('seen')
-            case { opened: true }:
-                return console.log('open')
+        return dispatch({ type: See_Message, payload: {id, message: res.data.message} });
             
-            
-            default:
-                return console.log('option')
-                
-        }
-        
+          
     } catch (err) {
         console.log(err.message)
     }

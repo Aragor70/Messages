@@ -1,4 +1,4 @@
-import { Get_Chat, Get_Messenger, Get_Chats, Like_Message, Delete_Message, Send_Message, Get_Connected, Disconnect_User } from '../actions/messenger/types';
+import { Get_Chat, Get_Messenger, Get_Chats, Open_Message, See_Message, Like_Message, Delete_Message, Send_Message, Get_Connected, Disconnect_User } from '../actions/messenger/types';
 
 interface MessengerState {
     chat: any,
@@ -32,6 +32,11 @@ const messengerReducer = (state: MessengerState = initialState, action: any ): a
             return {...state, chats: payload, loading: false}
         case Like_Message:
             return {...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? {... message, liked: payload.message.liked} : message ) }, loading: false}
+        case Open_Message:
+            return {...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? {... message, opened: payload.message.opened} : message ) }, loading: false}
+        case See_Message:
+            return {...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? {... message, seen: payload.message.seen} : message ) }, loading: false}
+
         case Send_Message:
             return {...state, chat: { messages: [...state.chat.messages, payload.message] }, loading: false}
         case Delete_Message:

@@ -13,7 +13,7 @@ import menuBtn from '../style/icons/menu2.png'
 
 
 let socket: any;
-const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, messenger, friend, getFromMessenger, notification }: any) => {
+const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, messenger, friend, getFromMessenger, notification, getFromInvite }: any) => {
 
     useEffect(() => {
 
@@ -61,7 +61,6 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
     useEffect(() => {
         socket.on('chat', (msg: any) => {
             getFromMessenger()
-            getChats()
         })
            
     }, [])
@@ -69,7 +68,6 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
     useEffect(() => {
         socket.on('deletemessage', (msg: any) => {
             getFromMessenger()
-            getChats()
             
         })
            
@@ -78,17 +76,14 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
     useEffect(() => {
         socket.on('invite', (msg: any) => {
             getFromInvite()
-            getInvites()
         })
            
     }, [])
     useEffect(() => {
         socket.on('deleteinvite', (msg: any) => {
-            getInvites()
             getFromInvite()
         })
     }, [])
-
 
     return (
         <Fragment>
@@ -108,7 +103,7 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
                     </div>
                     
                     <div className="header-action">
-                        <span><img src={!!notification.messenger.messages.filter((msg: any) => msg.opened || msg.seen) ? notificationOn : notificationOff} /></span>
+                        <span onClick={e=> history.push('/notifications')}><img src={!!notification.messenger.messages.filter((msg: any) => msg.opened)[0] ? notificationOn : notificationOff} /></span>
                         <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)}><img src={menuBtn} /></span>
                     </div>
                     <hr />
@@ -122,4 +117,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     notification: state.notification
 })
-export default connect(mapStateToProps, {getConnected, getFromMessenger})(Header);
+export default connect(mapStateToProps, {getConnected, getFromMessenger, getFromInvite})(Header);

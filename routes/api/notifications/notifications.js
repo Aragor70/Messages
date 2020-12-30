@@ -22,9 +22,9 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 //access       private
 router.put('/', auth, asyncHandler( async(req, res, next) => {
     const { turn_on, invites, messages, services } = req.body;
-
+    
     let message = ''
-    const notification = await Notification.findOne(req.user.id);
+    const notification = await Notification.findOne({ user: req.user.id });
     if (!notification) {
         return next(new ErrorResponse('Notification not found.', 404));
     }

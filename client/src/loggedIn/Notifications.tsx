@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { getConnected } from '../store/actions/messenger/connection';
-import { getFromInvite, getFromMessenger, getFromService, getNotifications } from '../store/actions/notification/notification';
+import { getFromInvite, getFromMessenger, getFromService, getNotifications, switchInvite, switchMessenger, switchNotification, switchService } from '../store/actions/notification/notification';
 import io from 'socket.io-client';
 import '../style/auth.css'
 
@@ -11,7 +11,7 @@ import Notification from './Notification';
 import { getFriends } from '../store/actions/friend/friend';
 
 let socket: any;
-const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends }: any) => {
+const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification }: any) => {
 
     useEffect(() => {
         getFromInvite()
@@ -123,7 +123,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
             <div className="notifications-content">
                 
                 <div className="notifications-header">
-                    messenger <span>on/off</span>
+                    messenger <span onClick={e=> switchMessenger({ messages: true})}>on/off</span>
                 </div>
 
                 {
@@ -133,7 +133,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 <hr />
 
                 <div className="notifications-header">
-                    invites <span>on/off</span>
+                    invites <span onClick={e=> switchInvite({ invites: true })}>on/off</span>
                 </div>
 
                 {
@@ -155,7 +155,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 <hr />
 
                 <div className="notifications-header">
-                    service <span>on/off</span>
+                    service <span onClick={e=> switchService({ services: true })}>on/off</span>
                 </div>
 
                 {
@@ -188,4 +188,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getFromMessenger, getConnected, getFromInvite, getFromService, getFriends })(withRouter(Notifications));
+export default connect(mapStateToProps, { getFromMessenger, getConnected, getFromInvite, getFromService, getFriends, switchMessenger, switchInvite, switchService })(withRouter(Notifications));

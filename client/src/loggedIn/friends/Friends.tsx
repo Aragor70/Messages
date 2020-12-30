@@ -119,6 +119,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
             getFriends()
             getUnknowns()
             getFromInvite()
+            getSentInvites()
         })
            
     }, [])
@@ -130,10 +131,6 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
            
     }, [])
 
-    //console.log(friend.sentInvites ? friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id)[0] : null)
-    
-    //console.log(editFriend[0] && editFriend[0]._id)
-    
     return (
         <Fragment>
             <div className="friends-content">

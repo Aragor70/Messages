@@ -8,7 +8,7 @@ import photo from '../style/photo.jpg'
 import Options from './reusable/Options';
 import leftArrow from '../style/icons/left-arrow2.png';
 import auth from '../store/reducers/auth';
-import { deleteMessage, getChat, getChats, getMessenger, sendMessage, updateMessage } from '../store/actions/messenger/messenger';
+import { deleteMessage, getChat, getChats, getMessenger, sendMessage } from '../store/actions/messenger/messenger';
 import Chat from './Chat';
 import { connectUser, disconnectUser, initialConnection } from '../store/actions/messenger/connection';
 import { getFriends } from '../store/actions/friend/friend';
@@ -69,4 +69,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     recipient: state.recipient
 })
-export default connect(mapStateToProps, { getChats, getFriends, getChat, updateMessage, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection, getRecipient })(withRouter(Messenger));
+export default connect(mapStateToProps, { getChats, getFriends, getChat, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection, getRecipient })(withRouter(Messenger));

@@ -6,7 +6,6 @@ import { acceptInvite, deleteInvite } from '../../store/actions/friend/invite';
 
 const Invite = ({ invite, deleteInvite, history, acceptInvite, socket }: any) => {
 
-    console.log(invite)
     
     return (
         <Fragment>

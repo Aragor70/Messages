@@ -1,7 +1,7 @@
 /* eslint-disable */
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateMessage } from '../store/actions/messenger/messenger';
+import { seeMessage } from '../store/actions/messenger/messenger';
 
 
 
@@ -13,10 +13,10 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
     
     useEffect(() => {
         if (!message.seen) {
-            updateMessage(message._id, { seen: true }, socket)
+            seeMessage(message._id, { seen: true }, socket)
         }
         
-    }, [updateMessage])
+    }, [seeMessage])
     
     const handleOption = () => {
         if (editMode === true) {

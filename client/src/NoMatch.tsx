@@ -22,9 +22,9 @@ const NoMatch = ({ history, auth, setAlert, location }: any) => {
     return (
       <Fragment>
         <div className="page-not-found">
-            <h1>404</h1>
-            <h1>Page not found</h1>
-        </div>  
+            <h1>404, Page not found.</h1>
+            
+        </div>
         
       </Fragment>
     )

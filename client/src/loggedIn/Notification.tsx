@@ -1,20 +1,22 @@
 import React, { Fragment, useEffect } from 'react';
 import moment from 'moment';
 import photo from '../style/photo.jpg';
-import { updateMessage } from '../store/actions/messenger/messenger';
+import { openMessage } from '../store/actions/messenger/messenger';
 import { connect } from 'react-redux';
 
 
-const Notification = ({ message, history, isFriend=false, updateMessage }: any) => {
+const Notification = ({ message, history, isFriend=false, openMessage }: any) => {
 
     useEffect(() => {
         if (!message.opened) {
-            updateMessage(message._id, { opened: true })
+            openMessage(message._id, { opened: true })
         }
         
-    }, [updateMessage])
+    }, [openMessage])
 
-    console.log(message)
+    
+        console.log(message)
+    
 
     return (
         <Fragment>
@@ -27,4 +29,4 @@ const Notification = ({ message, history, isFriend=false, updateMessage }: any) 
         </Fragment>
     );
 }
-export default connect(null, { updateMessage })(Notification);
+export default connect(null, { openMessage })(Notification);

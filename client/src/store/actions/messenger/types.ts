@@ -7,3 +7,5 @@ export const Send_Message = 'Send_Message';
 
 export const Get_Connected = 'Get_Connected';
 export const Disconnect_User = 'Disconnect_User';
+export const Open_Message = 'Open_Message';
+export const See_Message = 'See_Message';

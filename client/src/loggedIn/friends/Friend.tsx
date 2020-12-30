@@ -16,7 +16,9 @@ const Friend = ({ recipient, editMode, setEditMode, sentInvites, history, setEdi
         }
         
     }, [sentInvites])
+    
     console.log(editFriend[0])
+
     const handleOption = () => {
         if (editMode === true) {
             setEditMode(false);
