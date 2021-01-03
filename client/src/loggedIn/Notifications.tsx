@@ -9,9 +9,11 @@ import '../style/auth.css'
 import photo from '../style/photo.jpg'
 import Notification from './Notification';
 import { getFriends } from '../store/actions/friend/friend';
+import { updateInvite } from '../store/actions/friend/invite';
+import { openMessage } from '../store/actions/messenger/messenger';
 
 let socket: any;
-const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification, setNotificationView, notificationView }: any) => {
+const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification, setNotificationView, notificationView, openMessage, updateInvite }: any) => {
 
     useEffect(() => {
         getFromInvite()
@@ -120,6 +122,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
 
     return (
         <Fragment>
+            
             <div className="notifications-content">
                 
                 <div className="notifications-header">
@@ -127,7 +130,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 </div>
 
                 {
-                    notification.messenger && notification.messenger.messages.map((message: any) => <Notification key={message._id} message={message} history={history} isFriend={true} />)
+                    notification.messenger && notification.messenger.messages.map((message: any) => <Notification key={message._id} message={message} history={history} isFriend={true} setNotificationView={setNotificationView} notificationView={notificationView} openFunction={openMessage} />)
                 }
 
                 <hr />
@@ -137,7 +140,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 </div>
 
                 {
-                    notification.invite && notification.invite.messages.map((message: any) => <Notification key={message._id} message={message} history={history} />)
+                    notification.invite && notification.invite.messages.map((message: any) => <Notification key={message._id} message={message} history={history} setNotificationView={setNotificationView} notificationView={notificationView} openFunction={updateInvite} />)
                 }
                 <div className="notifications-row">
                     <div className="avatar"><img src={photo} height="35px" width="35px" /></div>
@@ -159,7 +162,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 </div>
 
                 {
-                    notification.service && notification.service.messages.map((message: any) => <Notification key={message._id} history={history} message={message} />)
+                    notification.service && notification.service.messages.map((message: any) => <Notification key={message._id} history={history} message={message} setNotificationView={setNotificationView} notificationView={notificationView} />)
                 }
                 
                 <div className="notifications-row">
@@ -188,4 +191,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { getFromMessenger, getConnected, getFromInvite, getFromService, getFriends, switchMessenger, switchInvite, switchService })(withRouter(Notifications));
+export default connect(mapStateToProps, { getFromMessenger, getConnected, getFromInvite, getFromService, getFriends, switchMessenger, switchInvite, switchService, openMessage, updateInvite })(withRouter(Notifications));

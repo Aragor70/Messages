@@ -35,7 +35,7 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
                     <div className="recipient-content">
                         <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)}>
                             <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
-                            <div className="message"><span className="text">{text}</span><span className="status">*</span></div>
+                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? "s" : message.opened ? "o" : null}</span></div>
                         </div>
                         
                     </div>
@@ -43,7 +43,7 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
                     <div className="recipient-content">
                         <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)}>
                             <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
-                            <div className="message"><span className="text">{text}</span><span className="status">*</span></div>
+                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? "s" : message.opened ? "o" : null}</span></div>
                         </div>
                         
                     </div>

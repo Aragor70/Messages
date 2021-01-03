@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getInvites } from '../store/actions/friend/invite';
 import { getConnected } from '../store/actions/messenger/connection';
@@ -7,13 +7,26 @@ import { getFromInvite, getFromMessenger } from '../store/actions/notification/n
 import leftArrow from '../style/icons/left-arrow2.png';
 import io from 'socket.io-client';
 
-import notificationOn from '../style/icons/notificationOn.png'
-import notificationOff from '../style/icons/notificationOff.png'
+import notificationOn from '../style/icons/notifications/msgOn.png'
+import notificationOff from '../style/icons/notifications/msgOff.png'
 import menuBtn from '../style/icons/menu2.png'
 
 
 let socket: any;
 const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, messenger, friend, getFromMessenger, notification, getFromInvite, setNotificationView, notificationView }: any) => {
+
+    const [isMessage, setIsMessage] = useState(false)
+
+    useEffect(() => {
+        const messages: boolean = !!notification.messenger.messages.filter((message: any) => message.opened === false)[0]
+        const invites: boolean = !!notification.invite.messages.filter((message: any) => message.opened === false)[0]
+        const services: boolean = !!notification.service.messages.filter((message: any) => message.opened === false)[0]
+        const feedbacks: boolean = !!notification.feedback.messages.filter((message: any) => message.opened === false)[0]
+        
+
+        setIsMessage(messages || invites || services || feedbacks)
+        
+    }, [notification])
 
     useEffect(() => {
 
@@ -85,6 +98,7 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
         })
     }, [])
 
+
     return (
         <Fragment>
             <div className="header-shield">
@@ -97,13 +111,13 @@ const Header = ({ history, auth, titlePage, setMenu, menu, match, getConnected, 
                         </span>
                       
                         
-                      <span style={{ fontSize: '20px'}}>{titlePage}</span>
+                      <span style={{ fontSize: '20px', color: '#c1c1c1'}}>{titlePage}</span>
                         
                         
                     </div>
                     
                     <div className="header-action">
-                        <span onClick={e=> setNotificationView(!notificationView)}><img src={!!notification.messenger.messages.filter((msg: any) => msg.opened)[0] ? notificationOn : notificationOff} /></span>
+                        <span onClick={e=> setNotificationView(!notificationView)}><img src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
                         <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)}><img src={menuBtn} /></span>
                     </div>
                     <hr />

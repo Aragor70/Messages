@@ -58,6 +58,7 @@
     padding-left: 7.5px;
     padding-right: 7.5px;
 }
+
 .messenger-recipient
 {
     width: calc(100% - 35px);
@@ -159,6 +160,14 @@
     font-family: 'Indie Flower', cursive;
     float: left;
 }
+.messenger-content .message-user .options
+{
+    padding-left: 0;
+}
+.messenger-content .message-recipient .options
+{
+    padding-right: 0;
+}
 .msg-field
 {
     width: 80%;
@@ -169,19 +178,20 @@
 }
 .message-user .msg-field
 {
-    background-color: green;
+    
+    border: 1px solid green;
 }
 
 .message-recipient .msg-field
 {
-    background-color: lightblue;
+    border: 1px solid lightblue;
 }
 
 .write-box
 {
     width: 100%;
     height: 70px;
-    background-color: yellow;
+    background-color: #c1c1c1;
     float: left;
     display: block;
     z-index: 5;

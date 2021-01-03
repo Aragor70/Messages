@@ -66,7 +66,7 @@ const App = ({ loadUser, auth, history, match }: any) => {
     <Fragment>
         {
           auth.isAuthenticated ? <Fragment>
-            <Header history={history} auth={auth} titlePage={titlePage} setMenu={setMenu} menu={menu} match={match} setNotificationView={setNotificationView} notificationView={notificationView} />
+            <Header history={history} auth={auth} titlePage={titlePage} setTitlePage={setTitlePage} setMenu={setMenu} menu={menu} match={match} setNotificationView={setNotificationView} notificationView={notificationView} />
             
           </Fragment> : <Fragment>
             <header className="header" >
@@ -86,7 +86,7 @@ const App = ({ loadUser, auth, history, match }: any) => {
         
         <main className="output" style={ auth.isAuthenticated ? { marginTop: '0' } : { marginTop : '9vh', width: '100%' }}>
           {
-            menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="shadow" onClick={e=> setMenu(false)}></div></Fragment>
+            menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="addshadow" onClick={e=> setMenu(false)}></div></Fragment>
           }
 
           {
@@ -95,7 +95,10 @@ const App = ({ loadUser, auth, history, match }: any) => {
               {
                 notificationView && <Notifications notificationView={notificationView} setNotificationView={setNotificationView} />
               }
-
+              {
+                notificationView && <div className="addshadow" onClick={e=> setNotificationView(false)}></div>
+              
+              }
               <Switch>
               
               <Route exact path="/">

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 import Message from './Message';
 import Options from './reusable/Options';
@@ -11,18 +11,31 @@ import { deleteMessage, sendMessage, likeMessage } from '../store/actions/messen
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
-import { getInvites } from '../store/actions/friend/invite';
+import { acceptInvite, deleteInvite, getInvites, sendInvite, updateInvite } from '../store/actions/friend/invite';
 import { getFriends } from '../store/actions/friend/friend';
+import MessageInvite from './MessageInvite';
 
 
 let socket: any;
-const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, deleteSocketMessage, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger }: any) => {
+const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite }: any) => {
 
+    
+    
     const { date, messages, users } = messenger.chat;
     
     const [isOnline, setIsOnline] = useState(false)
     const [isFriend, setIsFriend] = useState(false)
-    
+    const [isInvite, setIsInvite] = useState(false)
+    const [inviteMsg, setInviteMsg] = useState<any>(false)
+    const [isInvited, setIsInvited] = useState(false)
+    const strollToBottom = useRef<null | HTMLDivElement>(null)
+
+    useEffect(() => {
+        if (strollToBottom.current) {
+            strollToBottom.current.scrollIntoView({block: 'end', inline: "nearest"})
+        }
+    }, [strollToBottom, messages])
+
     useEffect(() => {
 
         console.log('connected now')
@@ -124,6 +137,27 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         })
            
     }, [])
+    // setIsInvite
+
+    useEffect(() => {
+        const value = friend.invites.filter((person: any) => person.user._id === match.params.id)[0]
+        setIsInvite(!!value)
+        setInviteMsg(value)
+
+        return () => {
+            setIsInvite(value)
+        }
+    }, [match.params.id, friend.invites, friend.sentInvites])
+
+    useEffect(() => {
+        const value = !!friend.sentInvites.filter((person: any) => person.recipient._id === match.params.id)[0]
+        setIsInvited(value)
+
+        return () => {
+            setIsInvited(value)
+        }
+    }, [match.params.id, friend.invites, friend.sentInvites])
+
 
     useEffect(() => {
         const value = !!friend.friends.filter((person: any) => person._id === match.params.id)[0]
@@ -132,7 +166,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         return () => {
             setIsFriend(value)
         }
-    }, [match.params.id])
+    }, [match.params.id, friend.friends && friend.friends.length])
 
     const handleChange = ( e: any ) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -142,8 +176,8 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         e.preventDefault()
         sendMessage(id, formData, socket)
     }
-    // console.log(messenger.chat)
 
+    
     return (
         <Fragment>
             <div className="messenger-content">
@@ -178,9 +212,21 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                 }
                 <hr />
                 <div className="messages-box">
+                
                 {
-                    messenger.chat.messages && messenger.chat.messages.map((msg: any) => <Message key={msg._id} socket={socket} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />)
+                    messenger.chat.messages ? messenger.chat.messages.map((msg: any) => <Message key={msg._id} socket={socket} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />) :  "Send your first message."
                 }
+                <div ref={strollToBottom}>
+                {
+                    !isFriend && isInvite && inviteMsg && <MessageInvite recipient={recipient} acceptInvite={acceptInvite} deleteInvite={deleteInvite} match={match} socket={socket} message={inviteMsg} updateInvite={updateInvite} />
+                }
+                {
+                    !isFriend && isInvited && <div className="invite-msg"><span>Invite is pending...</span></div>
+                }
+                {
+                    !isFriend && !isInvited && !isInvite && <div className="invite-msg"><span onClick={e=> sendInvite(match.params.id, socket)}>send invite</span></div>
+                }
+                </div>
                 </div>
 
                 {
@@ -194,9 +240,6 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                         </form>
                     </Fragment> : <Fragment>
                         <div className="write-box">
-                            This recipient is not friend.
-                            To connect with {recipient.recipient.name}
-                            Send invite now.
                         </div>
                     </Fragment>
                 }
@@ -210,4 +253,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger })(Chat);
+export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, acceptInvite, deleteInvite, sendInvite, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger, updateInvite })(Chat);

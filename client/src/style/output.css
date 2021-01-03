@@ -5,10 +5,10 @@
 .output
 {
     width: 100%;
-    min-height: 20vh;
+    height: calc(100vh - 12vh);
     margin-top: 9vh;
-
+    overflow: hidden;
     float: left;
-    background-color: #121212;
-    
+    background-color: #fff;
+    color: #121212;
 }

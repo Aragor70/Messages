@@ -13,10 +13,11 @@ import Chat from './Chat';
 import { connectUser, disconnectUser, initialConnection } from '../store/actions/messenger/connection';
 import { getFriends } from '../store/actions/friend/friend';
 import { getRecipient } from '../store/actions/recipient/recipient';
+import { getInvites, getSentInvites } from '../store/actions/friend/invite';
 
 
 
-const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, getRecipient }: any) => {
+const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, getRecipient, getInvites, getSentInvites }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
@@ -27,9 +28,11 @@ const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, g
 
 
     useEffect(() => {
+        getInvites()
+        getSentInvites()
         getFriends()
         return getChat(match.params.id)
-    }, [getChat, getFriends, match.params.id, messenger.chat && messenger.chat.messages && messenger.chat.messages.length])
+    }, [getChat, getFriends, getSentInvites, getInvites, match.params.id, messenger.chat && messenger.chat.messages && messenger.chat.messages.length])
 
     useEffect(()=> {
         getRecipient(match.params.id)
@@ -69,4 +72,4 @@ const mapStateToProps = (state: any) => ({
     friend: state.friend,
     recipient: state.recipient
 })
-export default connect(mapStateToProps, { getChats, getFriends, getChat, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection, getRecipient })(withRouter(Messenger));
+export default connect(mapStateToProps, { getChats, getFriends, getChat, deleteMessage, sendMessage, connectUser, disconnectUser, initialConnection, getRecipient, getInvites, getSentInvites })(withRouter(Messenger));

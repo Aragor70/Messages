@@ -20,9 +20,12 @@
 {
     width: 100%;
     height: calc(100vh - 12vh - 64px - 70px - 18px + 1px);
-    overflow: hidden;
+    overflow-x: hidden;
     overflow-y: auto;
     float: left;
+    padding: 15px;
+    padding-left: 0;
+    padding-right: 0;
 }
 .messages-content .message
 {
@@ -120,4 +123,38 @@
 {
     color: red;
     font-weight: bold;
+}
+
+.invite-msg 
+{
+    width: 100%;
+    min-height: 50vh;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    padding: 15px;
+    text-align: center;
+}
+.invite-msg > span
+{
+    font-size: 19.5px;
+    width: 100%;
+    height: auto;
+    padding: 30px;
+    padding-left: 15px;
+    padding-right: 15px;
+    
+}
+.invite-msg > h1
+{
+    font-size: 19.5px;
+    width: 100%;
+}
+.invite-msg button
+{
+    margin: 7.5px;
+    min-width: 80px;
+    border: none;
+    border-radius: 25px;
 }

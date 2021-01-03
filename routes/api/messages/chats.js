@@ -28,14 +28,21 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
 router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 
     // const chat = await Chat.findById(req.params.id).populate('message messages').populate('user = users', ['name', 'avatar']);
-    const chat = await Chat.findOne({ "users": { $all: [req.params.id, req.user.id] } }).populate({ path: 'messages message', model: 'Message', populate: { path: 'recipient user', model: 'User' }}).populate('user = users', ['name', 'avatar']);
-    
+    let chat = await Chat.findOne({ "users": { $all: [req.params.id, req.user.id] } }).populate({ path: 'messages message', model: 'Message', populate: { path: 'recipient user', model: 'User' }}).populate('user = users', ['name', 'avatar']);
+    //console.log(chat)
+    const compareFunction = (a, b) => {
+        let valueA = new Date(a.date)
+        let valueB = new Date(b.date)
+        
+        
+        return valueA.getTime() - valueB.getTime()
+    }
     // console.log(chat)
     // User.findOne({ name: 'Val' }).populate({ path: 'friends', populate: { path: 'friends' } });
     
     // Get friends of friends - populate the 'friends' array for every friend
-
-
+    chat = {...chat, messages: chat.messages.sort(compareFunction)}
+    
     if (!chat) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }

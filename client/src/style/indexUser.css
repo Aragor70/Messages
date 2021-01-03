@@ -20,17 +20,20 @@
     width: 100%;
     float: left;
     height: auto;
-    background-color: rgba(0, 255, 0, 0.7);
+    background-color: rgba(255, 255, 255, 0.7);
     border-radius: 7.5px;
     overflow: hidden;
-
+    border: 1px solid teal;
+    color: #121212;
+    padding-right: 7.5px;
+    padding-left: 7.5px;
 
 
 }
 .recipient-content > .messenger .avatar
 {
     width: 35px;
-    height: 35px;
+    height: 100%;
     float: left;
     display: flex;
     justify-content: center;
@@ -108,7 +111,8 @@
     display: block;
     float: right;
     text-align: left;
-    padding: 0;
+    padding-left: 7.5px;
+    padding-right: 7.5px;
     margin: 0;
     font-size: 17.5px;
     font-family: 'Indie Flower', cursive;

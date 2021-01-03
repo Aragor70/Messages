@@ -44,7 +44,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
                             <div className="text">{text}</div>
                         
                         </div>
-                        <div className="options">
+                        <div className="options" >
                             <button onClick={e=>handleOption()}>options</button>
                         </div>
                     </div>
