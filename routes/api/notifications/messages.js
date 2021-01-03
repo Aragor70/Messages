@@ -21,7 +21,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized.', 401))
     }
     const messages = notification.messenger.messages
-    console.log(notification)
+    
     res.json(messages)
 
 }))
@@ -48,9 +48,9 @@ router.get('/:id', auth, asyncHandler( async(req, res, next) => {
 //description  remove message notification
 //access       private
 router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
-    
+    console.log(req.params.id, "id")
     const message = await Message.findById(req.params.id).populate('user = recipient', ['name', 'avatar'])
-
+    
     if (!message) {
         return next(new ErrorResponse('Message not found.', 404))
     }
@@ -65,8 +65,6 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     }
     recipient.messenger.messages = recipient.messenger.messages.filter(element => element._id.toString() !== message._id.toString())
     
-
-    await notification.save()
     await recipient.save()
     
     res.json({ success: true, message: 'Notification from removed.' })

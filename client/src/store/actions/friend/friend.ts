@@ -3,9 +3,6 @@ import axios from 'axios';
 import { Dispatch } from "redux";
 
 
-
-
-
 export const getFriendships = () => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.get('/api/friends');

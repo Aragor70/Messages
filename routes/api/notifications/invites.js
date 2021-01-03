@@ -19,7 +19,7 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
         return next(new ErrorResponse('User not authorized.', 401))
     }
     const invitesList = notification.invite.messages
-    console.log(notification)
+    //console.log(notification)
 
     res.json(invitesList)
 
@@ -49,7 +49,6 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
         recipient.invite.messages = recipient.invite.messages.filter(message => message._id.toString() !== invite._id.toString())
     }
 
-    await notification.save()
     await recipient.save()
     
     res.json({ success: true, message })

@@ -8,3 +8,6 @@ export const Switch_Messenger_Notification = 'Switch_Messenger_Notification';
 export const Switch_Service_Notification = 'Switch_Service_Notification';
 export const Switch_Feedback_Notification = 'Switch_Feedback_Notification';
 export const Switch_Invite_Notification = 'Switch_Invite_Notification';
+export const Delete_Message_Notification = 'Delete_Message_Notification';
+export const Delete_Invite_Notification = 'Delete_Invite_Notification';
+export const Delete_Service_Notification = 'Delete_Service_Notification';

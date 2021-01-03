@@ -107,7 +107,13 @@ io.on('connection', (socket) => {
         }
         
     })
-    
+    socket.on('deletemessagenotification', (formData) => {
+        if (formData) {
+            
+            socket.broadcast.emit('deletemessagenotification', formData)
+        }
+        
+    })
     
 });
 

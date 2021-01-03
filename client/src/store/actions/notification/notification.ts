@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import axios from 'axios';
-import { Get_From_Invite, Get_From_Service, Get_From_Messenger, Get_Notifications, Switch_Notification, Switch_Messenger_Notification, Switch_Service_Notification, Switch_Feedback_Notification, Switch_Invite_Notification } from "./types";
+import { Get_From_Invite, Get_From_Service, Get_From_Messenger, Get_Notifications, Switch_Notification, Delete_Message_Notification, Switch_Messenger_Notification, Switch_Service_Notification, Switch_Feedback_Notification, Switch_Invite_Notification, Delete_Invite_Notification } from "./types";
 
 
 export const getNotifications = () => async(dispatch: Dispatch<any>) => {
@@ -123,6 +123,38 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
         const res = await axios.put('/api/notifications', formData, config);
     
         dispatch({ type: Switch_Invite_Notification, payload: res.data });
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+
+export const deleteMessageNotification = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+    try {
+        const res = await axios.delete(`/api/notifications/messages/${id}`);
+    
+        dispatch({ type: Delete_Message_Notification, payload: {id, message: res.data} });
+
+        socket.emit('deletemessagenotification', { formData: id })
+        
+
+        
+    } catch (err) {
+        console.log(err.message)
+    }
+    
+}
+
+export const deleteInviteNotification = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+    try {
+        const res = await axios.delete(`/api/notifications/invites/${id}`);
+    
+        dispatch({ type: Delete_Invite_Notification, payload: {id, message: res.data} });
+
+        socket.emit('deletemessagenotification', { formData: id })
+        
+
         
     } catch (err) {
         console.log(err.message)

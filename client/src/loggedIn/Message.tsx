@@ -2,7 +2,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { seeMessage } from '../store/actions/messenger/messenger';
-
+import moment from 'moment';
 
 
 
@@ -40,7 +40,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
                     <div className="message message-user" style={ editMessage[0] && editMessage[0]._id === message._id ? { backgroundColor: 'red' } : { } }>
                         
                         <div className="msg-field">
-                            <div className="msg-head"><span>time</span> <span>*</span></div>
+                            <div className="msg-head"><span>{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM-YYYY') : moment(message.date).format('HH:mm:SS') }</span> <span>{message.seen ? "seen" : message.opened ? "opened" : null}</span></div>
                             <div className="text">{text}</div>
                         
                         </div>
@@ -52,7 +52,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
                     <div className="message message-recipient" style={ editMessage[0] && editMessage[0]._id === message._id ? { backgroundColor: 'red' } : { } } >
                             
                         <div className="msg-field">
-                            <div className="msg-head"><span>time</span> <span>*</span></div>
+                            <div className="msg-head"><span>{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM-YYYY') : moment(message.date).format('HH:mm:SS') }</span> <span>{message.seen ? "seen" : message.opened ? "opened" : null}</span></div>
                             <div className="text" >{text}</div>
                         
                         </div>

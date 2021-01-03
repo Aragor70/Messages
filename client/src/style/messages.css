@@ -158,3 +158,10 @@
     border: none;
     border-radius: 25px;
 }
+.invite-msg button
+{
+    margin: 7.5px;
+    min-width: 80px;
+    border: none;
+    border-radius: 25px;
+}

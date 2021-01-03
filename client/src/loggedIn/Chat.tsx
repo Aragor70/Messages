@@ -11,13 +11,13 @@ import { deleteMessage, sendMessage, likeMessage } from '../store/actions/messen
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
-import { acceptInvite, deleteInvite, getInvites, sendInvite, updateInvite } from '../store/actions/friend/invite';
+import { acceptInvite, cancelInvite, deleteInvite, getInvites, getSentInvites, sendInvite, updateInvite } from '../store/actions/friend/invite';
 import { getFriends } from '../store/actions/friend/friend';
 import MessageInvite from './MessageInvite';
 
 
 let socket: any;
-const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite }: any) => {
+const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite, cancelInvite }: any) => {
 
     
     
@@ -28,6 +28,10 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
     const [isInvite, setIsInvite] = useState(false)
     const [inviteMsg, setInviteMsg] = useState<any>(false)
     const [isInvited, setIsInvited] = useState(false)
+    const [sendInviteView, setSendInviteView] = useState(false)
+    const [inviteData, setInviteData] = useState({
+        text: ''
+    })
     const strollToBottom = useRef<null | HTMLDivElement>(null)
 
     useEffect(() => {
@@ -105,6 +109,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         socket.on('invite', (msg: any) => {
             getFromInvite()
             getInvites()
+            getSentInvites()
         })
            
     }, [])
@@ -176,6 +181,14 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         e.preventDefault()
         sendMessage(id, formData, socket)
     }
+    const handleInviteChange = (e: any) => {
+        setInviteData({ ...inviteData, [e.target.name]: e.target.value })
+    }
+    const handleInviteSubmit = (e: any) => {
+        e.preventDefault();
+        sendInvite(match.params.id, socket, inviteData)
+        setSendInviteView(false)
+    }
 
     
     return (
@@ -221,10 +234,19 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                     !isFriend && isInvite && inviteMsg && <MessageInvite recipient={recipient} acceptInvite={acceptInvite} deleteInvite={deleteInvite} match={match} socket={socket} message={inviteMsg} updateInvite={updateInvite} />
                 }
                 {
-                    !isFriend && isInvited && <div className="invite-msg"><span>Invite is pending...</span></div>
+                    !isFriend && isInvited && <div className="invite-msg"><span>Invite is pending...</span><span onClick={e=> cancelInvite(match.params.id, socket)}>Cancel</span></div>
                 }
-                {
-                    !isFriend && !isInvited && !isInvite && <div className="invite-msg"><span onClick={e=> sendInvite(match.params.id, socket)}>send invite</span></div>
+                
+
+                {   //sendInviteView, setSendInviteView handleInviteSubmit
+                    !isInvited && !isInvite && !isFriend && <Fragment>
+                            <form onSubmit={e=> handleInviteSubmit(e)} className="invite-msg">
+                                <h1>You can share messages only with friends.</h1>
+                                <input type="text" name="text" onChange={e=> handleInviteChange(e)} placeholder="Hi, there :)" />
+                                <button type="submit">Send Invite</button>
+                            </form>
+                        </Fragment>
+            
                 }
                 </div>
                 </div>
@@ -232,7 +254,7 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
                 {
                     isFriend ? <Fragment>
                         <form className="write-box" onSubmit={e=> handleSubmit(match.params.id, e)}>
-                            <div className="write-header">header</div>
+                            <div className="write-header"></div>
                             <div className="write-input">
                                 <input type="text" name="text" onChange={e=> handleChange(e)} />
                                 <button type="submit">Ok</button>
@@ -253,4 +275,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, acceptInvite, deleteInvite, sendInvite, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger, updateInvite })(Chat);
+export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, acceptInvite, deleteInvite, sendInvite, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger, updateInvite, cancelInvite})(Chat);

@@ -90,14 +90,14 @@ export const cancelInvite = (id: string, socket: any) => async(dispatch: Dispatc
     
 }
 
-export const sendInvite = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+export const sendInvite = (id: string, socket: any, formData: any) => async(dispatch: Dispatch<any>) => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
         }
     }
     try {
-        const res = await axios.post(`/api/invites/${id}`, { text: '' }, config);
+        const res = await axios.post(`/api/invites/${id}`, { text: formData.text || '' }, config);
     
         socket.emit('invite', { invite: res.data.invite })
         dispatch({ type: Send_Invite, payload: res.data.invite });
