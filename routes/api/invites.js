@@ -3,6 +3,7 @@ const asyncHandler = require('../../middleware/async');
 const auth = require('../../middleware/auth');
 const Friendship = require('../../models/Friendship');
 const Invite = require('../../models/Invite');
+const Messenger = require('../../models/Messenger');
 const Notification = require('../../models/Notification');
 const User = require('../../models/User');
 const ErrorResponse = require('../../tools/errorResponse');
@@ -53,6 +54,31 @@ router.post('/:id', auth, asyncHandler( async(req, res, next) => {
         recipient: req.params.id,
         text: text ? textUpperCase : 'Hi, there :)'
     })
+
+    let chat = await Chat.findOne({ users: {$all: [ req.params.id, req.user.id ]} });
+    // console.log(chat, 'chats')
+    
+    if (!chat) {
+        chat = new Chat({
+            users: [
+                req.user.id, 
+                req.params.id
+            ]
+        })
+        
+        await chat.save()
+
+        const userMessenger = await Messenger.findOne({ user: req.user.id })
+        const recipientMessenger = await Messenger.findOne({ user: req.params.id })
+
+
+        await userMessenger.chats.unshift(chat._id)
+        await recipientMessenger.chats.unshift(chat._id)
+        await userMessenger.save()
+        await recipientMessenger.save()
+    }
+
+
     await invite.save()
     await recipient.invite.messages.unshift( invite._id )
     await recipient.save()

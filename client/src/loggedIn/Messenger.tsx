@@ -31,14 +31,16 @@ const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, g
         getInvites()
         getSentInvites()
         getFriends()
-        return getChat(match.params.id)
+        getChat(match.params.id)
+        return () => {
+            getInvites()
+            getSentInvites()
+            getFriends()
+            getChat(match.params.id)
+        }
     }, [getChat, getFriends, getSentInvites, getInvites, match.params.id, messenger.chat && messenger.chat.messages && messenger.chat.messages.length])
 
-    useEffect(() => {
-        getSentInvites()
-        getFriends()
-    }, [getSentInvites, friend.sentInvites, friend.invites])
-
+   
     useEffect(()=> {
         getRecipient(match.params.id)
     }, [getRecipient, match.params.id])

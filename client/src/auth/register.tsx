@@ -28,9 +28,6 @@ const Register = ({ register, history }: any) => {
 
     return (
         <Fragment>
-            <div className="front-name">
-                <Link to="/">Types</Link>
-            </div>
             <form className="auth-form" autoComplete="off" onSubmit={ e=> handleSubmit(e) }>
                 <h1>Sign up:</h1>
                 

@@ -23,9 +23,9 @@ const IndexUser = ({ auth, setMenu, menu, history, getChats, messenger, match, g
     useEffect(() => {
         getChats()
         return () => getChats()
-    }, [getChats, messenger.chat && messenger.chat.messages && messenger.chat.messages.length])
+    }, [getChats])
 
-    
+   
 
     useEffect(() => {
 

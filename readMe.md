@@ -19,10 +19,12 @@ Run App
 npm run dev
 ```
 
-- Version 1.0.0
+- Version prequire 1.0.0
 - Licence BSD
 
 created by mikey.prus@gmail.com
+
+<img src="./composition.png" width="100%" />
 
 # Description 
 

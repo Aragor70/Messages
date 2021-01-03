@@ -97,7 +97,7 @@ export const sendInvite = (id: string, socket: any, formData: any) => async(disp
         }
     }
     try {
-        const res = await axios.post(`/api/invites/${id}`, { text: formData.text || '' }, config);
+        const res = await axios.post(`/api/invites/${id}`, { text: formData ? formData.text : '' }, config);
     
         socket.emit('invite', { invite: res.data.invite })
         dispatch({ type: Send_Invite, payload: res.data.invite });

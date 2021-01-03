@@ -38,9 +38,6 @@ const Login = ({ login, history, setAlert }: any) => {
 
     return (
         <Fragment>
-            <div className="front-name">
-                <Link to="/">Types</Link>
-            </div>
             
             <form className="auth-form" autoComplete="off" onSubmit={e=> handleSubmit(e)}>
                 <h1>Log in:</h1>
