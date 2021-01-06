@@ -12,113 +12,15 @@ import { getFriends } from '../store/actions/friend/friend';
 import { updateInvite } from '../store/actions/friend/invite';
 import { openMessage } from '../store/actions/messenger/messenger';
 
-let socket: any;
-const Notifications = ({ notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification, setNotificationView, notificationView, openMessage, updateInvite, deleteMessageNotification, deleteInviteNotification }: any) => {
+const Notifications = ({ socket, notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification, setNotificationView, notificationView, openMessage, updateInvite, deleteMessageNotification, deleteInviteNotification }: any) => {
 
     useEffect(() => {
         getFromInvite()
         getFromService()
         return getFromMessenger()
-    }, [getFromMessenger])
+    }, [getFromMessenger, getFromService, getFromInvite])
 
 
-    useEffect(() => {
-
-        console.log('connected now')
-        
-        socket = io("http://localhost:3000")
-
-
-        socket.emit('join', {id: auth.user._id}, () => {
-            console.log('Socket client logged in')
-        })
-
-        socket.on('success', (success: any) => console.log(success))
-        
-        console.log('logged in')
-
-        return () => {
-            socket.disconnect()
-            socket.off()
-
-
-            console.log('disconnected now')
-        }
-
-    }, [match.params.id])
-
-    useEffect(() => {
-        
-        socket.on('userlist', (users: any[]) => getConnected(users))
-
-        socket.on('welcome', (users: any[]) => getConnected(users))
-        
-        
-        
-        return () => {
-
-            socket.on('welcome', (users: any[]) => getConnected(users))
-
-
-            socket.on('userlist', (users: any[]) => getConnected(users))
-
-        }
-    }, [messenger.connected])
-    
-    useEffect(() => {
-        socket.on('chat', (msg: any) => {
-            
-            getFromMessenger()
-        })
-           
-    }, [])
-    useEffect(() => {
-        socket.on('invite', (msg: any) => {
-            
-            getFromInvite()
-        })
-        
-           
-    }, [])
-    
-    useEffect(() => {
-        socket.on('deletemessage', (msg: any) => {
-            
-            getFromMessenger()
-            
-        })
-           
-    }, [])
-    useEffect(() => {
-        socket.on('deleteinvite', (msg: any) => {
-            
-            getFromInvite()
-        })
-    }, [])
-
-    useEffect(() => {
-        socket.on('deletefriend', (msg: any) => {
-            
-            getFriends()
-            
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('updateinvite', (msg: any) => {
-            getFriends()
-            getFromInvite()
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('updatemessage', (msg: any) => {
-            getFromMessenger()
-        })
-           
-    }, [])
 
     return (
         <Fragment>
@@ -140,7 +42,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 </div>
 
                 {
-                    notification.invite && notification.invite.messages.map((message: any) => <Notification key={message._id} message={message} history={history} setNotificationView={setNotificationView} notificationView={notificationView} openFunction={updateInvite} deleteFunction={deleteInviteNotification} socket={socket} />)
+                    notification.invite && notification.invite.messages.map((message: any) => <Notification key={message._id} message={message} history={history} setNotificationView={setNotificationView} notificationView={notificationView} openFunction={updateInvite} deleteFunction={deleteInviteNotification} socket={socket} runner={getFromMessenger} />)
                 }
                 <div className="notifications-row">
                     <div className="avatar"><img src={photo} height="35px" width="35px" /></div>
@@ -162,7 +64,7 @@ const Notifications = ({ notification, messenger, getFromMessenger, match, getCo
                 </div>
 
                 {
-                    notification.service && notification.service.messages.map((message: any) => <Notification key={message._id} history={history} message={message} setNotificationView={setNotificationView} notificationView={notificationView} socket={socket} />)
+                    notification.service && notification.service.messages.map((message: any) => <Notification key={message._id} history={history} message={message} setNotificationView={setNotificationView} notificationView={notificationView} socket={socket} runner={getFromInvite} />)
                 }
                 
                 <div className="notifications-row">

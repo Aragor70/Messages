@@ -14,7 +14,7 @@ export const sendMessage = (id: string, formData: any, socket: any) => async(dis
         
         dispatch({ type: Send_Message, payload: res.data });
         const message = res.data.message
-        // console.log(message)
+        console.log(socket)
         socket.emit('chat', { chat: id, message })
         
     } catch (err) {
@@ -87,10 +87,9 @@ export const openMessage = (id: string, formData: any, socket: any) => async(dis
         const res = await axios.put(`/api/messages/${id}`, formData, config);
         
 
+        dispatch({ type: Open_Message, payload: {id, message: res.data.message} });
+        
         socket.emit('updatemessage', { formData: id })
-
-        return dispatch({ type: Open_Message, payload: {id, message: res.data.message} });
-            
             
         
     } catch (err) {

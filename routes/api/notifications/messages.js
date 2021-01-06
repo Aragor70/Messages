@@ -67,7 +67,7 @@ router.delete('/:id', auth, asyncHandler( async(req, res, next) => {
     
     await recipient.save()
     
-    res.json({ success: true, message: 'Notification from removed.' })
+    res.json({ success: true, message: 'Notification removed.' })
 
 }))
 module.exports = router;

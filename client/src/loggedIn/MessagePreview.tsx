@@ -19,11 +19,11 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
         if (chat.users && auth.user) {
             return setRecipient(getNotEqualById(chat.users, auth.user._id))
         }
-    }, [auth.user._id])
+    }, [messenger.connected, auth.user._id])
 
     useEffect(() => {
         setIsOnline(!!messenger.connected.filter((element:any) => element.id == person._id )[0])
-    }, [messenger.connected])
+    }, [messenger.connected, person])
 
     // const recipientUser: any = chat.users.filter((person:any) => person !== auth.user._id)[0]
     

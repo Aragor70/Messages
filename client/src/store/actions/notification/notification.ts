@@ -130,14 +130,11 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
     
 }
 
-export const deleteMessageNotification = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+export const deleteMessageNotification = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/notifications/messages/${id}`);
     
         dispatch({ type: Delete_Message_Notification, payload: {id, message: res.data} });
-
-        socket.emit('deletemessagenotification', { formData: id })
-        
 
         
     } catch (err) {
@@ -146,13 +143,12 @@ export const deleteMessageNotification = (id: string, socket: any) => async(disp
     
 }
 
-export const deleteInviteNotification = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
+export const deleteInviteNotification = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
         const res = await axios.delete(`/api/notifications/invites/${id}`);
     
         dispatch({ type: Delete_Invite_Notification, payload: {id, message: res.data} });
 
-        socket.emit('deletemessagenotification', { formData: id })
         
 
         

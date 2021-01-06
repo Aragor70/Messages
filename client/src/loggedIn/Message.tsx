@@ -3,11 +3,12 @@ import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { seeMessage } from '../store/actions/messenger/messenger';
 import moment from 'moment';
+import { deleteMessageNotification } from '../store/actions/notification/notification';
 
 
 
 
-const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage, socket }: any) => {
+const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage, seeMessage, deleteMessageNotification, socket }: any) => {
     
     const { text, date, user, recipient } = message
     
@@ -17,6 +18,13 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
         }
         
     }, [seeMessage])
+
+    useEffect(() => {
+        if (message.seen && auth.user._id == recipient._id) {
+            deleteMessageNotification(message._id)
+        }
+        
+    }, [deleteMessageNotification, message.seen])
     
     const handleOption = () => {
         if (editMode === true) {
@@ -52,7 +60,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
                     <div className="message message-recipient" style={ editMessage[0] && editMessage[0]._id === message._id ? { backgroundColor: 'red' } : { } } >
                             
                         <div className="msg-field">
-                            <div className="msg-head"><span>{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM-YYYY') : moment(message.date).format('HH:mm:SS') }</span> <span>{message.seen ? "seen" : message.opened ? "opened" : null}</span></div>
+                            <div className="msg-head"><span>{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM-YYYY') : moment(message.date).format('HH:mm:SS') }</span> <span>{message.seen ? "seen" : message.opened ? "opened" : null}</span> <span>{message.liked ? "liked" : null}</span></div>
                             <div className="text" >{text}</div>
                         
                         </div>
@@ -69,4 +77,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { })(Message);
+export default connect(mapStateToProps, { seeMessage, deleteMessageNotification })(Message);

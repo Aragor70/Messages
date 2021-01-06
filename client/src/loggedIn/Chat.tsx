@@ -7,20 +7,24 @@ import photo from '../style/photo.jpg';
 import copy from 'copy-to-clipboard';
 import leftArrow from '../style/icons/left-arrow2.png';
 
-import { deleteMessage, sendMessage, likeMessage } from '../store/actions/messenger/messenger';
+import { deleteMessage, sendMessage, likeMessage, getChat, getChats } from '../store/actions/messenger/messenger';
 import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 import { acceptInvite, cancelInvite, deleteInvite, getInvites, getSentInvites, sendInvite, updateInvite } from '../store/actions/friend/invite';
 import { getFriends } from '../store/actions/friend/friend';
 import MessageInvite from './MessageInvite';
+import { getRecipient } from '../store/actions/recipient/recipient';
 
 
-let socket: any;
-const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite, cancelInvite }: any) => {
+const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite, cancelInvite, getChat, getChats }: any) => {
 
-    
-    
+    useEffect(() => {
+        getRecipient(match.params.id)
+        
+    }, [getRecipient, match.params.id])
+
+
     const { date, messages, users } = messenger.chat;
     
     const [isOnline, setIsOnline] = useState(false)
@@ -40,109 +44,11 @@ const Chat = ({ messenger, recipient, getConnected, friend, match, getSocketMess
         }
     }, [strollToBottom, messages])
 
-    useEffect(() => {
-
-        console.log('connected now')
-        socket = io("http://localhost:3000")
-
-
-        socket.emit('join', {id: auth.user._id, chat: messenger.chat._id}, () => {
-            console.log('Socket client logged in')
-        })
-
-        socket.on('success', (success: any) => console.log(success))
-        
-        console.log('logged in')
-
-        return () => {
-            socket.disconnect()
-            socket.off()
-
-
-            console.log('disconnected now')
-        }
-
-    }, [match.params.id])
-
-    useEffect(() => {
-        
-        socket.on('userlist', (users: any[]) => getConnected(users))
-
-        socket.on('welcome', (users: any[]) => getConnected(users))
-        
-        
-        
-        return () => {
-
-            socket.on('welcome', (users: any[]) => getConnected(users))
-
-
-            socket.on('userlist', (users: any[]) => getConnected(users))
-
-        }
-    }, [messenger.connected])
 
     useEffect(() => {
         setIsOnline(!!messenger.connected.filter((person:any) => person.id == match.params.id )[0])
     }, [messenger.connected])
 
-
-
-    useEffect(() => {
-        socket.on('chat', (msg: any) => {
-            
-            getSocketMessage(msg.message)
-            
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('deletemessage', (msg: any) => {
-            
-            deleteSocketMessage(msg)
-            
-        })
-           
-    }, [])
-    useEffect(() => {
-        socket.on('invite', (msg: any) => {
-            getFromInvite()
-            getInvites()
-            getSentInvites()
-        })
-           
-    }, [])
-    useEffect(() => {
-        socket.on('deleteinvite', (msg: any) => {
-            getInvites()
-            getFromInvite()
-        })
-    }, [])
-
-    useEffect(() => {
-        socket.on('deletefriend', (msg: any) => {
-            getFriends()
-            
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('updateinvite', (msg: any) => {
-            getFriends()
-            getFromInvite()
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('updateMessage', (msg: any) => {
-            getFromMessenger()
-        })
-           
-    }, [])
-    // setIsInvite
 
     useEffect(() => {
         const value = friend.invites.filter((person: any) => person.user._id === match.params.id)[0]
@@ -275,4 +181,4 @@ const mapStateToProps = (state: any) => ({
     messenger: state.messenger,
     auth: state.auth
 })
-export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, acceptInvite, deleteInvite, sendInvite, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger, updateInvite, cancelInvite})(Chat);
+export default connect(mapStateToProps, { likeMessage, deleteMessage, sendMessage, acceptInvite, deleteInvite, sendInvite, getConnected, getInvites, getFromInvite, getSocketMessage, deleteSocketMessage, getFriends, getFromMessenger, updateInvite, cancelInvite, getChat, getChats})(Chat);

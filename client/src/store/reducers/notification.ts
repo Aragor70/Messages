@@ -1,4 +1,4 @@
-import { Get_Notifications, Get_From_Messenger, Get_From_Invite, Get_From_Service, Switch_Notification, Switch_Feedback_Notification, Switch_Messenger_Notification, Switch_Service_Notification, Switch_Invite_Notification } from '../actions/notification/types';
+import { Get_Notifications, Get_From_Messenger, Get_From_Invite, Get_From_Service, Switch_Notification, Switch_Feedback_Notification, Switch_Messenger_Notification, Switch_Service_Notification, Switch_Invite_Notification, Delete_Message_Notification } from '../actions/notification/types';
 
 interface NotificationState {
     service: any,
@@ -55,7 +55,8 @@ const notificationReducer = (state: NotificationState = initialState, action: an
             return {...state, feedback: {...state.feedback, turn_on: !state.feedback.turn_on}, loading: false}
         case Switch_Invite_Notification:
             return {...state, invite: {...state.invite, turn_on: !state.invite.turn_on}, loading: false}
-            
+        case Delete_Message_Notification:
+            return {...state, messenger: {...state.messenger, messages: state.messenger.messages.filter((message: any) => message._id !== payload.id)}, loading: false}
     
         default:
             return state;

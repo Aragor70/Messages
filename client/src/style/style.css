@@ -14,7 +14,7 @@ body, html
     display: block;
 
     background-color: #121212;
-    color: #fff;
+    color: #121212;
     font-weight: 400;
     font-family: 'Lato', sans-serif;
 
@@ -58,12 +58,14 @@ textarea
     resize: none;
     overflow: hidden;
     overflow-y: auto;
+    background-color: rgba(232, 240, 254, 0.7);
 }
 
 input
 {
     overflow: hidden;
     overflow-y: auto;
+    background-color: rgba(232, 240, 254, 0.7);
 }
 
 .shield

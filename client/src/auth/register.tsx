@@ -26,25 +26,33 @@ const Register = ({ register, history }: any) => {
         return await register(formData, history)
     }
 
+    const customComplete = (e: any) => {
+        
+        console.log(e)
+        if(e.target.autocomplete) {
+            e.target.autocomplete ='none'
+        }
+    }
+
     return (
         <Fragment>
-            <form className="auth-form" autoComplete="off" onSubmit={ e=> handleSubmit(e) }>
+            <form className="auth-form" autoComplete="new-password" onSubmit={ e=> handleSubmit(e) }>
                 <h1>Sign up:</h1>
                 
                 <label className="input-label" htmlFor="name">name
-                    <input type="text" autoComplete="off" name="name" onChange={ e=> handleTyping(e) } />
+                    <input type="text" autoComplete="new-password" name="name" onChange={ e=> handleTyping(e) } onFocus={e=> customComplete(e)} />
                 </label>
 
                 <label className="input-label" htmlFor="email">e-mail
-                    <input type="text" autoComplete="off" name="email" onChange={ e=> handleTyping(e) } />
+                    <input type="text" autoComplete="new-password" name="email" onChange={ e=> handleTyping(e) } onFocus={e=> customComplete(e)} />
                 </label>
 
                 <label className="input-label" htmlFor="password">password
-                    <input type="password" autoComplete="off" name="password" onChange={ e=> handleTyping(e) } />
+                    <input type="password" autoComplete="new-password" name="password" onChange={ e=> handleTyping(e) } onFocus={e=> customComplete(e)} />
                 </label>
 
                 <label className="input-label" htmlFor="passwordConfirmation">confirm your password
-                    <input type="password" autoComplete="off" name="passwordConfirmation" onChange={ e=> handleTyping(e) } />
+                    <input type="password" autoComplete="new-password" name="passwordConfirmation" onChange={ e=> handleTyping(e) } onFocus={e=> customComplete(e)} />
                 </label>
                 <div className="auth-bottom">
                     <button type="submit" className="submit-button right-button">Ok</button>

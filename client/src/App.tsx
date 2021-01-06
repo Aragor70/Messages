@@ -40,6 +40,13 @@ import Messenger from './loggedIn/Messenger';
 import Support from './loggedIn/Support';
 import Recipient from './loggedIn/profiles/Recipient';
 import Header from './loggedIn/Header';
+import { getFromInvite, getFromMessenger } from './store/actions/notification/notification';
+import { getInvites, getSentInvites } from './store/actions/friend/invite';
+import { getFriends } from './store/actions/friend/friend';
+import { getConnected } from './store/actions/messenger/connection';
+import io from 'socket.io-client';
+import { getChat, getChats } from './store/actions/messenger/messenger';
+
 
 type Props = {
   auth: AuthType,
@@ -48,9 +55,153 @@ type Props = {
 }
 
 
-
-const App = ({ loadUser, auth, history, match }: any) => {
+let socket: any;
+const App = ({ loadUser, auth, history, match, messenger, recipient, getConnected, getFriends, getFromInvite, getInvites, getSentInvites, getFromMessenger, getChats, getChat }: any) => {
   
+  let connection: any;
+
+  useEffect(() => {
+
+    if (auth.isAuthenticated) {
+
+    
+    console.log('connected now')
+    socket = io("http://localhost:3000")
+
+    connection = setInterval(() => console.log('I am running'), 10000)
+
+    socket.emit('join', { id: auth.user._id }, () => {
+        console.log('Socket client logged in')
+    })
+
+    socket.on('success', (success: any) => console.log(success))
+    
+    console.log('logged in')
+
+    return () => {
+      socket.disconnect()
+      socket.off()
+      clearInterval(connection)
+
+      console.log('disconnected now')
+  }
+
+    }
+    
+}, [match.params.id, auth.isAuthenticated])
+
+useEffect(() => {
+    
+  if (socket) {
+    socket.on('userlist', (users: any[]) => getConnected(users))
+
+    socket.on('welcome', (users: any[]) => getConnected(users))
+    
+    
+    
+    return () => {
+
+        socket.on('welcome', (users: any[]) => getConnected(users))
+
+
+        socket.on('userlist', (users: any[]) => getConnected(users))
+
+    }
+  }
+}, [messenger.connected, auth.user])
+
+useEffect(() => {
+  if (socket) {
+  socket.on('chat', (msg: any) => {
+      console.log('use chat')
+      
+      if (recipient.recipient) {
+        getChat(recipient.recipient._id)
+      }
+      
+      getChats()
+      
+      getFromMessenger()
+      
+  })
+}
+}, [socket])
+
+useEffect(() => {
+  if (socket) {
+  socket.on('deletemessage', (msg: any) => {
+      if (match.params.id) {
+        console.log('use delete message')
+          
+          if (recipient.recipient) {
+            getChat(recipient.recipient._id)
+          }
+
+
+          getChats()
+          getFromMessenger()
+      }
+      //deleteSocketMessage(msg)
+      
+  }) //                 getConnected, getFriends, getFromInvite, getInvites, getSentInvites, getFromMessenger, 
+}
+
+}, [socket])
+useEffect(() => {
+  if (socket) {
+  socket.on('invite', (msg: any) => {
+    console.log('use invite')
+      getFromInvite()
+      getInvites()
+      getSentInvites()
+  })
+}
+}, [socket])
+useEffect(() => {
+  if (socket) {
+  socket.on('deleteinvite', (msg: any) => {
+    console.log('use deleteinvite')
+      getInvites()
+      getFromInvite()
+      getSentInvites()
+  })
+}
+}, [socket])
+
+useEffect(() => {
+  if (socket) {
+  socket.on('deletefriend', (msg: any) => {
+    console.log('use deletefriend')
+      getFriends()
+      
+  })
+}
+     
+}, [socket])
+
+useEffect(() => {
+  if (socket) {
+  socket.on('updateinvite', (msg: any) => {
+    console.log('use updateinvite')
+      getFriends()
+      getFromInvite()
+  })
+}
+     
+}, [socket])
+
+useEffect(() => {
+  if (socket) {
+  socket.on('updateMessage', (msg: any) => {
+    console.log('use update message')
+      getFromMessenger()
+  })
+}
+     
+}, [socket])
+
+
+
   useEffect(() => {
     if (localStorage.token) {
       setAuthToken(localStorage.token)
@@ -66,7 +217,7 @@ const App = ({ loadUser, auth, history, match }: any) => {
     <Fragment>
         {
           auth.isAuthenticated ? <Fragment>
-            <Header history={history} auth={auth} titlePage={titlePage} setTitlePage={setTitlePage} setMenu={setMenu} menu={menu} match={match} setNotificationView={setNotificationView} notificationView={notificationView} />
+            <Header socket={socket} history={history} auth={auth} titlePage={titlePage} setTitlePage={setTitlePage} setMenu={setMenu} menu={menu} match={match} setNotificationView={setNotificationView} notificationView={notificationView} />
             
           </Fragment> : <Fragment>
             <header className="header" >
@@ -93,7 +244,7 @@ const App = ({ loadUser, auth, history, match }: any) => {
             auth.isAuthenticated ? <Fragment>
 
               {
-                notificationView && <Notifications notificationView={notificationView} setNotificationView={setNotificationView} />
+                notificationView && <Notifications notificationView={notificationView} setNotificationView={setNotificationView} socket={socket} />
               }
               {
                 notificationView && <div className="addshadow" onClick={e=> setNotificationView(false)}></div>
@@ -102,20 +253,20 @@ const App = ({ loadUser, auth, history, match }: any) => {
               <Switch>
               
               <Route exact path="/">
-                <IndexUser setMenu={setMenu} menu={menu} />
+                <IndexUser setMenu={setMenu} menu={menu} socket={socket} />
                 <Alert />
               </Route>
 
               <Route exact path="/status">
               
-                <Status />
+                <Status  />
                 <Alert />
 
               </Route>
 
               <Route exact path="/friends">
               
-                <Friends />
+                <Friends socket={socket} />
                 <Alert />
 
               </Route>
@@ -125,26 +276,26 @@ const App = ({ loadUser, auth, history, match }: any) => {
 
               <Route exact path="/settings">
               
-                <Settings />
+                <Settings socket={socket} />
                 <Alert />
 
               </Route>
 
               <Route exact path="/profile">
                 
-                <Profile />
+                <Profile socket={socket} />
                 <Alert />
 
               </Route>
               <Route exact path="/messenger/:id">
                 
-                <Messenger />
+                <Messenger socket={socket} />
                 <Alert />
 
               </Route>
               <Route exact path="/profile/:id">
                 
-                <Recipient />
+                <Recipient socket={socket} />
                 <Alert />
 
               </Route>
@@ -191,6 +342,10 @@ const App = ({ loadUser, auth, history, match }: any) => {
 }
 const mapStateToProps = (state: any) => ({
   alert: state.alert,
-  auth: state.auth
+  auth: state.auth,
+  messenger: state.messenger,
+  notification: state.notification,
+  friend: state.friend,
+  recipient: state.recipient
 })
-export default connect(mapStateToProps, { loadUser })(withRouter(App));
+export default connect(mapStateToProps, { loadUser, getConnected, getFriends, getFromInvite, getInvites, getSentInvites, getFromMessenger, getChats, getChat })(withRouter(App));

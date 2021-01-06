@@ -52,9 +52,6 @@ export const getSocketMessage = (message: any) => async(dispatch: Dispatch<any>)
 
 export const deleteSocketMessage = (id: any) => async(dispatch: Dispatch<any>) => {
     
-    
-
-    console.log(id)
     dispatch({ type: Delete_Message, payload: { id } })
 
 }

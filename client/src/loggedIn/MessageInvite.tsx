@@ -5,7 +5,7 @@ import React, { Fragment, useEffect } from "react"
 const MessageInvite = ({recipient, acceptInvite, deleteInvite, match, socket, message, updateInvite}: any) => {
 
     useEffect(() => {
-        updateInvite(message._id, { seen: true })
+        updateInvite(message._id, { seen: true }, socket)
     }, [updateInvite])
 
     return (
