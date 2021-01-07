@@ -194,7 +194,13 @@ useEffect(() => {
   if (socket) {
   socket.on('updateMessage', (msg: any) => {
     console.log('use update message')
+    if (recipient.recipient) {
+      getChat(recipient.recipient._id)
+    }  
+      getChats()
       getFromMessenger()
+      
+      
   })
 }
      

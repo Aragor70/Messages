@@ -6,6 +6,11 @@ import { deleteInviteNotification, deleteMessageNotification, getFromInvite, get
 import io from 'socket.io-client';
 import '../style/auth.css'
 
+import messengerName from '../style/icons/messenger.png'
+import inviteName from '../style/icons/invite.png'
+import serviceName from '../style/icons/service.png'
+
+
 import photo from '../style/photo.jpg'
 import Notification from './Notification';
 import { getFriends } from '../store/actions/friend/friend';
@@ -28,7 +33,7 @@ const Notifications = ({ socket, notification, messenger, getFromMessenger, matc
             <div className="notifications-content">
                 
                 <div className="notifications-header">
-                    messenger <span onClick={e=> switchMessenger({ messages: true})}>on/off</span>
+                    <img src={messengerName} style={{ width: '35px', height: '35px'}} /> <span onClick={e=> switchMessenger({ messages: true})}>on/off</span>
                 </div>
 
                 {
@@ -38,7 +43,7 @@ const Notifications = ({ socket, notification, messenger, getFromMessenger, matc
                 <hr />
 
                 <div className="notifications-header">
-                    invites <span onClick={e=> switchInvite({ invites: true })}>on/off</span>
+                <img src={inviteName} style={{ width: '35px', height: '35px'}} /> <span onClick={e=> switchInvite({ invites: true })}>on/off</span>
                 </div>
 
                 {
@@ -60,7 +65,7 @@ const Notifications = ({ socket, notification, messenger, getFromMessenger, matc
                 <hr />
 
                 <div className="notifications-header">
-                    service <span onClick={e=> switchService({ services: true })}>on/off</span>
+                    <img src={serviceName} style={{ width: '35px', height: '35px'}} /> <span onClick={e=> switchService({ services: true })}>on/off</span>
                 </div>
 
                 {

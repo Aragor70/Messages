@@ -6,6 +6,11 @@ import Options from './reusable/Options';
 import photo from '../style/photo.jpg';
 import copy from 'copy-to-clipboard';
 import leftArrow from '../style/icons/left-arrow2.png';
+import likeBtn from '../style/icons/like.png';
+import copyBtn from '../style/icons/copy.png';
+import quoteBtn from '../style/icons/quote.png';
+import deleteBtn from '../style/icons/remove.png';
+import optionsBtn from '../style/icons/options.png';
 
 import { deleteMessage, sendMessage, likeMessage, getChat, getChats } from '../store/actions/messenger/messenger';
 import io from 'socket.io-client';
@@ -106,18 +111,18 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
                             {
                                 editMessage[0].user._id === auth.user._id ? <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> copy(editMessage[0].text)}>copy</span><span onClick={e=> { deleteMessage(editMessage[0]._id, socket), cleanMode() }}>delete</span>
+                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span><img src={quoteBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> copy(editMessage[0].text)}><img src={copyBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> { deleteMessage(editMessage[0]._id, socket), cleanMode() }}><img src={deleteBtn} style={{width: '32px', height: '32px'}} /></span>
                                     </div>
                                 </Fragment> : <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span>quote</span><span onClick={e=> likeMessage(editMessage[0]._id, {liked: true}, socket)}>like</span><span onClick={e=> copy(editMessage[0].text)}>copy</span>
+                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span><img src={quoteBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> likeMessage(editMessage[0]._id, {liked: true}, socket)}><img src={likeBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> copy(editMessage[0].text)}><img src={copyBtn} style={{width: '32px', height: '32px'}} /></span>
                                     </div>
                                 </Fragment>
                             }
                             
                         </Fragment> : <Fragment>
-                            <div className="avatar"><img src={recipient.recipient.avatar} height="35px" width="35px" /></div><div className="messenger-recipient"><span>{recipient.recipient.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
-                            <div className="options"><button onClick={e=> setMsgNavOpt(true)}>options</button></div>
+                            <div className="avatar"><img src={recipient.recipient.avatar} style={{ height:"35px", width:"35px" }} /></div><div className="messenger-recipient"><span>{recipient.recipient.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
+                            <div className="options" onClick={e=> setMsgNavOpt(true)}><img src={optionsBtn} style={{width: '35px', height: '35px'}} /></div>
                         </Fragment>
                     }
                     

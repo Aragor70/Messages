@@ -24,19 +24,22 @@
 {
     width: 100%;
     text-align: center;
-    height: 3.5vh;
+    min-height: auto;
     display: flex;
     align-items: flex-start;
     justify-content: center;
     position: relative;
+    padding: 7.5px;
 }
 .notifications-row
 {
     width: 100%;
     text-align: justify;
+    padding: 7.5px;
     padding-left: 15px;
     padding-right: 15px;
-    height: 5.5vh;
+    
+    min-height: auto;
     
     display: flex;
     align-items: center;
@@ -47,6 +50,11 @@
 {
     position: absolute;
     right: 15px;
+    top: 0;
+    bottom: 0;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 .notifications-row > .recipient
 {

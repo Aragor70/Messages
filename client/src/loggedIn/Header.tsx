@@ -46,8 +46,8 @@ const Header = ({ socket, history, auth, titlePage, setMenu, menu, notification,
                     </div>
                     
                     <div className="header-action">
-                        <span onClick={e=> setNotificationView(!notificationView)}><img src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
-                        <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)}><img src={menuBtn} /></span>
+                        <span onClick={e=> setNotificationView(!notificationView)} className="header-button" ><img src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
+                        <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)} className="header-button" ><img src={menuBtn} /></span>
                     </div>
                     <hr />
                 </div>

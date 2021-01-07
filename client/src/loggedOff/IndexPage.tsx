@@ -25,9 +25,9 @@ const IndexPage = () => {
                 <h1>Meet Types, </h1>
                 
                 <p>You can communicate with anyone in any location with the reliability of texting and the richness of chat.</p> 
-                <p>Connect with friends and family, shared photos, videos, GIFs, emoji, and more.
+                <p>Connect with friends and family, send photos, videos, GIFs, emoji, and more.
                 Intuitive and modern, Types makes conversations easy, expressive, and fun.</p>
-                <p>Nicolai's official MERN + redux + typescript app. </p>
+                <p>Nicolai's official web React Redux + Typescript real chat app. </p>
                 </div>
             
             

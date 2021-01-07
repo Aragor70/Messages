@@ -19,9 +19,6 @@ const MenuUser = ({ history, setMenu, logout }: any) => {
         <button type="button" className="navigate-button" onClick={e=> {history.push('/friends'), setMenu(false)}}>
           friends
         </button>
-        <button type="button" className="navigate-button" onClick={e=> {history.push('/notifications'), setMenu(false)}}>
-          notifications
-        </button>
         <hr />
         <span className="navigate-header">account</span>
         <button type="button" className="navigate-button" onClick={e=> {history.push('/profile'), setMenu(false)}}>
