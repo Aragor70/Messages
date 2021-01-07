@@ -12,7 +12,7 @@ import sentMark from '../style/icons/sent.png';
 import optionsBtn from '../style/icons/options.png';
 
 
-const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage, seeMessage, deleteMessageNotification, socket }: any) => {
+const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage, seeMessage, deleteMessageNotification, socket, cleanMode }: any) => {
     
     const { text, date, user, recipient } = message
     
@@ -34,6 +34,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
         if (editMode === true) {
             setEditMode(false);
             setEditMessage([]);
+            cleanMode()
         } else {
             setEditMode(true);
             setEditMessage([...editMessage, message]);

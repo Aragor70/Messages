@@ -22,7 +22,7 @@ import MessageInvite from './MessageInvite';
 import { getRecipient } from '../store/actions/recipient/recipient';
 
 
-const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite, cancelInvite, getChat, getChats }: any) => {
+const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSocketMessage, getInvites, getFromInvite, sendInvite, deleteSocketMessage, acceptInvite, deleteInvite, editMode, setEditMode, editMessage, setEditMessage, msgNavOpt, setMsgNavOpt, auth, formData, setFormData, cleanMode, likeMessage, deleteMessage, sendMessage, getFriends, getFromMessenger, updateInvite, cancelInvite, getChat, getChats, isSearch, setIsSearch, writeFor, setWriteFor }: any) => {
 
     useEffect(() => {
         getRecipient(match.params.id)
@@ -41,6 +41,18 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
     const [inviteData, setInviteData] = useState({
         text: ''
     })
+    const [searched, setSearched] = useState<any>([])
+    
+    const handleSearch = (e: any) => {
+
+        setWriteFor(e.target.value)
+    }
+
+    useEffect(() => {
+        if (writeFor.length > 0)
+        setSearched(messenger.chat.messages.filter((message: any) => message.text.toLowerCase().includes(writeFor.toLowerCase())))
+    }, [writeFor])
+    
     const strollToBottom = useRef<null | HTMLDivElement>(null)
 
     useEffect(() => {
@@ -49,7 +61,7 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
         }
     }, [strollToBottom, messages])
 
-
+    
     useEffect(() => {
         setIsOnline(!!messenger.connected.filter((person:any) => person.id == match.params.id )[0])
     }, [messenger.connected])
@@ -120,6 +132,14 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
                                 </Fragment>
                             }
                             
+                        </Fragment> : isSearch ? <Fragment>
+                            <div className="editMode">
+                                <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span className="searchMode"><input type="text" value={writeFor} onChange={e=> handleSearch(e)} placeholder=" .search message" /></span>
+                            </div>
+
+
+
+
                         </Fragment> : <Fragment>
                             <div className="avatar"><img src={recipient.recipient.avatar} style={{ height:"35px", width:"35px" }} /></div><div className="messenger-recipient"><span>{recipient.recipient.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
                             <div className="options" onClick={e=> setMsgNavOpt(true)}><img src={optionsBtn} style={{width: '35px', height: '35px'}} /></div>
@@ -130,15 +150,16 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
                 {
                     msgNavOpt && <Fragment>
 
-                        <Options recipient={editMessage && match.params.id} user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} />
+                        <Options recipient={editMessage && match.params.id} user={auth.user} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} editMessage={editMessage} setEditMessage={setEditMessage} setIsSearch={setIsSearch} />
 
                     </Fragment>
                 }
                 <hr />
                 <div className="messages-box">
-                
                 {
-                    messenger.chat.messages ? messenger.chat.messages.map((msg: any) => <Message key={msg._id} socket={socket} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} />) :  "Send your first message."
+                    writeFor.length > 0 ? searched.map((msg: any) => <Message key={msg._id} socket={socket} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} cleanMode={cleanMode} />) :
+                
+                    messenger.chat.messages ? messenger.chat.messages.map((msg: any) => <Message key={msg._id} socket={socket} message={msg} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} cleanMode={cleanMode} />) :  "Send your first message."
                 }
                 <div ref={strollToBottom}>
                 {
