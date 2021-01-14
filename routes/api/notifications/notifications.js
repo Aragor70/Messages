@@ -25,6 +25,7 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
     
     let message = ''
     const notification = await Notification.findOne({ user: req.user.id });
+    
     if (!notification) {
         return next(new ErrorResponse('Notification not found.', 404));
     }
@@ -48,9 +49,13 @@ router.put('/', auth, asyncHandler( async(req, res, next) => {
         return res.json({ success: true, message, notification })
     }
     else if (services) {
+        
         notification.service.turn_on = !notification.service.turn_on;
-        message = `Notifications of services switched ${notification.messenger.service.turn_on ? 'On' : 'Off'}.`
+        
+        message = `Notifications of services switched ${notification.service.turn_on ? 'On' : 'Off'}.`
+        
         await notification.save()
+        
         return res.json({ success: true, message, notification })
     }
     

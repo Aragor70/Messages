@@ -58,7 +58,7 @@ export const switchNotification = (formData: any) => async(dispatch: Dispatch<an
     try {
         const res = await axios.put('/api/notifications', formData, config);
     
-        dispatch({ type: Switch_Notification, payload: res.data });
+        dispatch({ type: Switch_Notification });
         
     } catch (err) {
         console.log(err.message)
@@ -74,7 +74,7 @@ export const switchMessenger = (formData: any) => async(dispatch: Dispatch<any>)
     try {
         const res = await axios.put('/api/notifications', formData, config);
     
-        dispatch({ type: Switch_Messenger_Notification, payload: res.data });
+        dispatch({ type: Switch_Messenger_Notification });
         
     } catch (err) {
         console.log(err.message)
@@ -90,7 +90,7 @@ export const switchService = (formData: any) => async(dispatch: Dispatch<any>) =
     try {
         const res = await axios.put('/api/notifications', formData, config);
     
-        dispatch({ type: Switch_Service_Notification, payload: res.data });
+        dispatch({ type: Switch_Service_Notification });
         
     } catch (err) {
         console.log(err.message)
@@ -106,7 +106,7 @@ export const switchFeedback = (formData: any) => async(dispatch: Dispatch<any>) 
     try {
         const res = await axios.put('/api/notifications', formData, config);
     
-        dispatch({ type: Switch_Feedback_Notification, payload: res.data });
+        dispatch({ type: Switch_Feedback_Notification });
         
     } catch (err) {
         console.log(err.message)
@@ -122,7 +122,7 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
     try {
         const res = await axios.put('/api/notifications', formData, config);
     
-        dispatch({ type: Switch_Invite_Notification, payload: res.data });
+        dispatch({ type: Switch_Invite_Notification });
         
     } catch (err) {
         console.log(err.message)

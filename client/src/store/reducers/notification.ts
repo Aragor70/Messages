@@ -13,22 +13,22 @@ interface NotificationState {
 export const initialState = {
     
     service: {
-        turn_on: true,
+        turn_on: false,
         messages: []
     },
     messenger: {
-        turn_on: true,
+        turn_on: false,
         messages: []
     },
     invite: {
-        turn_on: true,
+        turn_on: false,
         messages: []
     },
     feedback: {
-        turn_on: true,
+        turn_on: false,
         messages: []
     },
-    turn_on: true,
+    turn_on: false,
     loading: true,
     errors: {}
 };
@@ -38,13 +38,13 @@ const notificationReducer = (state: NotificationState = initialState, action: an
 
     switch(type) {
         case Get_Notifications:
-            return {...state, notifications: payload, loading: false}
+            return {...state, messenger: {...state.messenger, turn_on: payload.messenger.turn_on}, invite: {...state.invite, turn_on: payload.invite.turn_on}, service: {...state.service, turn_on: payload.service.turn_on}, loading: false}
         case Get_From_Messenger:
-            return {...state, messenger: { messages: payload }, loading: false}
+            return {...state, messenger: {...state.messenger, messages: payload }, loading: false}
         case Get_From_Invite:
-            return {...state, invite: { messages: payload }, loading: false}
+            return {...state, invite: {...state.invite, messages: payload }, loading: false}
         case Get_From_Service:
-            return {...state, service: { messages: payload }, loading: false}
+            return {...state, service: {...state.service, messages: payload }, loading: false}
         case Switch_Notification:
             return {...state, turn_on: !state.turn_on, loading: false}
         case Switch_Messenger_Notification:

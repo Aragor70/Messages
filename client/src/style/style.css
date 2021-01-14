@@ -182,3 +182,36 @@ hr
     width: 35px;
     height: 35px;
 }
+
+.switch-button
+{
+    width: 48px;
+    height: 24px;
+    background-color: #c1c1c1;
+    align-items: center;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    color: #c1c1c1;
+    position: relative;
+    cursor: pointer;
+    border-radius: 15px;
+    border: 1px solid #121212;
+}
+.switch
+{
+    text-align: right;
+    justify-content: flex-end;
+    position: absolute;
+    top: 15%;
+    bottom: 15%;
+    width: 45%;
+    height: 70%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    transition: 0.3s;
+}

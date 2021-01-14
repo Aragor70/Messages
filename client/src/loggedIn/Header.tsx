@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getInvites } from '../store/actions/friend/invite';
@@ -32,25 +33,25 @@ const Header = ({ socket, history, auth, titlePage, setMenu, menu, notification,
         <Fragment>
             <div className="header-shield">
             <div className="recipient">
-                    <div className="header-person">
-                        <span>
-                        {
-                          history.location.pathname === '/' ? <img src={auth.user.avatar} height="35px" width="35px" /> : <img src={leftArrow} onClick={e=> history.push('/')} style={{ width: '35px', height: '35px' }} />
-                        }
-                        </span>
-                      
-                        
-                      <span style={{ fontSize: '20px', color: '#c1c1c1'}}>{titlePage}</span>
-                        
-                        
-                    </div>
+                <div className="header-person">
+                    <span>
+                    {
+                        history.location.pathname === '/' ? <img src={auth.user.avatar} height="35px" width="35px" onClick={e=> history.push('/profile')} /> : <img src={leftArrow} onClick={e=> history.push('/')} style={{ width: '35px', height: '35px' }} />
+                    }
+                    </span>
                     
-                    <div className="header-action">
-                        <span onClick={e=> setNotificationView(!notificationView)} className="header-button" ><img src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
-                        <span style={{ padding: '0' }} onClick={e=> setMenu(!menu)} className="header-button" ><img src={menuBtn} /></span>
-                    </div>
-                    <hr />
+                    
+                    <span style={{ fontSize: '20px', color: '#c1c1c1'}}>{titlePage}</span>
+                    
+                    
                 </div>
+                
+                <div className="header-action">
+                    <span onClick={e=> { setNotificationView(!notificationView), setMenu(false) }} className="header-button" ><img src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
+                    <span style={{ padding: '0' }} onClick={e=> { setMenu(!menu), setNotificationView(false) }} className="header-button" ><img src={menuBtn} /></span>
+                </div>
+                <hr />
+            </div>
             </div> 
         </Fragment>
     );
