@@ -45,21 +45,24 @@
 .navigate-button
 {
     width: 100%;
-    min-height: 7.5vh;
+    min-height: 64px;
     padding: 7.5px;
     padding-left: 30px;
     padding-right: 30px;
     overflow: hidden;
-    font-size: 19.5px;
+    font-size: 25.5px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     font-family: 'Indie Flower', cursive;
-    background-color: #121212;
-    color: #fff;
+    background-color: #fff;
+    color: #121212;
     cursor: pointer;
     overflow: hidden;
     animation: setButton 1s;
+    border: none;
+    border-bottom: 1px solid #121212;
+    
 }
 
 @keyframes setMenu {

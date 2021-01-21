@@ -13,7 +13,7 @@ body, html
     word-wrap: break-word;
     display: block;
 
-    background-color: #121212;
+    background-color: #fff;
     color: #121212;
     font-weight: 400;
     font-family: 'Lato', sans-serif;
@@ -79,6 +79,7 @@ input
     justify-content: center;
     flex-direction: column;
     flex-wrap: wrap;
+    background-color: #fff;
 }
 hr
 {
@@ -92,7 +93,7 @@ hr
     width: 100%;
     min-height: 35px;
     border-radius: 2.5px;
-    top: 60px;
+    top: 50vh;
     display: flex;
     justify-content: center;
     align-items: flex-start;
@@ -103,9 +104,11 @@ hr
     padding-top: 15px;
     padding-bottom: 15px;
 
-    font-size: 17.5px;
-    font-weight: 400;
+    font-size: 25.5px;
+    font-weight: 500;
     z-index: 5;
+    background:rgba(232, 240, 254, 0.7);
+    transition: 0.7s ease-in;
     
 }
 .alert-message
@@ -124,6 +127,7 @@ hr
     transition: ease-in;
     animation-name: success;
     animation-duration: 1.5s;
+    font-weight: bold;
     
 }
 .alert-danger

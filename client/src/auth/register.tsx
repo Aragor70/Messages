@@ -55,7 +55,7 @@ const Register = ({ register, history }: any) => {
                     <input type="password" autoComplete="new-password" name="passwordConfirmation" onChange={ e=> handleTyping(e) } onFocus={e=> customComplete(e)} />
                 </label>
                 <div className="auth-bottom">
-                    <button type="submit" className="submit-button right-button">Ok</button>
+                    <button type="submit" className="submit-button right-button">Continue</button>
                 </div>
 
             </form>

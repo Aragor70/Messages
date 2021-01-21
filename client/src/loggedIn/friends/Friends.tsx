@@ -141,7 +141,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                 {
                                     ifExists(friend.friends, editFriend[0]) ? <Fragment>
                                             
-                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> history.push(`/messenger/${editFriend[0]._id}`)}>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         </Fragment> : <Fragment>
                                             
                                             {

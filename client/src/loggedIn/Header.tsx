@@ -40,8 +40,10 @@ const Header = ({ socket, history, auth, titlePage, setMenu, menu, notification,
                     }
                     </span>
                     
+                    {
+                        history.location.pathname === '/' ? <span style={{ fontSize: '25.5px', color: '#c1c1c1'}}>home</span> : <span style={{ fontSize: '25.5px', color: '#c1c1c1'}}>{history.location.pathname.split('/')[1]}</span>
+                    }
                     
-                    <span style={{ fontSize: '20px', color: '#c1c1c1'}}>{titlePage}</span>
                     
                     
                 </div>
