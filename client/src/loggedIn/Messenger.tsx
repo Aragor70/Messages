@@ -72,8 +72,6 @@ const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, g
                     //messenger.chats ? messenger.chats.map((id: string) => <Chat key={id} id={id} user={auth.user} setEditMod={setEditMode} editMode={editMode} />) : null
                 }
                 
-                
-                
         </Fragment>
     );
 }

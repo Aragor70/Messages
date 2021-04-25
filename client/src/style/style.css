@@ -22,12 +22,17 @@ body, html
     overflow-x: hidden;
     overflow-y: hidden;
 }
+p
+{
+    line-height: 20pt;
+}
 
 a, button, textarea, input
 {
     outline: none;
     color: #121212;
     text-decoration: none;
+    line-height: 15pt;
 }
 
 a, button
