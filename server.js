@@ -7,8 +7,6 @@ const app = express();
 const socketio = require('socket.io');
 const http = require('http');
 
-const { addUser, removeUser, getUser, getUsers } = require('./tools/socketTransfer');
-
 connect()
 
 app.use(express.json({ extended: false }))

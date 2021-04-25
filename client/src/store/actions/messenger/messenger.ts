@@ -11,7 +11,6 @@ export const sendMessage = (id: string, formData: any, socket: any) => async(dis
     try {
         const res = await axios.post(`/api/messages/${id}`, formData, config);
         
-        
         dispatch({ type: Send_Message, payload: res.data });
         const message = res.data.message
         console.log(socket)
@@ -20,7 +19,6 @@ export const sendMessage = (id: string, formData: any, socket: any) => async(dis
     } catch (err) {
         console.log(err.message)
     }
-    
 }
 
 export const getMessenger = () => async(dispatch: Dispatch<any>) => {
@@ -32,7 +30,6 @@ export const getMessenger = () => async(dispatch: Dispatch<any>) => {
     } catch (err) {
         console.log(err.message)
     }
-    
 }
 export const getChats = () => async(dispatch: Dispatch<any>) => {
     try {
@@ -43,7 +40,6 @@ export const getChats = () => async(dispatch: Dispatch<any>) => {
     } catch (err) {
         console.log(err.message)
     }
-    
 }
 
 export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
@@ -55,7 +51,6 @@ export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
     } catch (err) {
         console.log(err.message)
     }
-    
 }
 
 
@@ -75,7 +70,6 @@ export const likeMessage = (id: string, formData: any, socket: any) => async(dis
     } catch (err) {
         console.log(err.message)
     }
-    
 }
 export const openMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
@@ -95,7 +89,6 @@ export const openMessage = (id: string, formData: any, socket: any) => async(dis
     } catch (err) {
         console.log(err.message)
     }
-    
 }
 export const seeMessage = (id: string, formData: any, socket: any) => async(dispatch: Dispatch<any>) => {
     const config = {
@@ -105,7 +98,6 @@ export const seeMessage = (id: string, formData: any, socket: any) => async(disp
     }
     try {
         const res = await axios.put(`/api/messages/${id}`, formData, config);
-        //console.log(res.data)
 
         socket.emit('updatemessage', { formData: id })
 
@@ -126,10 +118,7 @@ export const deleteMessage = (id: string, socket: any) => async(dispatch: Dispat
 
         socket.emit('deletemessage', { formData: id })
         
-
-        
     } catch (err) {
         console.log(err.message)
     }
-    
 }
