@@ -2,6 +2,9 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import moment from 'moment';
+import seenMark from '../style/icons/seen.png';
+import openedMark from '../style/icons/opened.png';
+import sentMark from '../style/icons/sent.png';
 
 import photo from '../style/photo.jpg'
 import { getNotEqual, getNotEqualById } from '../utils/getDataFromArray';
@@ -19,11 +22,11 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
         if (chat.users && auth.user) {
             return setRecipient(getNotEqualById(chat.users, auth.user._id))
         }
-    }, [auth.user._id])
+    }, [messenger.connected, auth.user._id])
 
     useEffect(() => {
         setIsOnline(!!messenger.connected.filter((element:any) => element.id == person._id )[0])
-    }, [messenger.connected])
+    }, [messenger.connected, person])
 
     // const recipientUser: any = chat.users.filter((person:any) => person !== auth.user._id)[0]
     
@@ -31,19 +34,19 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
         <Fragment>
             
             {
-                chat && person && person._id === auth.user._id ? <Fragment>
+                chat && message && recipient === auth.user._id ? <Fragment>
                     <div className="recipient-content">
-                        <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)}>
-                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
-                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? "s" : message.opened ? "o" : null}</span></div>
+                        <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)} style={ message.seen ? { } : { backgroundColor: 'lightgreen' }}>
+                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span> &nbsp; <span className="status" >{isOnline ? " online" : " offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
+                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? <img src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img src={openedMark} style={{width: '24px', height: '24px' }} /> : <img src={sentMark} style={{width: '24px', height: '24px' }} />}</span></div>
                         </div>
                         
                     </div>
                 </Fragment> : <Fragment>
                     <div className="recipient-content">
-                        <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)}>
-                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
-                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? "s" : message.opened ? "o" : null}</span></div>
+                        <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)} >
+                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span> &nbsp; <span className="status" >{isOnline ? " online" : " offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
+                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? <img src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img src={openedMark} style={{width: '24px', height: '24px' }} /> : <img src={sentMark} style={{width: '24px', height: '24px' }} />}</span></div>
                         </div>
                         
                     </div>

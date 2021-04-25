@@ -50,7 +50,7 @@ const Login = ({ login, history, setAlert }: any) => {
                     <input type="password" autoComplete="off" name="password" onChange={e=> handleTyping(e)} />
                 </label>
                 <div className="auth-bottom">
-                    <button type="submit" className="submit-button right-button">Ok</button>
+                    <button type="submit" className="submit-button right-button">Continue</button>
                 </div>
                 
 

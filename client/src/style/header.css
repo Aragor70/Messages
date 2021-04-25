@@ -5,12 +5,12 @@
 #root > .header
 {
     width: 100%;
-    height: 9vh;
+    height: 12vh;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     grid-template-rows: repeat(3, 1fr);
     float: left;
-    background-image: linear-gradient(to right,	#49c500, #121212);
+    background-image: linear-gradient(to right,	#c1c1c1, #c1c1c1);
     position: fixed;
     top: 0;
     left: 0;
@@ -55,4 +55,12 @@
     height: 35px;
     transition: all 0.3s ease-in;
     z-index: 10;
+}
+.header-button
+{
+    z-index: 10;
+}
+.header-shield
+{
+    background-color: #121212;
 }

@@ -42,94 +42,6 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
     }, [editMode])
 
 
-    useEffect(() => {
-
-        console.log('connected now')
-        
-        socket = io("http://localhost:3000")
-
-
-        socket.emit('join', {id: auth.user._id}, () => {
-            console.log('Socket client logged in')
-        })
-
-        socket.on('success', (success: any) => console.log(success))
-        
-        console.log('logged in')
-
-        return () => {
-            socket.disconnect()
-            socket.off()
-
-
-            console.log('disconnected now')
-        }
-
-    }, [])
-
-    useEffect(() => {
-        socket.on('invite', (msg: any) => {
-            getFromInvite()
-            getInvites()
-            getUnknowns()
-        })
-           
-    
-    }, [])
-
-    useEffect(() => {
-        socket.on('deleteinvite', (msg: any) => {
-            getInvites()
-            getFromInvite()
-            getUnknowns()
-            getSentInvites()
-        })
-    }, [])
-    useEffect(() => {
-        socket.on('chat', (msg: any) => {
-            getFromMessenger()
-            getSocketMessage(msg.message)
-            
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('deletemessage', (msg: any) => {
-            getFromMessenger()
-            deleteSocketMessage(msg)
-            
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('deletefriend', (msg: any) => {
-            getFriendships()
-            getFriends()
-            getUnknowns()
-            
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('updateinvite', (msg: any) => {
-            getFriendships()
-            getFriends()
-            getUnknowns()
-            getFromInvite()
-            getSentInvites()
-        })
-           
-    }, [])
-
-    useEffect(() => {
-        socket.on('updatemessage', (msg: any) => {
-            getFromMessenger()
-        })
-           
-    }, [])
 
     return (
         <Fragment>
@@ -141,7 +53,7 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                 {
                                     ifExists(friend.friends, editFriend[0]) ? <Fragment>
                                             
-                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> history.push(`/messenger/${editFriend[0]._id}`)}>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         </Fragment> : <Fragment>
                                             
                                             {

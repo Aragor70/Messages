@@ -17,7 +17,7 @@ import { getInvites, getSentInvites } from '../store/actions/friend/invite';
 
 
 
-const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, getRecipient, getInvites, getSentInvites }: any) => {
+const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, getRecipient, getInvites, getSentInvites, socket }: any) => {
 
     const [msgNavOpt, setMsgNavOpt] = useState(false)
     const [editMode, setEditMode] = useState(false)
@@ -26,6 +26,8 @@ const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, g
     
     const [usersOnline, setUsersOnline] = useState<any>([])
 
+    const [isSearch, setIsSearch] = useState(false)
+    const [writeFor, setWriteFor] = useState<any>([])
 
     useEffect(() => {
         getInvites()
@@ -48,6 +50,8 @@ const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, g
     const cleanMode = () => {
         setEditMode(false)
         setEditMessage([])
+        setIsSearch(false)
+        setWriteFor('')
     }
     
     const [ formData, setFormData ] = useState({
@@ -59,7 +63,7 @@ const Messenger = ({ getChat, messenger, match, getFriends, friend, recipient, g
         <Fragment>
 
             {
-                messenger.chat ? <Chat recipient={recipient} friend={friend} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} formData={formData} setFormData={setFormData} cleanMode={cleanMode} match={match} /> : <Fragment>
+                messenger.chat ? <Chat socket={socket} recipient={recipient} friend={friend} editMode={editMode} setEditMode={setEditMode} editMessage={editMessage} setEditMessage={setEditMessage} msgNavOpt={msgNavOpt} setMsgNavOpt={setMsgNavOpt} formData={formData} setFormData={setFormData} cleanMode={cleanMode} match={match} isSearch={isSearch} setIsSearch={setIsSearch} writeFor={writeFor} setWriteFor={setWriteFor} /> : <Fragment>
                     'loading...'
                 </Fragment>
             }

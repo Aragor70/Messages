@@ -74,6 +74,7 @@
     padding-left: 15px;
     padding-right: 15px;
     position: relative;
+    border-radius: 7.5px;
     
 }
 
@@ -100,10 +101,17 @@
     top: 0;
     height: 100%;
     padding: 7.5px;
-    padding-left: 7.5px;
-    padding-right: 7.5px;
+    padding-left: 15px;
+    padding-right: 15px;
     display: flex;
     align-items: center;
+    width: 20%;
+    justify-content: center;
+    display: none;
+}
+.messenger-content .message-recipient:hover .options
+{
+    display: flex;
 }
 .messenger-content .message-user .options
 {
@@ -112,11 +120,18 @@
     top: 0;
     height: 100%;
     padding: 7.5px;
-    padding-left: 7.5px;
-    padding-right: 7.5px;
+    padding-left: 15px;
+    padding-right: 15px;
     display: flex;
     align-items: center;
     flex-direction: row;
+    justify-content: center;
+    width: 20%;
+    display: none;
+}
+.messenger-content .message-user:hover .options
+{
+    display: flex;
 }
 .messenger-content .messenger-header .options
 {
@@ -125,13 +140,14 @@
     flex-direction: row;
 }
 
-.messenger-content .options > button
+.messenger-content .options
 {
+    border: none;
     
-    padding: 7.5px;
     padding-left: 7.5px;
     padding-right: 7.5px;
     float: left;
+    border-radius: 7.5px;
 }
 
 .messenger-content .text
@@ -191,10 +207,11 @@
 {
     width: 100%;
     height: 70px;
-    background-color: #c1c1c1;
+    background-color: #fff;
     float: left;
     display: block;
     z-index: 5;
+    border-top: 1px solid #121212;
 }
 
 .write-header
@@ -224,4 +241,17 @@
     width: 35px;
     height: 35px;
     float: left;
+}
+
+.searchMode
+{
+    width: 100%;
+}
+
+.searchMode > input
+{
+    width: 100%;
+    height: 35px;
+    font-size: 17.5px;
+    font-family: 'Indie Flower', cursive;
 }

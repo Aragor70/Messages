@@ -17,9 +17,16 @@ router.get('/', auth, asyncHandler( async(req, res, next) => {
     if (!messenger) {
         return next(new ErrorResponse('Messenger not found.', 404))
     }
-    const chats = messenger.chats
-    
 
+    const compareFunction = (a, b) => {
+        let valueA = a.messages[0].date
+        let valueB = b.messages[0].date
+
+        return valueB.getTime() - valueA.getTime();
+    }
+
+    const chats = messenger.chats.sort(compareFunction)
+    
     res.json( chats )
 }))
 

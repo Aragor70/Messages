@@ -6,17 +6,17 @@ import { openMessage } from '../store/actions/messenger/messenger';
 import { connect } from 'react-redux';
 
 
-const Notification = ({ message, history, isFriend=false, openFunction, setNotificationView, notificationView, deleteFunction, socket }: any) => {
+const Notification = ({ message, history, runner, isFriend=false, openFunction, setNotificationView, notificationView, deleteFunction, socket }: any) => {
 
     useEffect(() => {
         if (!message.opened) {
             openFunction(message._id, { opened: true }, socket)
         }
-    }, [openFunction])
+    }, [openFunction, runner])
 
     useEffect(() => {
         if (message.seen) {
-            deleteFunction(message._id, socket)
+            deleteFunction(message._id)
         }
     }, [deleteFunction])
 

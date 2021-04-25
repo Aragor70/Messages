@@ -1,6 +1,6 @@
 const express = require('express');
 const { check, validationResult } = require('express-validator');
-const User = require('../../../../Bambino/models/User');
+const User = require('../../../models/User');
 const asyncHandler = require('../../../middleware/async');
 const ErrorResponse = require('../../../tools/errorResponse');
 const router = express.Router();

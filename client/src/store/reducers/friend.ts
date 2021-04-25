@@ -40,7 +40,7 @@ const friendReducer = (state: FriendState = initialState, action: any ): any => 
         case Delete_Invite:
             return {...state, invites: state.invites.filter((invite: any)=> invite._id !== payload.id), loading: false}
         case Cancel_Invite:
-            return {...state, sentInvites: state.sentInvites.filter((invite: any)=> invite.recipient._id ? invite.recipient._id != payload.id : invite.recipient.toString() != payload.id), loading: false}
+            return {...state, sentInvites: state.sentInvites.filter((invite: any)=> invite.recipient._id ? invite.recipient._id !== payload.id : invite.recipient.toString() !== payload.id), loading: false}
         
         case Get_Friendships:
             return {...state, friendships: payload, loading: false}
