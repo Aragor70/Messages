@@ -66,6 +66,16 @@
     padding-left: 15px;
     padding-right: 7.5px;
 }
+
+.header-shield > .recipient > .header-person img
+{
+    cursor: pointer;
+}
+.header-shield > .recipient > .header-person span:nth-child(1)
+{
+    z-index: 10;
+}
+
 .header-shield > .recipient > .header-action
 {
     width: 25%;
@@ -76,7 +86,7 @@
     float: left;
     text-align: right;
     
-    padding-right: 15px;
+    padding-right: 7.5px;
     padding-left: 7.5px;
 }
 .header-shield > .recipient span

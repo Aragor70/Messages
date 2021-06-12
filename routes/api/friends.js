@@ -4,7 +4,7 @@ const asyncHandler = require('../../middleware/async');
 const auth = require('../../middleware/auth');
 const Friendship = require('../../models/Friendship');
 const User = require('../../models/User');
-const ErrorResponse = require('../../tools/errorResponse');
+const ErrorResponse = require('../../tools/ErrorResponse');
 const router = express.Router();
 
 

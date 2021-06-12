@@ -13,7 +13,6 @@ import deleteBtn from '../style/icons/remove.png';
 import optionsBtn from '../style/icons/options.png';
 
 import { deleteMessage, sendMessage, likeMessage, getChat, getChats } from '../store/actions/messenger/messenger';
-import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 import { acceptInvite, cancelInvite, deleteInvite, getInvites, getSentInvites, sendInvite, updateInvite } from '../store/actions/friend/invite';
@@ -103,6 +102,7 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
     const handleSubmit = ( id: string, e: any ) => {
         e.preventDefault()
         sendMessage(id, formData, socket)
+        setFormData({ text: "" })
     }
     const handleInviteChange = (e: any) => {
         setInviteData({ ...inviteData, [e.target.name]: e.target.value })
@@ -142,7 +142,7 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
 
                         </Fragment> : <Fragment>
                             <div className="avatar"><img src={recipient.recipient.avatar} style={{ height:"35px", width:"35px" }} /></div><div className="messenger-recipient"><span>{recipient.recipient.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
-                            <div className="options" onClick={e=> setMsgNavOpt(true)}><img src={optionsBtn} style={{width: '35px', height: '35px'}} /></div>
+                            <div className="options"><img onClick={e=> setMsgNavOpt(true)} src={optionsBtn} style={{width: '35px', height: '35px'}} /></div>
                         </Fragment>
                     }
                     
@@ -188,7 +188,7 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
                         <form className="write-box" onSubmit={e=> handleSubmit(match.params.id, e)}>
                             <div className="write-header"></div>
                             <div className="write-input">
-                                <input type="text" name="text" onChange={e=> handleChange(e)} />
+                                <input type="text" name="text" value={formData.text || ""} onChange={e=> handleChange(e)} />
                                 <button type="submit">Ok</button>
                             </div>
                         </form>

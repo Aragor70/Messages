@@ -2,7 +2,7 @@ const express = require('express');
 const asyncHandler = require('../../../middleware/async');
 const auth = require('../../../middleware/auth');
 const Notification = require('../../../models/Notification');
-const ErrorResponse = require('../../../tools/errorResponse');
+const ErrorResponse = require('../../../tools/ErrorResponse');
 const router = express.Router();
 
 //route GET    api/notifications

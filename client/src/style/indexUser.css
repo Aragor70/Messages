@@ -27,7 +27,7 @@
     color: #121212;
     padding-right: 7.5px;
     padding-left: 7.5px;
-
+    cursor: pointer;
 
 }
 .recipient-content > .messenger .avatar

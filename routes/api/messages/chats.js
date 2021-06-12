@@ -3,7 +3,7 @@ const asyncHandler = require('../../../middleware/async');
 const auth = require('../../../middleware/auth');
 const Chat = require('../../../models/Chat');
 const Messenger = require('../../../models/Messenger');
-const ErrorResponse = require('../../../tools/errorResponse');
+const ErrorResponse = require('../../../tools/ErrorResponse');
 const router = express.Router();
 
 

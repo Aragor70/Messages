@@ -30,6 +30,11 @@
     padding: 7.5px;
     padding-left: 15px;
     padding-right: 15px;
+    cursor: pointer;
+}
+.options-header:hover
+{
+    color: lightblue;
 }
 .options-row
 {

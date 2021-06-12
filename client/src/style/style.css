@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
     font-family: 'Lato', sans-serif;
-    
+    outline: none;
 }
 body, html
 {
@@ -22,13 +22,19 @@ body, html
     overflow-x: hidden;
     overflow-y: hidden;
 }
+p
+{
+    line-height: 20pt;
+}
 
 a, button, textarea, input
 {
     outline: none;
     color: #121212;
     text-decoration: none;
+    line-height: 15pt;
 }
+
 
 a, button
 {
@@ -218,4 +224,48 @@ hr
     align-items: center;
     border-radius: 15px;
     transition: 0.3s;
+}
+
+@media (min-width: 1024px) {
+
+    body
+    {
+        width: 50%;
+        height: 100vh;
+        margin: 0!important;
+        padding: 0!important;
+        text-align: justify;
+        word-wrap: break-word;
+        display: block;
+
+        background-color: #fff;
+        color: #121212;
+        font-weight: 400;
+        font-family: 'Lato', sans-serif;
+
+        position: relative;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        margin-left: 25%!important;
+    }
+    .addshadow
+    {
+        position: fixed;
+        top: 0;
+        left: 25%;
+        bottom: 0;
+        right: 25%;
+        background-color: rgba(0,0,0,0);
+        z-index: 9;
+    }
+    .shadow
+    {
+        position: fixed;
+        top: 12vh;
+        left: 25%;
+        bottom: 0;
+        right: 25%;
+        background-color:#121212;
+        z-index: 9;
+    }
 }

@@ -36,7 +36,7 @@ const Header = ({ socket, history, auth, titlePage, setMenu, menu, notification,
                 <div className="header-person">
                     <span>
                     {
-                        history.location.pathname === '/' ? <img src={auth.user.avatar} height="35px" width="35px" onClick={e=> history.push('/profile')} /> : <img src={leftArrow} onClick={e=> history.push('/')} style={{ width: '35px', height: '35px' }} />
+                        history.location.pathname === '/' ? <img src={auth.user.avatar} height="35px" width="35px" onClick={e=> {history.push('/profile'), setMenu(false), setNotificationView(false)}} /> : <img src={leftArrow} onClick={e=> {history.push('/'), setMenu(false), setNotificationView(false)}} style={{ width: '35px', height: '35px' }} />
                     }
                     </span>
                     
@@ -49,8 +49,8 @@ const Header = ({ socket, history, auth, titlePage, setMenu, menu, notification,
                 </div>
                 
                 <div className="header-action">
-                    <span onClick={e=> { setNotificationView(!notificationView), setMenu(false) }} className="header-button" ><img src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
-                    <span style={{ padding: '0' }} onClick={e=> { setMenu(!menu), setNotificationView(false) }} className="header-button" ><img src={menuBtn} /></span>
+                    <span className="header-button" ><img onClick={e=> { setNotificationView(!notificationView), setMenu(false) }} src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
+                    <span className="header-button" ><img onClick={e=> { setMenu(!menu), setNotificationView(false) }} src={menuBtn} width="35px" height="35px" /></span>
                 </div>
                 <hr />
             </div>

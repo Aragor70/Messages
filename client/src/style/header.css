@@ -32,8 +32,10 @@
 }
 .header .webName img
 {
+    z-index: 10;
     max-height: 100%;
     max-width: 100%;
+    cursor: pointer;
 }
 
 .header .menu-button
@@ -55,12 +57,36 @@
     height: 35px;
     transition: all 0.3s ease-in;
     z-index: 10;
+    cursor: pointer;
 }
 .header-button
 {
     z-index: 10;
 }
+.header-button img
+{
+    cursor: pointer;
+}
 .header-shield
 {
     background-color: #121212;
+}
+
+
+@media (min-width: 1024px) {
+
+    #root > .header
+    {
+        width: 50%;
+        height: 12vh;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(3, 1fr);
+        float: left;
+        background-image: linear-gradient(to right,	#c1c1c1, #c1c1c1);
+        position: fixed;
+        top: 0;
+        left: 25%;
+        padding-right: calc(100vw / 64 * 8);
+    }
 }

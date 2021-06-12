@@ -99,3 +99,29 @@
     right: 15px;
     font-size: 17.5px;
 }
+
+@media (min-width: 1024px) {
+
+    
+    .notifications-content
+    {
+        width: auto;
+        height: auto;
+        display: block;
+        overflow: hidden;
+        overflow-y: auto;
+        position: fixed;
+        top: calc(12vh + 7.5px);
+        bottom: 0;
+        left: 25%;
+        right: 25%;
+        padding: 15px;
+        padding-left: 15px;
+        padding-right: 15px;
+        
+        background-color: #fff;
+        z-index: 10;
+        color: #121212;
+
+    }
+}

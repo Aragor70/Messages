@@ -141,9 +141,8 @@ useEffect(() => {
           getChats()
           getFromMessenger()
       }
-      //deleteSocketMessage(msg)
       
-  }) //                 getConnected, getFriends, getFromInvite, getInvites, getSentInvites, getFromMessenger, 
+  })
 }
 
 }, [socket])
@@ -241,7 +240,7 @@ useEffect(() => {
         
         
         
-        <main className="output" style={ auth.isAuthenticated ? { marginTop: '0' } : { marginTop : '9vh', width: '100%' }}>
+        <main className="output" style={ auth.isAuthenticated ? { marginTop: '0' } : { marginTop : '12vh', width: '100%' }}>
           {
             menu && <Fragment><Menu auth={auth} setMenu={setMenu} /> <div className="addshadow" onClick={e=> setMenu(false)}></div></Fragment>
           }

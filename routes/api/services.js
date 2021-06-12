@@ -5,7 +5,7 @@ const auth = require('../../middleware/auth');
 const Notification = require('../../models/Notification');
 const Service = require('../../models/Service');
 const User = require('../../models/User');
-const ErrorResponse = require('../../tools/errorResponse');
+const ErrorResponse = require('../../tools/ErrorResponse');
 const router = express.Router();
 
 
