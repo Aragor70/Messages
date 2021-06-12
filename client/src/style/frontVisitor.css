@@ -88,3 +88,37 @@
     flex-wrap: wrap;
     font-family: 'Lato', cursive;
 }
+
+.social-media
+{
+    width: 100%;
+    min-height: 30vh;
+    padding: 30px 15px;
+    background-image: url('https://japaneseemoticons.me/wp-content/uploads/2015/04/connect-with-us.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+    border-radius: 7.5px;
+    text-align: center;
+}
+.social-media h3
+{
+    width: 100%;
+}
+.social-media p
+{
+    margin: 0;
+}
+.social-media div
+{
+    width: 100%;
+    padding: 0 15%;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    
+}
+.social-media div img
+{
+    width: 42px;
+}

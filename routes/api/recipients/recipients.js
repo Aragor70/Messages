@@ -3,7 +3,7 @@ const asyncHandler = require('../../../middleware/async');
 const auth = require('../../../middleware/auth');
 const About = require('../../../models/About');
 const User = require('../../../models/User');
-const ErrorResponse = require('../../../tools/errorResponse');
+const ErrorResponse = require('../../../tools/ErrorResponse');
 const router = express.Router();
 
 //route GET    api/recipients

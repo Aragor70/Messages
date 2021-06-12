@@ -8,7 +8,7 @@ const Message = require('../../../models/Message');
 const Messenger = require('../../../models/Messenger');
 const Notification = require('../../../models/Notification');
 const User = require('../../../models/User');
-const ErrorResponse = require('../../../tools/errorResponse');
+const ErrorResponse = require('../../../tools/ErrorResponse');
 const router = express.Router();
 const io = require('../../../server');
 

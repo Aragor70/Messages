@@ -6,7 +6,7 @@ const Invite = require('../../models/Invite');
 const Messenger = require('../../models/Messenger');
 const Notification = require('../../models/Notification');
 const User = require('../../models/User');
-const ErrorResponse = require('../../tools/errorResponse');
+const ErrorResponse = require('../../tools/ErrorResponse');
 const router = express.Router();
 
 

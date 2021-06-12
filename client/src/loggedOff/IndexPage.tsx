@@ -1,7 +1,9 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-
+import facebookImg from '../style/icons/social-media/png/facebook-white.png'
+import linkedinImg from '../style/icons/social-media/png/linkedin-white.png'
+import twitterImg from '../style/icons/social-media/png/twitter-white.png'
 
 const IndexPage = () => {
 
@@ -11,11 +13,11 @@ const IndexPage = () => {
                 
                 <div className="front-param-left">
                     
-                    ┻┳|<br/>
-                    ┳┻| _<br/>
+                    ┻┳|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hello<br/>
+                    ┳┻| _&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;friend<br/>
                     ┻┳| •.•)<br/>
                     ┳┻|⊂ﾉ<br/>
-                    ┻┳|  <br/>
+                    ┻┳|<br/>
                     
                 </div>
                 
@@ -29,7 +31,16 @@ const IndexPage = () => {
                 Intuitive and modern, Types makes conversations easy, expressive, and fun.</p>
                 <p>Nicolai's official web React Redux + Typescript real chat app. </p>
                 </div>
-            
+                <div className="front-param social-media">
+                    <h3>Connect With Us</h3>
+                    <p>Here's where you can find us on Social Media</p>
+                    <div>
+                        <img src={facebookImg} />
+                        <img src={linkedinImg} />
+                        <img src={twitterImg} />
+                    </div>
+                    
+                </div>
             
             </div>
         </Fragment>

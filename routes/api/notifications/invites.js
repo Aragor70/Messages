@@ -5,7 +5,7 @@ const asyncHandler = require('../../../middleware/async');
 const User = require('../../../models/User');
 const Notification = require('../../../models/Notification');
 const Invite = require('../../../models/Invite');
-const ErrorResponse = require('../../../tools/errorResponse');
+const ErrorResponse = require('../../../tools/ErrorResponse');
 
 
 //route GET    api/notifications/invites

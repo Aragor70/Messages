@@ -2,7 +2,7 @@ const express = require('express');
 const { check, validationResult } = require('express-validator');
 const User = require('../../../models/User');
 const asyncHandler = require('../../../middleware/async');
-const ErrorResponse = require('../../../tools/errorResponse');
+const ErrorResponse = require('../../../tools/ErrorResponse');
 const router = express.Router();
 const sign_in = require('./sing_in');
 

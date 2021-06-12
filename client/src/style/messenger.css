@@ -21,6 +21,10 @@
     padding-left: 15px;
     padding-right: 15px;
 }
+.messenger-header img
+{
+    cursor: pointer;
+}
 
 .editMode 
 {
@@ -46,6 +50,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.editMode img
+{
+    cursor: pointer;
 }
 .messenger-header .avatar
 {
@@ -190,7 +198,7 @@
     height: auto;
     position: relative;
     border-radius: 7.5px;
-
+    cursor: pointer;
 }
 .message-user .msg-field
 {

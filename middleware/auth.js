@@ -1,4 +1,4 @@
-const ErrorResponse = require("../tools/errorResponse");
+const ErrorResponse = require("../tools/ErrorResponse");
 
 const jwt = require('jsonwebtoken');
 const User = require("../models/User");

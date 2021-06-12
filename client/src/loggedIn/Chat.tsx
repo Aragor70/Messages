@@ -142,7 +142,7 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
 
                         </Fragment> : <Fragment>
                             <div className="avatar"><img src={recipient.recipient.avatar} style={{ height:"35px", width:"35px" }} /></div><div className="messenger-recipient"><span>{recipient.recipient.name} : </span><span className="status" >{isOnline ? "online" : "offline"}</span></div>
-                            <div className="options" onClick={e=> setMsgNavOpt(true)}><img src={optionsBtn} style={{width: '35px', height: '35px'}} /></div>
+                            <div className="options"><img onClick={e=> setMsgNavOpt(true)} src={optionsBtn} style={{width: '35px', height: '35px'}} /></div>
                         </Fragment>
                     }
                     
