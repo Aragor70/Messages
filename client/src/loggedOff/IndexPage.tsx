@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
 
 import facebookImg from '../style/icons/social-media/png/facebook-white.png'
 import linkedinImg from '../style/icons/social-media/png/linkedin-white.png'
@@ -35,9 +34,9 @@ const IndexPage = () => {
                     <h3>Connect With Us</h3>
                     <p>Here's where you can find us on Social Media</p>
                     <div>
-                        <img src={facebookImg} />
-                        <img src={linkedinImg} />
-                        <img src={twitterImg} />
+                        <img alt="facebookImg" src={facebookImg} />
+                        <img alt="linkedinImg" src={linkedinImg} />
+                        <img alt="twitterImg" src={twitterImg} />
                     </div>
                     
                 </div>

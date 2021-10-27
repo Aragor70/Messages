@@ -20,23 +20,23 @@ const MenuUser = ({ history, setMenu, logout, auth }: any) => {
   return (
     <Fragment>
       <nav className="navigate">
-        <h1><img src={WebName} onClick={e=> {history.push('/'), setMenu(false)}} /></h1>
+        <h1><img alt="Webname" src={WebName} onClick={e=> {history.push('/'), setMenu(false)}} /></h1>
         
         <button type="button" className="navigate-button" onClick={e=> {history.push('/friends'), setMenu(false)}}>
-          <img src={friendsBtn} style={{width: '45px'}} />&nbsp; friends
+          <img alt="friends" src={friendsBtn} style={{width: '45px'}} />&nbsp; friends
         </button>
         
         <button type="button" className="navigate-button" onClick={e=> {history.push('/profile'), setMenu(false)}}>
-          <img src={auth.user.avatar} style={{width: '45px'}} />&nbsp; profile
+          <img alt="profile" src={auth.user.avatar} style={{width: '45px'}} />&nbsp; profile
         </button>
         <button type="button" className="navigate-button" onClick={e=> {history.push('/settings'), setMenu(false)}}>
-          <img src={settingsBtn} style={{width: '45px'}} />&nbsp; settings
+          <img alt="settings" src={settingsBtn} style={{width: '45px'}} />&nbsp; settings
         </button>
         <button type="button" className="navigate-button" onClick={e=> {history.push('/support'), setMenu(false)}}>
-          <img src={supportBtn} style={{width: '45px'}} />&nbsp; support
+          <img alt="support" src={supportBtn} style={{width: '45px'}} />&nbsp; support
         </button>
         <button type="button" className="navigate-button" onClick={e=> {setMenu(false), logout(history)}}>
-          <img src={logoutBtn} style={{width: '45px'}} />&nbsp; logout
+          <img alt="logout" src={logoutBtn} style={{width: '45px'}} />&nbsp; logout
         </button>
       </nav>
     </Fragment>

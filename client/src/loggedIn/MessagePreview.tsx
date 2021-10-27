@@ -6,13 +6,12 @@ import seenMark from '../style/icons/seen.png';
 import openedMark from '../style/icons/opened.png';
 import sentMark from '../style/icons/sent.png';
 
-import photo from '../style/photo.jpg'
-import { getNotEqual, getNotEqualById } from '../utils/getDataFromArray';
+import { getNotEqualById } from '../utils/getDataFromArray';
 
 
 const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
     
-    const { text, date, user, recipient } = message
+    const { text, date, recipient } = message
     
     const [person, setRecipient] = useState<any>('')
 

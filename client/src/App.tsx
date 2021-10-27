@@ -227,7 +227,7 @@ useEffect(() => {
           </Fragment> : <Fragment>
             <header className="header" >
               <div className="webName">
-                <Link to="/" ><img src={WebName} /></Link>
+                <Link to="/" ><img src={WebName} alt="webName" /></Link>
               </div>
               <div className="menu-button">
                 

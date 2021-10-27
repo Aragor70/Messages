@@ -1,13 +1,12 @@
 /* eslint-disable */
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { RouteComponentProps, Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Link, withRouter, BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { deleteFriendship, getFriends, getFriendships, getUnknowns } from '../../store/actions/friend/friend';
 import { cancelInvite, getInvites, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
-import io from 'socket.io-client';
+
 
 import '../../style/auth.css'
-import photo from '../../style/photo.jpg'
 import Friend from './Friend';
 import Invite from './Invite';
 import leftArrow from '../../style/icons/left-arrow2.png'
@@ -17,7 +16,7 @@ import { getFromInvite, getFromMessenger } from '../../store/actions/notificatio
 import { deleteSocketMessage, getSocketMessage } from '../../store/actions/messenger/connection';
 
 let socket: any;
-export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, getFromInvite, getFriendships, getFriends, auth, getSentInvites, cancelInvite, sendInvite, deleteFriendship, getFromMessenger, deleteSocketMessage, getSocketMessage }: any) => {
+export const Friends = ({ history, getUnknowns, getInvites, friend, getFriendships, getFriends, getSentInvites, cancelInvite, sendInvite, deleteFriendship }: any) => {
 
     const [input, setInput] = useState(false)
 
@@ -53,17 +52,17 @@ export const Friends = ({ history, getUnknowns, recipient, getInvites, friend, g
                                 {
                                     ifExists(friend.friends, editFriend[0]) ? <Fragment>
                                             
-                                            <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> history.push(`/messenger/${editFriend[0]._id}`)}>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                            <span><img alt="messageImg" src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> history.push(`/messenger/${editFriend[0]._id}`)}>message</button></span><span><button onClick={e=> {deleteFriendship(editFriend[0]._id, socket), setEditMode(false)}}>delete</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         </Fragment> : <Fragment>
                                             
                                             {
                                                 !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id == editFriend[0]._id || invitation.recipient == editFriend[0]._id)[0] ? <Fragment>
 
-                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(editFriend[0]._id, socket), setEditMode(false)}}>cancel</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                                    <span><img alt="arrowLeft" src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(editFriend[0]._id, socket), setEditMode(false)}}>cancel</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         
                                                 </Fragment> : <Fragment>
                                                     
-                                                    <span><img src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id, socket), setEditMode(false)}}>invite</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
+                                                    <span><img alt="arrowRight" src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {sendInvite(editFriend[0]._id, socket), setEditMode(false)}}>invite</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         
                                                 </Fragment>
                                             }

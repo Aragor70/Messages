@@ -1,4 +1,4 @@
-import { AuthDispatchTypes, LoadUser, Load_User, LoginUserType, Login_Fail, Login_Success, Logout_User, RegisterUserType, Register_Fail, Register_Success, User_Update } from "./types";
+import { AuthDispatchTypes, Load_User, LoginUserType, Login_Fail, Login_Success, Logout_User, RegisterUserType, Register_Fail, Register_Success, User_Update } from "./types";
 import { Dispatch } from 'redux';
 import axios from "axios";
 import { setAlert } from "../alert/alert";

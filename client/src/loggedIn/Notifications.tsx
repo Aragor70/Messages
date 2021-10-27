@@ -35,7 +35,7 @@ const Notifications = ({ socket, notification, messenger, getFromMessenger, matc
             <div className="notifications-content">
                 
                 <div className="notifications-header">
-                    <img src={messengerName} style={{ width: '35px', height: '35px'}} /> <span><SwitchButton user={auth.user} clickFunction={switchMessenger} formData={{ messages: true }} loader={notification.messenger.turn_on} /></span>
+                    <img alt="switchButton" src={messengerName} style={{ width: '35px', height: '35px'}} /> <span><SwitchButton user={auth.user} clickFunction={switchMessenger} formData={{ messages: true }} loader={notification.messenger.turn_on} /></span>
                 </div>
 
                 {
@@ -45,7 +45,7 @@ const Notifications = ({ socket, notification, messenger, getFromMessenger, matc
                 <hr />
 
                 <div className="notifications-header">
-                <img src={inviteName} style={{ width: '35px', height: '35px'}} /> <span><SwitchButton user={auth.user} clickFunction={switchInvite} formData={{ invites: true }} loader={notification.invite.turn_on} /></span>
+                <img alt="authButton" src={inviteName} style={{ width: '35px', height: '35px'}} /> <span><SwitchButton user={auth.user} clickFunction={switchInvite} formData={{ invites: true }} loader={notification.invite.turn_on} /></span>
                 </div>
 
                 {
@@ -55,7 +55,7 @@ const Notifications = ({ socket, notification, messenger, getFromMessenger, matc
                 <hr />
 
                 <div className="notifications-header">
-                    <img src={serviceName} style={{ width: '35px', height: '35px'}} /> <span><SwitchButton user={auth.user} clickFunction={switchService} formData={{ services: true }} loader={notification.service.turn_on} /></span>
+                    <img alt="authButton2" src={serviceName} style={{ width: '35px', height: '35px'}} /> <span><SwitchButton user={auth.user} clickFunction={switchService} formData={{ services: true }} loader={notification.service.turn_on} /></span>
                 </div>
 
                 {
