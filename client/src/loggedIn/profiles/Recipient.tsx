@@ -1,22 +1,21 @@
 /* eslint-disable */
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import moment from 'moment'
 
 import '../../style/auth.css'
 
-import photo from '../../style/photo.jpg'
 import { getAbout } from '../../store/actions/recipient/about';
 import { getRecipient } from '../../store/actions/recipient/recipient';
-import { cancelInvite, getInvites, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
+import { cancelInvite, getSentInvites, sendInvite } from '../../store/actions/friend/invite';
 
 import youtube from '../../style/icons/social-media/png/008-youtube.png'
 import twitter from '../../style/icons/social-media/png/002-twitter.png'
 import facebook from '../../style/icons/social-media/png/001-facebook.png'
 import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
-import { deleteFriendship, getFriends, getFriendships } from '../../store/actions/friend/friend';
+import { deleteFriendship, getFriends } from '../../store/actions/friend/friend';
 import io from 'socket.io-client';
 import { getFromInvite, getFromMessenger } from '../../store/actions/notification/notification';
 
@@ -122,7 +121,7 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
         <Fragment>
             <div className="profile-content">
             <div className="image-profile">
-                <img src={recipient.recipient.avatar} style={{maxHeight: '100%'}} />
+                <img alt="recipient" src={recipient.recipient.avatar} style={{maxHeight: '100%'}} />
             </div>
             <div className="profile-name">
                 {recipient.recipient.name}

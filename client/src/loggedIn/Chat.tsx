@@ -123,11 +123,11 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
                             {
                                 editMessage[0].user._id === auth.user._id ? <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span><img src={quoteBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> copy(editMessage[0].text)}><img src={copyBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> { deleteMessage(editMessage[0]._id, socket), cleanMode() }}><img src={deleteBtn} style={{width: '32px', height: '32px'}} /></span>
+                                        <span><img alt="img35" src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span><img src={quoteBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> copy(editMessage[0].text)}><img src={copyBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> { deleteMessage(editMessage[0]._id, socket), cleanMode() }}><img src={deleteBtn} style={{width: '32px', height: '32px'}} /></span>
                                     </div>
                                 </Fragment> : <Fragment>
                                     <div className="editMode">
-                                        <span><img src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span><img src={quoteBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> likeMessage(editMessage[0]._id, {liked: true}, socket)}><img src={likeBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> copy(editMessage[0].text)}><img src={copyBtn} style={{width: '32px', height: '32px'}} /></span>
+                                        <span><img alt="imgNew" src={leftArrow} onClick={e=> {setEditMode(!editMode), cleanMode()}} className="img35" /></span><span><img src={quoteBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> likeMessage(editMessage[0]._id, {liked: true}, socket)}><img src={likeBtn} style={{width: '32px', height: '32px'}} /></span><span onClick={e=> copy(editMessage[0].text)}><img src={copyBtn} style={{width: '32px', height: '32px'}} /></span>
                                     </div>
                                 </Fragment>
                             }

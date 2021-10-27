@@ -17,7 +17,6 @@ import twitter from '../../style/icons/social-media/png/002-twitter.png'
 import facebook from '../../style/icons/social-media/png/001-facebook.png'
 import instagram from '../../style/icons/social-media/png/011-instagram.png'
 import linkedin from '../../style/icons/social-media/png/010-linkedin.png'
-import auth from '../../store/reducers/auth';
 
 
 
@@ -108,7 +107,7 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
         <Fragment>
             <div className="profile-content">
             <div className="image-profile">
-                <img src={photo} style={{maxHeight: '100%'}} />
+                <img alt="photoImg" src={photo} style={{maxHeight: '100%'}} />
             </div>
             <div className="profile-name">
                 {auth.user.name}

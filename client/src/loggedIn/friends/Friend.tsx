@@ -34,7 +34,7 @@ const Friend = ({ recipient, editMode, setEditMode, sentInvites, history, setEdi
             <div className="friends-row" style={ editFriend[0] && editFriend[0]._id === recipient._id ? { backgroundColor: 'red' } : { } }>
                 
                 <div className="avatar" onClick={e=> history.push(`/profile/${recipient._id}`)}>
-                    <img src={avatar} />
+                    <img alt="avatar" src={avatar} />
                 </div>
                 <span className="name" onClick={e=> history.push(`/profile/${recipient._id}`)}>{name}</span>
                 <div className="options">

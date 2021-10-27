@@ -1,4 +1,4 @@
-<img src="./typesReadMe.png" width="100%" />
+<img src="./typesReadMe.png" width="100%" alt="typesReadMe" />
 
 # Types - Messages Application
 
@@ -26,7 +26,7 @@ created by mikey.prus@gmail.com
 
 # prototype ver. prequire 1.0.1
 
-<img src="./composition2.png" width="100%" />
+<img src="./composition2.png" alt="composition2" width="100%" />
 
 System update:
 
@@ -38,7 +38,7 @@ UI icons in terms of messenger, notifications, menu
 
 # prototype ver. prequire 1.0.0
 
-<img src="./composition.png" width="100%" />
+<img src="./composition.png" width="100%" alt="composition" />
 
 
 # Description 

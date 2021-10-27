@@ -4,7 +4,10 @@
   "description": "messanger application",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js"
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "message"
@@ -26,6 +29,7 @@
     "socket.io": "^3.0.4"
   },
   "devDependencies": {
+    "concurrently": "^6.3.0",
     "nodemon": "^2.0.6"
   }
 }
