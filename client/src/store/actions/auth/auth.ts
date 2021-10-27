@@ -14,7 +14,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 
         dispatch({ type: Load_User, payload: { user: res.data} });
 
-    } catch(err) {
+    } catch(err: any) {
         dispatch({ type: Login_Fail });
         
     }
@@ -33,7 +33,7 @@ export const login = (formData: LoginUserType, history: any) => async(dispatch: 
 
         history.push('/')
         
-    } catch (err) {
+    } catch (err: any) {
         dispatch({ type: Login_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
         
@@ -53,7 +53,7 @@ export const register = (formData: LoginUserType, history: any) => async(dispatc
 
         history.push('/')
         
-    } catch (err) {
+    } catch (err: any) {
         dispatch({ type: Register_Fail });
         dispatch(setAlert(err.response.data.message, 'danger'))
         
@@ -64,7 +64,7 @@ export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTyp
     try {
         dispatch({ type: Logout_User });
         history.push('/')
-    } catch (err) {
+    } catch (err: any) {
         dispatch(setAlert('Could not log out.', 'danger'))
     }
 }
@@ -77,7 +77,7 @@ export const confirm = (formData: any) => async(dispatch: Dispatch<AuthDispatchT
         
         return res.data.success
         
-    } catch (err) {
+    } catch (err: any) {
         dispatch(setAlert(err.response.data.message, 'danger'))
         
     }
@@ -92,7 +92,7 @@ export const update = (formData: any, setView: any) => async(dispatch: Dispatch<
         
         setView(false)
         
-    } catch (err) {
+    } catch (err: any) {
         dispatch(setAlert(err.response.data.message, 'danger'))
         
     }

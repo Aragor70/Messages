@@ -8,7 +8,7 @@ export const getRecipient = (id: string) => async(dispatch: Dispatch<any>) => {
         const res = await axios.get(`/api/recipients/${id}`);
     
         dispatch({ type: Get_Recipient, payload: res.data.recipient });
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -20,7 +20,7 @@ export const getRecipients = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Recipients, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     

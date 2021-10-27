@@ -9,7 +9,7 @@ export const getNotifications = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Notifications, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -21,7 +21,7 @@ export const getFromMessenger = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_From_Messenger, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -32,7 +32,7 @@ export const getFromInvite = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_From_Invite, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -43,7 +43,7 @@ export const getFromService = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_From_Service, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -60,7 +60,7 @@ export const switchNotification = (formData: any) => async(dispatch: Dispatch<an
     
         dispatch({ type: Switch_Notification });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -76,7 +76,7 @@ export const switchMessenger = (formData: any) => async(dispatch: Dispatch<any>)
     
         dispatch({ type: Switch_Messenger_Notification });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -92,7 +92,7 @@ export const switchService = (formData: any) => async(dispatch: Dispatch<any>) =
     
         dispatch({ type: Switch_Service_Notification });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -108,7 +108,7 @@ export const switchFeedback = (formData: any) => async(dispatch: Dispatch<any>) 
     
         dispatch({ type: Switch_Feedback_Notification });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -124,7 +124,7 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
     
         dispatch({ type: Switch_Invite_Notification });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -137,7 +137,7 @@ export const deleteMessageNotification = (id: string) => async(dispatch: Dispatc
         dispatch({ type: Delete_Message_Notification, payload: {id, message: res.data} });
 
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -152,7 +152,7 @@ export const deleteInviteNotification = (id: string) => async(dispatch: Dispatch
         
 
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
