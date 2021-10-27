@@ -25,7 +25,7 @@ export const updateAboutMe = (formData: AboutType) => async(dispatch: Dispatch<A
         
         return dispatch(setAlert('saved', 'success'))
 
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -43,7 +43,7 @@ export const updateSocial = (formData: AboutType) => async(dispatch: Dispatch<Ab
         
         return dispatch(setAlert('saved', 'success'))
 
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -61,7 +61,7 @@ export const deleteSocial = (value: string) => async(dispatch: Dispatch<AboutDis
         
         return dispatch(setAlert('saved', 'success'))
 
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }

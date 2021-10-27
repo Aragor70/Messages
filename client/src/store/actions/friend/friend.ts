@@ -9,7 +9,7 @@ export const getFriendships = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Friendships, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -21,7 +21,7 @@ export const getFriends = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Friends, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -33,7 +33,7 @@ export const getUnknowns = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Unknowns, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -45,7 +45,7 @@ export const deleteFriendship = (id: string, socket: any) => async(dispatch: Dis
     
         dispatch({ type: Delete_Friendship, payload: { id, recipient: res.data.recipient } });
         socket.emit('deletefriend', id)
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     

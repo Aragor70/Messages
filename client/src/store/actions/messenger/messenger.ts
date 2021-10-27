@@ -16,7 +16,7 @@ export const sendMessage = (id: string, formData: any, socket: any) => async(dis
         console.log(socket)
         socket.emit('chat', { chat: id, message })
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -27,7 +27,7 @@ export const getMessenger = () => async(dispatch: Dispatch<any>) => {
         
         dispatch({ type: Get_Messenger, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -37,7 +37,7 @@ export const getChats = () => async(dispatch: Dispatch<any>) => {
         
         dispatch({ type: Get_Chats, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -48,7 +48,7 @@ export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
         
         dispatch({ type: Get_Chat, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -67,7 +67,7 @@ export const likeMessage = (id: string, formData: any, socket: any) => async(dis
 
         return dispatch({ type: Like_Message, payload: {id, message: res.data.message} });
            
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -86,7 +86,7 @@ export const openMessage = (id: string, formData: any, socket: any) => async(dis
         socket.emit('updatemessage', { formData: id })
             
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }
@@ -104,7 +104,7 @@ export const seeMessage = (id: string, formData: any, socket: any) => async(disp
         return dispatch({ type: See_Message, payload: {id, message: res.data.message} });
             
           
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -118,7 +118,7 @@ export const deleteMessage = (id: string, socket: any) => async(dispatch: Dispat
 
         socket.emit('deletemessage', { formData: id })
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
 }

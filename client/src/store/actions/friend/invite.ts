@@ -10,7 +10,7 @@ export const getInvites = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Invites, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -22,7 +22,7 @@ export const getSentInvites = () => async(dispatch: Dispatch<any>) => {
     
         dispatch({ type: Get_Sent_Invites, payload: res.data });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -41,7 +41,7 @@ export const updateInvite = (id: string, formData: any, socket: any) => async(di
         
         dispatch({ type: Update_Invite, payload: {id, invite: res.data.invite } });
         socket.emit('updateinvite', { formData: id })
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -58,7 +58,7 @@ export const acceptInvite = (id: string, formData: any, socket: any) => async(di
         
         dispatch({ type: Accept_Invite, payload: {id, invite: res.data.invite } });
         socket.emit('updateinvite', { formData: id })
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -71,7 +71,7 @@ export const deleteInvite = (id: string, socket: any) => async(dispatch: Dispatc
         dispatch({ type: Delete_Invite, payload: {id, invite: res.data} });
         socket.emit('deleteinvite', { formData: id })
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -84,7 +84,7 @@ export const cancelInvite = (id: string, socket: any) => async(dispatch: Dispatc
         dispatch({ type: Cancel_Invite, payload: {id, invite: res.data.invite} });
         socket.emit('deleteinvite', { formData: id })
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
@@ -102,7 +102,7 @@ export const sendInvite = (id: string, socket: any, formData: any) => async(disp
         socket.emit('invite', { invite: res.data.invite })
         dispatch({ type: Send_Invite, payload: res.data.invite });
         
-    } catch (err) {
+    } catch (err: any) {
         console.log(err.message)
     }
     
