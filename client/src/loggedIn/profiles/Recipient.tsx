@@ -41,7 +41,7 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
 
         console.log('connected now')
         
-        socket = io("https://nitypes.netlify.app/")
+        socket = io("https://types-server.herokuapp.com/")
 
 
         socket.emit('join', {id: auth.user._id}, () => {
