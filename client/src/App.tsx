@@ -58,7 +58,7 @@ const App = ({ loadUser, auth, history, match, messenger, recipient, getConnecte
 
     
     console.log('connected now')
-    socket = io("http://localhost:3000")
+    socket = io("https://nitypes.netlify.app/")
 
     connection = setInterval(() => console.log('I am running'), 10000)
 
