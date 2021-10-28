@@ -7,7 +7,7 @@ import { AboutDispatchTypes, AboutType, Get_About_Me, Update_About } from './typ
 
 export const getAboutMe = () => async(dispatch: Dispatch<AboutDispatchTypes>) => {
 
-    const res = await axios.get('/api/abouts/');
+    const res = await axios.get('https://types-server.herokuapp.com/api/abouts/');
     
     dispatch({ type: Get_About_Me, payload: res.data });
 }
@@ -19,7 +19,7 @@ export const updateAboutMe = (formData: AboutType) => async(dispatch: Dispatch<A
                 'Content-Type': 'application/json'
             }
         }
-        const res = await axios.put('/api/abouts', formData, config);
+        const res = await axios.put('https://types-server.herokuapp.com/api/abouts', formData, config);
 
         dispatch({ type: Update_About, payload: res.data.about });
         

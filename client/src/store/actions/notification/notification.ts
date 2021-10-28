@@ -5,7 +5,7 @@ import { Get_From_Invite, Get_From_Service, Get_From_Messenger, Get_Notification
 
 export const getNotifications = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/notifications');
+        const res = await axios.get('https://types-server.herokuapp.com/api/notifications');
     
         dispatch({ type: Get_Notifications, payload: res.data });
         
@@ -17,7 +17,7 @@ export const getNotifications = () => async(dispatch: Dispatch<any>) => {
 
 export const getFromMessenger = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/notifications/messages');
+        const res = await axios.get('https://types-server.herokuapp.com/api/notifications/messages');
     
         dispatch({ type: Get_From_Messenger, payload: res.data });
         
@@ -28,7 +28,7 @@ export const getFromMessenger = () => async(dispatch: Dispatch<any>) => {
 }
 export const getFromInvite = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/notifications/invites');
+        const res = await axios.get('https://types-server.herokuapp.com/api/notifications/invites');
     
         dispatch({ type: Get_From_Invite, payload: res.data });
         
@@ -39,7 +39,7 @@ export const getFromInvite = () => async(dispatch: Dispatch<any>) => {
 }
 export const getFromService = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/notifications/services');
+        const res = await axios.get('https://types-server.herokuapp.com/api/notifications/services');
     
         dispatch({ type: Get_From_Service, payload: res.data });
         
@@ -56,7 +56,7 @@ export const switchNotification = (formData: any) => async(dispatch: Dispatch<an
         }
     }
     try {
-        await axios.put('/api/notifications', formData, config);
+        await axios.put('https://types-server.herokuapp.com/api/notifications', formData, config);
     
         dispatch({ type: Switch_Notification });
         
@@ -72,7 +72,7 @@ export const switchMessenger = (formData: any) => async(dispatch: Dispatch<any>)
         }
     }
     try {
-        await axios.put('/api/notifications', formData, config);
+        await axios.put('https://types-server.herokuapp.com/api/notifications', formData, config);
     
         dispatch({ type: Switch_Messenger_Notification });
         
@@ -88,7 +88,7 @@ export const switchService = (formData: any) => async(dispatch: Dispatch<any>) =
         }
     }
     try {
-        await axios.put('/api/notifications', formData, config);
+        await axios.put('https://types-server.herokuapp.com/api/notifications', formData, config);
     
         dispatch({ type: Switch_Service_Notification });
         
@@ -104,7 +104,7 @@ export const switchFeedback = (formData: any) => async(dispatch: Dispatch<any>) 
         }
     }
     try {
-        await axios.put('/api/notifications', formData, config);
+        await axios.put('https://types-server.herokuapp.com/api/notifications', formData, config);
     
         dispatch({ type: Switch_Feedback_Notification });
         
@@ -120,7 +120,7 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
         }
     }
     try {
-        await axios.put('/api/notifications', formData, config);
+        await axios.put('https://types-server.herokuapp.com/api/notifications', formData, config);
     
         dispatch({ type: Switch_Invite_Notification });
         
@@ -132,7 +132,7 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
 
 export const deleteMessageNotification = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.delete(`/api/notifications/messages/${id}`);
+        const res = await axios.delete(`https://types-server.herokuapp.com/api/notifications/messages/${id}`);
     
         dispatch({ type: Delete_Message_Notification, payload: {id, message: res.data} });
 
@@ -145,7 +145,7 @@ export const deleteMessageNotification = (id: string) => async(dispatch: Dispatc
 
 export const deleteInviteNotification = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.delete(`/api/notifications/invites/${id}`);
+        const res = await axios.delete(`https://types-server.herokuapp.com/api/notifications/invites/${id}`);
     
         dispatch({ type: Delete_Invite_Notification, payload: {id, message: res.data} });
 

@@ -9,7 +9,7 @@ export const sendMessage = (id: string, formData: any, socket: any) => async(dis
         }
     }
     try {
-        const res = await axios.post(`/api/messages/${id}`, formData, config);
+        const res = await axios.post(`https://types-server.herokuapp.com/api/messages/${id}`, formData, config);
         
         dispatch({ type: Send_Message, payload: res.data });
         const message = res.data.message
@@ -23,7 +23,7 @@ export const sendMessage = (id: string, formData: any, socket: any) => async(dis
 
 export const getMessenger = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/messages/messengers');
+        const res = await axios.get('https://types-server.herokuapp.com/api/messages/messengers');
         
         dispatch({ type: Get_Messenger, payload: res.data });
         
@@ -33,7 +33,7 @@ export const getMessenger = () => async(dispatch: Dispatch<any>) => {
 }
 export const getChats = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/messages/chats/');
+        const res = await axios.get('https://types-server.herokuapp.com/api/messages/chats/');
         
         dispatch({ type: Get_Chats, payload: res.data });
         
@@ -44,7 +44,7 @@ export const getChats = () => async(dispatch: Dispatch<any>) => {
 
 export const getChat = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get(`/api/messages/chats/${id}`);
+        const res = await axios.get(`https://types-server.herokuapp.com/api/messages/chats/${id}`);
         
         dispatch({ type: Get_Chat, payload: res.data });
         
@@ -61,7 +61,7 @@ export const likeMessage = (id: string, formData: any, socket: any) => async(dis
         }
     }
     try {
-        const res = await axios.put(`/api/messages/${id}`, formData, config);
+        const res = await axios.put(`https://types-server.herokuapp.com/api/messages/${id}`, formData, config);
         
         socket.emit('updatemessage', { formData: id })
 
@@ -78,7 +78,7 @@ export const openMessage = (id: string, formData: any, socket: any) => async(dis
         }
     }
     try {
-        const res = await axios.put(`/api/messages/${id}`, formData, config);
+        const res = await axios.put(`https://types-server.herokuapp.com/api/messages/${id}`, formData, config);
         
 
         dispatch({ type: Open_Message, payload: {id, message: res.data.message} });
@@ -97,7 +97,7 @@ export const seeMessage = (id: string, formData: any, socket: any) => async(disp
         }
     }
     try {
-        const res = await axios.put(`/api/messages/${id}`, formData, config);
+        const res = await axios.put(`https://types-server.herokuapp.com/api/messages/${id}`, formData, config);
 
         socket.emit('updatemessage', { formData: id })
 
@@ -112,7 +112,7 @@ export const seeMessage = (id: string, formData: any, socket: any) => async(disp
 
 export const deleteMessage = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.delete(`/api/messages/${id}`);
+        const res = await axios.delete(`https://types-server.herokuapp.com/api/messages/${id}`);
     
         dispatch({ type: Delete_Message, payload: {id, message: res.data} });
 

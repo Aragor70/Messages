@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 
 export const getInvites = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/invites');
+        const res = await axios.get('https://types-server.herokuapp.com/api/invites');
     
         dispatch({ type: Get_Invites, payload: res.data });
         
@@ -18,7 +18,7 @@ export const getInvites = () => async(dispatch: Dispatch<any>) => {
 
 export const getSentInvites = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/invites/sent');
+        const res = await axios.get('https://types-server.herokuapp.com/api/invites/sent');
     
         dispatch({ type: Get_Sent_Invites, payload: res.data });
         
@@ -37,7 +37,7 @@ export const updateInvite = (id: string, formData: any, socket: any) => async(di
         }
     }
     try {
-        const res = await axios.put(`/api/invites/${id}`, formData, config);
+        const res = await axios.put(`https://types-server.herokuapp.com/api/invites/${id}`, formData, config);
         
         dispatch({ type: Update_Invite, payload: {id, invite: res.data.invite } });
         socket.emit('updateinvite', { formData: id })
@@ -54,7 +54,7 @@ export const acceptInvite = (id: string, formData: any, socket: any) => async(di
         }
     }
     try {
-        const res = await axios.put(`/api/invites/${id}`, formData, config);
+        const res = await axios.put(`https://types-server.herokuapp.com/api/invites/${id}`, formData, config);
         
         dispatch({ type: Accept_Invite, payload: {id, invite: res.data.invite } });
         socket.emit('updateinvite', { formData: id })
@@ -66,7 +66,7 @@ export const acceptInvite = (id: string, formData: any, socket: any) => async(di
 
 export const deleteInvite = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.delete(`/api/invites/${id}`);
+        const res = await axios.delete(`https://types-server.herokuapp.com/api/invites/${id}`);
     
         dispatch({ type: Delete_Invite, payload: {id, invite: res.data} });
         socket.emit('deleteinvite', { formData: id })
@@ -79,7 +79,7 @@ export const deleteInvite = (id: string, socket: any) => async(dispatch: Dispatc
 
 export const cancelInvite = (id: string, socket: any) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.delete(`/api/invites/${id}`);
+        const res = await axios.delete(`https://types-server.herokuapp.com/api/invites/${id}`);
     
         dispatch({ type: Cancel_Invite, payload: {id, invite: res.data.invite} });
         socket.emit('deleteinvite', { formData: id })
@@ -97,7 +97,7 @@ export const sendInvite = (id: string, socket: any, formData: any) => async(disp
         }
     }
     try {
-        const res = await axios.post(`/api/invites/${id}`, { text: formData ? formData.text : '' }, config);
+        const res = await axios.post(`https://types-server.herokuapp.com/api/invites/${id}`, { text: formData ? formData.text : '' }, config);
     
         socket.emit('invite', { invite: res.data.invite })
         dispatch({ type: Send_Invite, payload: res.data.invite });

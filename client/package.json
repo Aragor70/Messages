@@ -116,5 +116,5 @@
     "jsdom": "^16.4.0",
     "jsdom-global": "^3.0.2"
   },
-  "proxy": "http://localhost:5000"
+  "proxy": "https://types-server.herokuapp.com/"
 }

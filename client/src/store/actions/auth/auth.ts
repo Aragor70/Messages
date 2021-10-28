@@ -10,7 +10,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     }
     
     try {
-        const res = await axios.get('/api/auth');
+        const res = await axios.get('https://types-server.herokuapp.com/api/auth');
 
         dispatch({ type: Load_User, payload: { user: res.data} });
 
@@ -23,7 +23,7 @@ export const loadUser = () => async(dispatch: Dispatch<AuthDispatchTypes>) => {
 
 export const login = (formData: LoginUserType, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res = await axios.post('/api/auth', formData);
+        const res = await axios.post('https://types-server.herokuapp.com/api/auth', formData);
         
         dispatch({ type: Login_Success, payload: res.data })
         
@@ -42,7 +42,7 @@ export const login = (formData: LoginUserType, history: any) => async(dispatch: 
 
 export const register = (formData: LoginUserType, history: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
-        const res = await axios.post('/api/users', formData);
+        const res = await axios.post('https://types-server.herokuapp.com/api/users', formData);
         
         console.log(res.data.message)
         dispatch({ type: Register_Success, payload: res.data })
@@ -73,7 +73,7 @@ export const logout = (history: any) => async(dispatch: Dispatch<AuthDispatchTyp
 export const confirm = (formData: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         
-        const res = await axios.post('/api/users/confirm', formData);
+        const res = await axios.post('https://types-server.herokuapp.com/api/users/confirm', formData);
         
         return res.data.success
         
@@ -86,7 +86,7 @@ export const confirm = (formData: any) => async(dispatch: Dispatch<AuthDispatchT
 export const update = (formData: any, setView: any) => async(dispatch: Dispatch<AuthDispatchTypes>) => {
     try {
         
-        const res = await axios.put('/api/users', formData);
+        const res = await axios.put('https://types-server.herokuapp.com/api/users', formData);
         
         dispatch({type: User_Update, payload: res.data})
         
