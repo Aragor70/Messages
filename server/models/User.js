@@ -1,6 +1,5 @@
 
 const mongoose = require('mongoose');
-const ErrorResponse = require('../tools/errorResponse');
 const jwt = require('jsonwebtoken');
 const generateNumber = require('../tools/generateNumber');
 
