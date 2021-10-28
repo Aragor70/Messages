@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 let socket: any;
 export const initialSocket = (user: string, recipient: string, chat: string) => {
 
-    const PORT = 'localhost:3000'
+    const PORT = 'https://nitypes.netlify.app/'
 
     socket = io(PORT)
     
