@@ -6,8 +6,17 @@ const errorHandler = require('./middleware/error');
 const app = express();
 const socketio = require('socket.io');
 const http = require('http');
+const cors = require('cors');
 
 connect()
+
+const corsOptions = {
+    origin: "*",
+    credentials: true,
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'DELETE']
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json({ extended: false }))
 app.use(cookieParser())
