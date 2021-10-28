@@ -9,12 +9,11 @@ import loveMark from '../style/icons/love.png';
 import seenMark from '../style/icons/seen.png';
 import openedMark from '../style/icons/opened.png';
 import sentMark from '../style/icons/sent.png';
-import optionsBtn from '../style/icons/options.png';
 
 
 const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMessage, seeMessage, deleteMessageNotification, socket, cleanMode }: any) => {
     
-    const { text, date, user, recipient } = message
+    const { text, user, recipient } = message
     
     useEffect(() => {
         if (!message.seen) {
