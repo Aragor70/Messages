@@ -5,7 +5,7 @@ import { Get_Recipient, Get_Recipients } from './types';
 
 export const getRecipient = (id: string) => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get(`/api/recipients/${id}`);
+        const res = await axios.get(`https://types-server.herokuapp.com/api/recipients/${id}`);
     
         dispatch({ type: Get_Recipient, payload: res.data.recipient });
     } catch (err: any) {
@@ -16,7 +16,7 @@ export const getRecipient = (id: string) => async(dispatch: Dispatch<any>) => {
 
 export const getRecipients = () => async(dispatch: Dispatch<any>) => {
     try {
-        const res = await axios.get('/api/recipients');
+        const res = await axios.get('https://types-server.herokuapp.com/api/recipients');
     
         dispatch({ type: Get_Recipients, payload: res.data });
         
