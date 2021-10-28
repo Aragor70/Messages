@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 let socket: any;
 export const initialSocket = (user: string, recipient: string, chat: string) => {
 
-    const PORT = 'https://nitypes.netlify.app/'
+    const PORT = 'https://types-server.herokuapp.com/'
 
     socket = io(PORT)
     

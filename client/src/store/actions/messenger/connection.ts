@@ -5,7 +5,7 @@ import { Get_Connected, Disconnect_User, Send_Message, Delete_Message } from './
 let socket: any;
 export const initialConnection = (user: string, recipient: string, chat: string)=> (dispatch: Dispatch<any>) => {
     
-    const PORT = 'https://nitypes.netlify.app/messenger'
+    const PORT = 'https://types-server.herokuapp.com/messenger'
 
     socket = io(PORT)
 

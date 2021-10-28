@@ -58,7 +58,7 @@ const App = ({ loadUser, auth, history, match, messenger, recipient, getConnecte
 
     
     console.log('connected now')
-    socket = io("https://nitypes.netlify.app/")
+    socket = io("https://types-server.herokuapp.com/")
 
     connection = setInterval(() => console.log('I am running'), 10000)
 
