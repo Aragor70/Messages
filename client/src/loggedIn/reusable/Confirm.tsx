@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 const Confirm = ({ onChange, handleSubmit, setNext, mode, inputName, inputType='text' }: any) => {
 

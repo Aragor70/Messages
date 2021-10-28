@@ -1,9 +1,9 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { getConnected } from '../store/actions/messenger/connection';
-import { deleteInviteNotification, deleteMessageNotification, getFromInvite, getFromMessenger, getFromService, getNotifications, switchMessenger, switchInvite, switchService, switchNotification } from '../store/actions/notification/notification';
-import io from 'socket.io-client';
+import { deleteInviteNotification, deleteMessageNotification, getFromInvite, getFromMessenger, getFromService, getNotifications, switchMessenger, switchInvite, switchService } from '../store/actions/notification/notification';
+
 import '../style/auth.css'
 
 import messengerName from '../style/icons/messenger.png'
@@ -11,14 +11,13 @@ import inviteName from '../style/icons/invite.png'
 import serviceName from '../style/icons/service.png'
 
 
-import photo from '../style/photo.jpg'
 import Notification from './Notification';
 import { getFriends } from '../store/actions/friend/friend';
 import { updateInvite } from '../store/actions/friend/invite';
 import { openMessage } from '../store/actions/messenger/messenger';
 import SwitchButton from './reusable/SwitchButton';
 
-const Notifications = ({ socket, notification, messenger, getFromMessenger, match, getConnected, getFromInvite, getFromService, auth, history, getFriends, switchMessenger, switchService, switchInvite, switchNotification, setNotificationView, notificationView, openMessage, updateInvite, deleteMessageNotification, deleteInviteNotification, getNotifications }: any) => {
+const Notifications = ({ socket, notification, getFromMessenger, getFromInvite, getFromService, auth, history, switchMessenger, switchService, switchInvite, setNotificationView, notificationView, openMessage, updateInvite, deleteMessageNotification, deleteInviteNotification, getNotifications }: any) => {
 
     useEffect(() => {
         getNotifications()

@@ -7,7 +7,7 @@ let users = [];
 const addUser = (id, socketId, chat) => {
     
     
-    const exists = users.filter(user => user.chat == chat && user.id == id)[0]
+    const exists = users.filter(user => user.chat === chat && user.id === id)[0]
     if (exists) {
         return new ErrorResponse('User already exists.', 401)
     }

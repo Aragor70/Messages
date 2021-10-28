@@ -31,7 +31,7 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
 
     console.log(match.params.id)
     useEffect(() => {
-        if (match.params.id == auth.user._id) {
+        if (match.params.id === auth.user._id) {
             history.push('/profile')
         }
     }, [match.params.id])
@@ -128,14 +128,14 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
             </div>
             <div className="profile-buttons">
                 {
-                    friend.friends && !!friend.friends.filter((person: any) => person._id == recipient.recipient._id)[0] ? <Fragment>
+                    friend.friends && !!friend.friends.filter((person: any) => person._id === recipient.recipient._id)[0] ? <Fragment>
                         
                         <span><button onClick={e=> history.push(`/messenger/${recipient.recipient._id}`)}>message</button></span><span><button onClick={e=> deleteFriendship(recipient.recipient._id)}>delete</button></span>
             
                     </Fragment> : <Fragment>
 
                         {
-                            friend.sentInvites && !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id == recipient.recipient._id || invitation.recipient == recipient.recipient._id)[0] ? <Fragment>
+                            friend.sentInvites && !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id === recipient.recipient._id || invitation.recipient === recipient.recipient._id)[0] ? <Fragment>
                                 <span><button onClick={e=> cancelInvite(recipient.recipient._id)}>cancel</button></span>
                             </Fragment> : <Fragment>
                                 <span><button onClick={e=> sendInvite(recipient.recipient._id, socket)}>invite</button></span>
@@ -190,23 +190,23 @@ const Recipient = ({ recipient, friend, auth, match, getAbout, getFromInvite, ge
                             <div className="profile-social-row">
                             
                             {
-                                recipient.about && recipient.about.social && recipient.about.social.youtube && <a href={recipient.about && recipient.about.social && recipient.about.social.youtube } target="_blank"><img src={youtube} /></a>
+                                recipient.about && recipient.about.social && recipient.about.social.youtube && <a href={recipient.about && recipient.about.social && recipient.about.social.youtube } target="_blank"><img alt="yt" src={youtube} /></a>
                             
                             }
                             {
-                                recipient.about && recipient.about.social && recipient.about.social.twitter && <a href={recipient.about && recipient.about.social && recipient.about.social.twitter } target="_blank"><img src={twitter} /></a>
+                                recipient.about && recipient.about.social && recipient.about.social.twitter && <a href={recipient.about && recipient.about.social && recipient.about.social.twitter } target="_blank"><img alt="tw" src={twitter} /></a>
                             
                             }
                             {
-                                recipient.about && recipient.about.social && recipient.about.social.facebook && <a href={recipient.about && recipient.about.social && recipient.about.social.facebook } target="_blank"><img src={facebook} /></a>
+                                recipient.about && recipient.about.social && recipient.about.social.facebook && <a href={recipient.about && recipient.about.social && recipient.about.social.facebook } target="_blank"><img alt="fb" src={facebook} /></a>
                             
                             }
                             {
-                                recipient.about && recipient.about.social && recipient.about.social.linkedin && <a href={recipient.about && recipient.about.social && recipient.about.social.linkedin } target="_blank"><img src={linkedin} /></a>
+                                recipient.about && recipient.about.social && recipient.about.social.linkedin && <a href={recipient.about && recipient.about.social && recipient.about.social.linkedin } target="_blank"><img alt="ln" src={linkedin} /></a>
                             
                             }
                             {
-                                recipient.about && recipient.about.social && recipient.about.social.instagram && <a href={recipient.about && recipient.about.social && recipient.about.social.instagram } target="_blank"><img src={instagram} /></a>
+                                recipient.about && recipient.about.social && recipient.about.social.instagram && <a href={recipient.about && recipient.about.social && recipient.about.social.instagram } target="_blank"><img alt="in" src={instagram} /></a>
                     
                             } 
                             </div>

@@ -24,7 +24,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
     }, [seeMessage])
 
     useEffect(() => {
-        if (message.seen && auth.user._id == recipient._id) {
+        if (message.seen && auth.user._id === recipient._id) {
             deleteMessageNotification(message._id)
         }
         
@@ -53,7 +53,7 @@ const Message = ({ message, auth, setEditMode, editMode, editMessage, setEditMes
                     <div className="message message-user" style={ editMessage[0] && editMessage[0]._id === message._id ? { backgroundColor: 'lightblue' } : { } }>
                         
                         <div className="msg-field" onClick={e=>handleOption()}>
-                            <div className="msg-head"><span>{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM-YYYY') : moment(message.date).format('HH:mm:SS') }</span> <span>{message.seen ? <img src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img src={openedMark} style={{width: '24px', height: '24px' }} /> : <img src={sentMark} style={{width: '24px', height: '24px' }} />}</span> <span>{message.liked ? <img src={loveMark} style={{width: '24px', height: '24px' }} /> : null}</span></div>
+                            <div className="msg-head"><span>{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM-YYYY') : moment(message.date).format('HH:mm:SS') }</span> <span>{message.seen ? <img alt="seen" src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img alt="seen" src={openedMark} style={{width: '24px', height: '24px' }} /> : <img alt="sent" src={sentMark} style={{width: '24px', height: '24px' }} />}</span> <span>{message.liked ? <img alt="love" src={loveMark} style={{width: '24px', height: '24px' }} /> : null}</span></div>
                             <div className="text">{text}</div>
                         
                         </div>

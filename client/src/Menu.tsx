@@ -1,10 +1,9 @@
 /* eslint-disable */
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import './style/menu.css'
-import { setAlert } from './store/actions/alert/alert';
 import { logout } from './store/actions/auth/auth';
 import WebName from './style/types.png';
 

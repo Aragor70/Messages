@@ -24,7 +24,7 @@ const Notification = ({ message, history, runner, isFriend=false, openFunction, 
     return (
         <Fragment>
             <div className="notifications-row">
-                <div className="avatar" onClick={e=>{history.push(`/profile/${message.user._id}`), setNotificationView(false)}}><img src={message.user.avatar} height="35px" width="35px" /></div>
+                <div className="avatar" onClick={e=>{history.push(`/profile/${message.user._id}`), setNotificationView(false)}}><img alt="avatar" src={message.user.avatar} height="35px" width="35px" /></div>
                 <span className="recipient" onClick={e=>{history.push(`/profile/${message.user._id}`), setNotificationView(false)}}>{message.user.name}</span>
                 <span className="message" onClick={e=>{setNotificationView(false), isFriend ? history.push(`/messenger/${message.user._id}`) : history.push(`/profile/${message.user._id}`)}}>{message.text}</span>
                 <span className="time">{ Date.parse(message.date) < Date.now() - 86400000 ? moment(message.date).format('DD-MM') : moment(message.date).format('HH:mm:SS') }</span>

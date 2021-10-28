@@ -1,7 +1,6 @@
 import io from 'socket.io-client';
 import { Dispatch } from 'redux';
 import { Get_Connected, Disconnect_User, Send_Message, Delete_Message } from './types';
-import { v4 as uuidv4 } from 'uuid';
 
 let socket: any;
 export const initialConnection = (user: string, recipient: string, chat: string)=> (dispatch: Dispatch<any>) => {
@@ -18,7 +17,7 @@ export const initialConnection = (user: string, recipient: string, chat: string)
 export const connectUser = () => (dispatch: Dispatch<any>) => {
     socket.on('broadcast', (data: any) => {
         console.log('connectUser', data)
-        if (data.action == 'disconnect') {
+        if (data.action === 'disconnect') {
             return dispatch({ type: Disconnect_User, payload: data.user })
         }
             console.log('connection')

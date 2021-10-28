@@ -34,8 +34,6 @@ import NoMatch from './NoMatch';
 
 import WebName from './style/types.png';
 
-import photo from './style/photo.jpg'
-import leftArrow from './style/icons/left-arrow2.png'
 import Messenger from './loggedIn/Messenger';
 import Support from './loggedIn/Support';
 import Recipient from './loggedIn/profiles/Recipient';
