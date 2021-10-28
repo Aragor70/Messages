@@ -1,14 +1,14 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 
 import { getChat } from '../store/actions/messenger/messenger';
-import Message from './Message';
+
 import MessagePreview from './MessagePreview';
 
 
 
 
-const ChatPreview = ({ chat, user }: any) => {
+const ChatPreview = ({ chat }: any) => {
 
    
 

@@ -1,8 +1,7 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { login } from '../store/actions/auth/auth';
-import Alert from '../utils/alert';
 
 import '../style/auth.css'
 import { setAlert } from '../store/actions/alert/alert';
@@ -19,7 +18,7 @@ const Login = ({ login, history, setAlert }: any) => {
         email: null,
         password: null
     })
-    const { email, password } = formData;
+    const { email } = formData;
 
     const handleTyping = (e: { target: HTMLInputElement }) => {
         

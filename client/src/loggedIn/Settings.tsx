@@ -1,17 +1,15 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import '../style/auth.css'
-import photo from '../style/photo.jpg'
 import editBtn from '../style/edit3.png'
 import Confirm from './reusable/Confirm';
 import { update, confirm } from '../store/actions/auth/auth';
 import { setAlert } from '../store/actions/alert/alert';
-import io from 'socket.io-client';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 
-const Settings = ({ socket, update, confirm, auth: { user }, getFromMessenger, getFromInvite }: any) => {
+const Settings = ({ update, confirm, auth: { user } }: any) => {
 
     const [emailUpdate, setEmailUpdate] = useState(false)
     const [passwordUpdate, setPasswordUpdate] = useState(false)
@@ -91,11 +89,11 @@ const Settings = ({ socket, update, confirm, auth: { user }, getFromMessenger, g
                 {
                     !emailUpdate && !passwordUpdate && <Fragment>
                         <div className="settings-header">
-                            <span>account</span><img src={editBtn} onClick={e=> setEmailUpdate(true)} />
+                            <span>account</span><img alt="account" src={editBtn} onClick={e=> setEmailUpdate(true)} />
                         </div>
 
                         <div className="settings-row">
-                            <span>_id:</span><span>1234567890</span>
+                            <span>_id:</span><span>{ user._id }</span>
                         </div>
                     
                         <div className="settings-row">
@@ -105,7 +103,7 @@ const Settings = ({ socket, update, confirm, auth: { user }, getFromMessenger, g
                         <hr />
                     
                         <div className="settings-header">
-                            authentication<img src={editBtn} onClick={e=> setPasswordUpdate(true)} />
+                            authentication<img alt="auth" src={editBtn} onClick={e=> setPasswordUpdate(true)} />
                         </div>
 
                         <div className="settings-row">

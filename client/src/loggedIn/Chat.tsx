@@ -62,7 +62,7 @@ const Chat = ({ socket, messenger, recipient, getConnected, friend, match, getSo
 
     
     useEffect(() => {
-        setIsOnline(!!messenger.connected.filter((person:any) => person.id == match.params.id )[0])
+        setIsOnline(!!messenger.connected.filter((person:any) => person.id === match.params.id )[0])
     }, [messenger.connected])
 
 

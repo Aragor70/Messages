@@ -2,21 +2,20 @@ import React,{ Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { setAlert } from './store/actions/alert/alert';
-import message from './style/404.png';
 import './style/noMatch.css';
 
 const NoMatch = ({ history, auth, setAlert, location }: any) => {
     
     useEffect(() => {
-        if (auth.isAuthenticated && location.pathname == '/sign-in' || location.pathname == '/sign-up') {
+        if (auth.isAuthenticated && location.pathname === '/sign-in' || location.pathname === '/sign-up') {
             setAlert('You are already logged in.', 'success')
             return history.push('/');
         }
     }, [auth])
 
     useEffect(() => {
-        if (location.pathname == '/login') return history.push('/sign-in');
-        if (location.pathname == '/register') return history.push('/sign-up');
+        if (location.pathname === '/login') return history.push('/sign-in');
+        if (location.pathname === '/register') return history.push('/sign-up');
     }, [location])
 
     return (

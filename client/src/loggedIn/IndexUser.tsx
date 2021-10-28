@@ -5,19 +5,16 @@ import '../style/messages.css'
 
 import '../style/indexUser.css'
 
-import photo from '../style/photo.jpg'
 import { getChats } from '../store/actions/messenger/messenger';
 import ChatPreview from './ChatPreview';
-import io from 'socket.io-client';
 import { deleteSocketMessage, getConnected, getSocketMessage } from '../store/actions/messenger/connection';
 import { getInvites } from '../store/actions/friend/invite';
 import { getFromInvite, getFromMessenger } from '../store/actions/notification/notification';
 import { getFriends } from '../store/actions/friend/friend';
 
 
-const IndexUser = ({ socket, auth, setMenu, menu, history, getChats, messenger, match, getInvites, getFromInvite, getConnected, getFromMessenger, getFriends }: any) => {
+const IndexUser = ({ auth, getChats, messenger }: any) => {
 
-    const { avatar, name, status } = auth.user
     
     useEffect(() => {
         getChats()

@@ -180,26 +180,26 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
             {
                 editMode ? null : <Fragment>
                     <div className="profile-header">
-                        social media <img src={editSocialMode ? leftArrowBtn : editBtn} onClick={e=> setEditSocialMode(!editSocialMode)} id="editBtn" />
+                        social media <img alt="socialMedia" src={editSocialMode ? leftArrowBtn : editBtn} onClick={e=> setEditSocialMode(!editSocialMode)} id="editBtn" />
                     </div>
                     
                     {
                         editSocialMode ? <Fragment>
                             <div className="profile-social-row">
-                                <a href={about && about.social && about.social.youtube } target="_blank"><img src={youtube} /></a>
-                                <a href={about && about.social && about.social.twitter } target="_blank"><img src={twitter} /></a>
-                                <a href={about && about.social && about.social.facebook } target="_blank"><img src={facebook} /></a>
-                                <a href={about && about.social && about.social.linkedin } target="_blank"><img src={linkedin} /></a>
-                                <a href={about && about.social && about.social.instagram } target="_blank"><img src={instagram} /></a>
+                                <a href={about && about.social && about.social.youtube } target="_blank"><img alt="yt" src={youtube} /></a>
+                                <a href={about && about.social && about.social.twitter } target="_blank"><img alt="tw" src={twitter} /></a>
+                                <a href={about && about.social && about.social.facebook } target="_blank"><img alt="fb" src={facebook} /></a>
+                                <a href={about && about.social && about.social.linkedin } target="_blank"><img alt="ln" src={linkedin} /></a>
+                                <a href={about && about.social && about.social.instagram } target="_blank"><img alt="in" src={instagram} /></a>
                                 
                             </div>
                         </Fragment> : <Fragment>
                             <div className="profile-social-row">
-                                <a href={about && about.social && about.social.youtube } target="_blank"><img src={youtube} /></a>
-                                <a href={about && about.social && about.social.twitter } target="_blank"><img src={twitter} /></a>
-                                <a href={about && about.social && about.social.facebook } target="_blank"><img src={facebook} /></a>
-                                <a href={about && about.social && about.social.linkedin } target="_blank"><img src={linkedin} /></a>
-                                <a href={about && about.social && about.social.instagram } target="_blank"><img src={instagram} /></a>
+                                <a href={about && about.social && about.social.youtube } target="_blank"><img alt="yt" src={youtube} /></a>
+                                <a href={about && about.social && about.social.twitter } target="_blank"><img alt="tw" src={twitter} /></a>
+                                <a href={about && about.social && about.social.facebook } target="_blank"><img alt="fb" src={facebook} /></a>
+                                <a href={about && about.social && about.social.linkedin } target="_blank"><img alt="ln" src={linkedin} /></a>
+                                <a href={about && about.social && about.social.instagram } target="_blank"><img alt="li" src={instagram} /></a>
                                 
                             </div>
                         </Fragment>
@@ -209,24 +209,24 @@ const Profile = ({ getAboutMe, updateAboutMe, updateSocial, about: { about }, de
                         editSocialMode && <Fragment>
                             <form onSubmit={e=> handleSocialUpdate(e)}>
                                 <div className="profile-social-icon-row">
-                                    <span onClick={e=> setEditSocial({youtube: !editSocial.youtube})}>youtube <img src={youtube} />{editSocial.youtube && <img src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("youtube"), setSocialMedia({youtube: null})}} />}</span>
+                                    <span onClick={e=> setEditSocial({youtube: !editSocial.youtube})}>youtube <img alt="yt" src={youtube} />{editSocial.youtube && <img alt="delete-button" src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("youtube"), setSocialMedia({youtube: null})}} />}</span>
                                     {
                                         editSocial.youtube ? <input type="text" name="youtube" value={socialMedia.youtube} placeholder="https://" onChange={e=> handleSocial(e) } /> : socialMedia.youtube ? <span className="social-address">{socialMedia.youtube}</span> : <span className="social-address">{about && about.social && about.social.youtube || "empty"}</span>
                                     }
-                                    <span onClick={e=> setEditSocial({twitter: !editSocial.twitter})}>twitter <img src={twitter} />{editSocial.twitter && <img src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("twitter"), setSocialMedia({twitter: null})}} />}</span>
+                                    <span onClick={e=> setEditSocial({twitter: !editSocial.twitter})}>twitter <img alt="tw" src={twitter} />{editSocial.twitter && <img alt="delete-button" src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("twitter"), setSocialMedia({twitter: null})}} />}</span>
                                     {
                                         editSocial.twitter ? <input type="text" name="twitter" value={socialMedia.twitter} placeholder="https://" onChange={e=> handleSocial(e) } /> : socialMedia.twitter ? <span className="social-address">{socialMedia.twitter}</span> : <span className="social-address">{about && about.social && about.social.twitter || "empty"}</span>
                                     }
-                                    <span onClick={e=> setEditSocial({facebook: !editSocial.facebook})}>facebook <img src={facebook} />{editSocial.facebook && <img src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("facebook"), setSocialMedia({facebook: null})}} />}</span>
+                                    <span onClick={e=> setEditSocial({facebook: !editSocial.facebook})}>facebook <img alt="fb" src={facebook} />{editSocial.facebook && <img alt="delete-button" src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("facebook"), setSocialMedia({facebook: null})}} />}</span>
                                     {
                                         editSocial.facebook ? <input type="text" name="facebook" value={socialMedia.facebook} placeholder="https://" onChange={e=> handleSocial(e) } /> : socialMedia.facebook ? <span className="social-address">{socialMedia.facebook}</span> : <span className="social-address">{about && about.social && about.social.facebook || "empty"}</span>
                                     }
                                     
-                                    <span onClick={e=> setEditSocial({linkedin: !editSocial.linkedin})}>linkedin <img src={linkedin} />{editSocial.linkedin && <img src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("linkedin"), setSocialMedia({linkedin: null})}} />}</span>
+                                    <span onClick={e=> setEditSocial({linkedin: !editSocial.linkedin})}>linkedin <img alt="ln" src={linkedin} />{editSocial.linkedin && <img alt="delete-button" src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("linkedin"), setSocialMedia({linkedin: null})}} />}</span>
                                     {
                                         editSocial.linkedin ? <input type="text" name="linkedin" value={socialMedia.linkedin} placeholder="https://" onChange={e=> handleSocial(e) } /> : socialMedia.linkedin ? <span className="social-address">{socialMedia.linkedin}</span> : <span className="social-address">{about && about.social && about.social.linkedin || "empty"}</span>
                                     }
-                                    <span onClick={e=> setEditSocial({instagram: !editSocial.instagram})}>instagram <img src={instagram} />{editSocial.instagram && <img src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("instagram"), setSocialMedia({instagram: null})}} />}</span>
+                                    <span onClick={e=> setEditSocial({instagram: !editSocial.instagram})}>instagram <img alt="avatar" src={instagram} />{editSocial.instagram && <img alt="delete-button" src={deleteBtn} className="delete-button" onClick={e=>{deleteSocial("instagram"), setSocialMedia({instagram: null})}} />}</span>
                                     {
                                         editSocial.instagram ? <input type="text" name="instagram" value={socialMedia.instagram} placeholder="https://" onChange={e=> handleSocial(e) } /> : socialMedia.instagram ? <span className="social-address">{socialMedia.instagram}</span> : <span className="social-address">{about && about.social && about.social.instagram || "empty"}</span>
                                     }

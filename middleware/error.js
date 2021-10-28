@@ -14,7 +14,7 @@ const errorHandler = (err, req, res, next) => {
     }
 
     // case of unhandled validation by express-validator
-    if (err.name == "ValidationError") {
+    if (err.name === "ValidationError") {
         
         const location = Object.values(err.errors).map(value => value.path).join(', ')
         

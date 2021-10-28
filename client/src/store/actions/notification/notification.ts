@@ -56,7 +56,7 @@ export const switchNotification = (formData: any) => async(dispatch: Dispatch<an
         }
     }
     try {
-        const res = await axios.put('/api/notifications', formData, config);
+        await axios.put('/api/notifications', formData, config);
     
         dispatch({ type: Switch_Notification });
         
@@ -72,7 +72,7 @@ export const switchMessenger = (formData: any) => async(dispatch: Dispatch<any>)
         }
     }
     try {
-        const res = await axios.put('/api/notifications', formData, config);
+        await axios.put('/api/notifications', formData, config);
     
         dispatch({ type: Switch_Messenger_Notification });
         
@@ -88,7 +88,7 @@ export const switchService = (formData: any) => async(dispatch: Dispatch<any>) =
         }
     }
     try {
-        const res = await axios.put('/api/notifications', formData, config);
+        await axios.put('/api/notifications', formData, config);
     
         dispatch({ type: Switch_Service_Notification });
         
@@ -104,7 +104,7 @@ export const switchFeedback = (formData: any) => async(dispatch: Dispatch<any>) 
         }
     }
     try {
-        const res = await axios.put('/api/notifications', formData, config);
+        await axios.put('/api/notifications', formData, config);
     
         dispatch({ type: Switch_Feedback_Notification });
         
@@ -120,7 +120,7 @@ export const switchInvite = (formData: any) => async(dispatch: Dispatch<any>) =>
         }
     }
     try {
-        const res = await axios.put('/api/notifications', formData, config);
+        await axios.put('/api/notifications', formData, config);
     
         dispatch({ type: Switch_Invite_Notification });
         

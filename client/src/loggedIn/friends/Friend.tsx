@@ -12,7 +12,7 @@ const Friend = ({ recipient, editMode, setEditMode, sentInvites, history, setEdi
     useEffect(() => {
         if (sentInvites) {
             
-            return setInvited(!!sentInvites.filter((invite: any) => invite.recipient._id == recipient._id || invite.recipient == recipient._id )[0])
+            return setInvited(!!sentInvites.filter((invite: any) => invite.recipient._id === recipient._id || invite.recipient === recipient._id )[0])
         }
         
     }, [sentInvites])

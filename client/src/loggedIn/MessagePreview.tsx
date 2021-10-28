@@ -24,7 +24,7 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
     }, [messenger.connected, auth.user._id])
 
     useEffect(() => {
-        setIsOnline(!!messenger.connected.filter((element:any) => element.id == person._id )[0])
+        setIsOnline(!!messenger.connected.filter((element:any) => element.id === person._id )[0])
     }, [messenger.connected, person])
 
     // const recipientUser: any = chat.users.filter((person:any) => person !== auth.user._id)[0]
@@ -36,8 +36,8 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
                 chat && message && recipient === auth.user._id ? <Fragment>
                     <div className="recipient-content">
                         <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)} style={ message.seen ? { } : { backgroundColor: 'lightgreen' }}>
-                            <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span> &nbsp; <span className="status" >{isOnline ? " online" : " offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
-                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? <img src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img src={openedMark} style={{width: '24px', height: '24px' }} /> : <img src={sentMark} style={{width: '24px', height: '24px' }} />}</span></div>
+                            <div className="avatar"><img alt="avatar" src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span> &nbsp; <span className="status" >{isOnline ? " online" : " offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
+                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? <img alt="seen" src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img alt="openMark" src={openedMark} style={{width: '24px', height: '24px' }} /> : <img alt="sent" src={sentMark} style={{width: '24px', height: '24px' }} />}</span></div>
                         </div>
                         
                     </div>
@@ -45,7 +45,7 @@ const MessagePreview = ({ message, auth, history, chat, messenger }: any) => {
                     <div className="recipient-content">
                         <div className="messenger" onClick={e=> history.push(`/messenger/${person._id}`)} >
                             <div className="avatar"><img src={person.avatar} height="35px" width="35px" /></div><div className="msg-head"><span>{person.name} : </span> &nbsp; <span className="status" >{isOnline ? " online" : " offline"}</span><div className="time">{Date.parse(date) < Date.now() - 86400000 ? moment(date).format('DD-MM') : moment(date).format('HH:mm:SS') }</div></div>
-                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? <img src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img src={openedMark} style={{width: '24px', height: '24px' }} /> : <img src={sentMark} style={{width: '24px', height: '24px' }} />}</span></div>
+                            <div className="message"><span className="text">{text}</span><span className="status">{message.seen ? <img src={seenMark} style={{width: '24px', height: '24px' }} /> : message.opened ? <img alt="openMark" src={openedMark} style={{width: '24px', height: '24px' }} /> : <img alt="sent" src={sentMark} style={{width: '24px', height: '24px' }} />}</span></div>
                         </div>
                         
                     </div>

@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { register } from '../store/actions/auth/auth';
 import { RegisterUserType } from '../store/actions/auth/types';
 
@@ -15,7 +15,6 @@ const Register = ({ register, history }: any) => {
         password: null,
         passwordConfirmation: null
     })
-    const { name, email, password, passwordConfirmation } = formData;
 
     const handleTyping = (e: { target: HTMLInputElement }) => {
         

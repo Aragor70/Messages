@@ -56,7 +56,7 @@ export const Friends = ({ history, getUnknowns, getInvites, friend, getFriendshi
                                         </Fragment> : <Fragment>
                                             
                                             {
-                                                !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id == editFriend[0]._id || invitation.recipient == editFriend[0]._id)[0] ? <Fragment>
+                                                !!friend.sentInvites.filter((invitation: any) => invitation.recipient._id === editFriend[0]._id || invitation.recipient === editFriend[0]._id)[0] ? <Fragment>
 
                                                     <span><img alt="arrowLeft" src={leftArrow} onClick={e=> setEditMode(!editMode)} className="img35" /></span><span><button onClick={e=> {cancelInvite(editFriend[0]._id, socket), setEditMode(false)}}>cancel</button></span><span><button onClick={e=> history.push(`/profile/${editFriend[0]._id}`)}>view profile</button></span>
                                         

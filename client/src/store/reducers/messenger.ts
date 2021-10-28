@@ -31,11 +31,11 @@ const messengerReducer = (state: MessengerState = initialState, action: any ): a
         case Get_Chats:
             return { ...state, chats: payload, loading: false}
         case Like_Message:
-            return { ...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? { ... message, liked: payload.message.liked } : message )}, loading: false }
+            return { ...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? { ...message, liked: payload.message.liked } : message )}, loading: false }
         case Open_Message:
-            return { ...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? { ... message, opened: payload.message.opened } : message )}, loading: false }
+            return { ...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? { ...message, opened: payload.message.opened } : message )}, loading: false }
         case See_Message:
-            return { ...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? { ... message, seen: payload.message.seen } : message )}, loading: false }
+            return { ...state, chat: { messages: state.chat.messages.map((message: any) => message._id === payload.id ? { ...message, seen: payload.message.seen } : message )}, loading: false }
 
         case Send_Message:
             return { ...state, chat: { messages: [...state.chat.messages, payload.message] }, loading: false }

@@ -1,4 +1,4 @@
-import { AuthType, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, UserType, User_Update } from '../actions/auth/types'
+import { AuthType, Load_User, Login_Fail, Login_Success, Logout_User, Register_Fail, Register_Success, User_Update } from '../actions/auth/types'
 
 
 export const initialState = {

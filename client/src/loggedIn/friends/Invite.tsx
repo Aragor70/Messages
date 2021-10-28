@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux';
 import { acceptInvite, deleteInvite } from '../../store/actions/friend/invite';
 
@@ -13,7 +13,7 @@ const Invite = ({ invite, deleteInvite, history, acceptInvite, socket }: any) =>
                 
                 
                 <div className="avatar" onClick={e=> history.push(`/profile/${invite.user._id}`)}>
-                    <img src={invite.user.avatar} />
+                    <img alt="avatar" src={invite.user.avatar} />
                 </div>
                 <span className="name" onClick={e=> history.push(`/profile/${invite.user._id}`)}>{invite.user.name}</span>
                 <div className="options">
