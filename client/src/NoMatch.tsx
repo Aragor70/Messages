@@ -7,7 +7,7 @@ import './style/noMatch.css';
 const NoMatch = ({ history, auth, setAlert, location }: any) => {
     
     useEffect(() => {
-        if (auth.isAuthenticated && location.pathname === '/sign-in' || location.pathname === '/sign-up') {
+        if (auth.isAuthenticated && (location.pathname === '/sign-in' || location.pathname === '/sign-up')) {
             setAlert('You are already logged in.', 'success')
             return history.push('/');
         }

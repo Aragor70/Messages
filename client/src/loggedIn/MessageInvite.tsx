@@ -6,7 +6,7 @@ const MessageInvite = ({recipient, acceptInvite, deleteInvite, match, socket, me
 
     useEffect(() => {
         updateInvite(message._id, { seen: true }, socket)
-    }, [updateInvite])
+    }, [updateInvite, message._id, socket])
 
     return (
         <Fragment>
