@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link, Route, Switch, RouteComponentProps, withRouter } from 'react-router-dom';
+import { Link, Route, Switch, withRouter } from 'react-router-dom';
 import IndexPage from './loggedOff/IndexPage';
 import './style/header.css'
 import './style/output.css'
@@ -18,7 +18,6 @@ import './style/update.css';
 import Login from './auth/login';
 import Register from './auth/register';
 import Alert from './utils/alert';
-import { AuthType } from './store/actions/auth/types';
 import setAuthToken from './utils/setAuthToken';
 import { loadUser  } from './store/actions/auth/auth';
 import Menu from './Menu';
@@ -46,11 +45,6 @@ import io from 'socket.io-client';
 import { getChat, getChats } from './store/actions/messenger/messenger';
 
 
-type Props = {
-  auth: AuthType,
-  history: RouteComponentProps,
-  loadUser: () => void
-}
 
 
 let socket: any;
