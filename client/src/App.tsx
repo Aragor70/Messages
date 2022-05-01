@@ -218,13 +218,15 @@ useEffect(() => {
             
           </Fragment> : <Fragment>
             <header className="header" >
-              <div className="webName">
-                <Link to="/" ><img src={WebName} alt="webName" /></Link>
-              </div>
-              <div className="menu-button">
-                
-                <img src={menuBtn} alt="menu" height="45px" onClick={e=> setMenu(!menu)} />
-                
+              <div>
+                <div className="webName">
+                  <Link to="/" ><img src={WebName} alt="webName" /></Link>
+                </div>
+                <div className="menu-button">
+                  
+                  <img src={menuBtn} alt="menu" height="45px" onClick={e=> setMenu(!menu)} />
+                  
+                </div>
               </div>
             </header>
           </Fragment>
