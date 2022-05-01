@@ -6,10 +6,17 @@
 {
     width: 100%;
     height: calc(100vh - 12vh);
+    margin: 0 auto;;
     margin-top: 12vh;
     overflow: hidden;
     float: left;
     background-color: #fff;
     color: #121212;
     overflow-y: auto;
+}
+
+.output > * {
+    
+    max-width: 1024px;
+    margin: 0 auto;
 }

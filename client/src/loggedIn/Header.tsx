@@ -32,28 +32,26 @@ const Header = ({ socket, history, auth, titlePage, setMenu, menu, notification,
     return (
         <Fragment>
             <div className="header-shield">
-            <div className="recipient">
-                <div className="header-person">
-                    <span>
-                    {
-                        history.location.pathname === '/' ? <img alt="avatar" src={auth.user.avatar} height="35px" width="35px" onClick={e=> {history.push('/profile'), setMenu(false), setNotificationView(false)}} /> : <img alt="avatar" src={leftArrow} onClick={e=> {history.push('/'), setMenu(false), setNotificationView(false)}} style={{ width: '35px', height: '35px' }} />
-                    }
-                    </span>
+                <div className="recipient">
+                    <div className="header-person">
+                        <span>
+                        {
+                            history.location.pathname === '/' ? <img alt="avatar" src={auth.user.avatar} height="35px" width="35px" onClick={e=> {history.push('/profile'), setMenu(false), setNotificationView(false)}} /> : <img alt="avatar" src={leftArrow} onClick={e=> {history.push('/'), setMenu(false), setNotificationView(false)}} style={{ width: '35px', height: '35px' }} />
+                        }
+                        </span>
+                        
+                        {
+                            history.location.pathname === '/' ? <span style={{ fontSize: '25.5px', color: '#c1c1c1'}}>home</span> : <span style={{ fontSize: '25.5px', color: '#c1c1c1'}}>{history.location.pathname.split('/')[1]}</span>
+                        }
+                        
+                    </div>
                     
-                    {
-                        history.location.pathname === '/' ? <span style={{ fontSize: '25.5px', color: '#c1c1c1'}}>home</span> : <span style={{ fontSize: '25.5px', color: '#c1c1c1'}}>{history.location.pathname.split('/')[1]}</span>
-                    }
-                    
-                    
-                    
+                    <div className="header-action">
+                        <span className="header-button" ><img alt="notificationBtn" onClick={e=> { setNotificationView(!notificationView), setMenu(false) }} src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
+                        <span className="header-button" ><img alt="menuBtn" onClick={e=> { setMenu(!menu), setNotificationView(false) }} src={menuBtn} width="35px" height="35px" /></span>
+                    </div>
+                    <hr />
                 </div>
-                
-                <div className="header-action">
-                    <span className="header-button" ><img alt="notificationBtn" onClick={e=> { setNotificationView(!notificationView), setMenu(false) }} src={isMessage ? notificationOn : notificationOff} width="35px" height="35px" /></span>
-                    <span className="header-button" ><img alt="menuBtn" onClick={e=> { setMenu(!menu), setNotificationView(false) }} src={menuBtn} width="35px" height="35px" /></span>
-                </div>
-                <hr />
-            </div>
             </div> 
         </Fragment>
     );
